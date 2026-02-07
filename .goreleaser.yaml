@@ -67,15 +67,16 @@ release:
   prerelease: auto
   name_template: "{{.Tag}}"
 
-brews:
-  - name: openkit
-    repository:
-      owner: openkit-dev
-      name: homebrew-tap
-    homepage: https://openkit.dev
-    description: Universal Spec-Driven Development toolkit for AI coding agents
-    license: MIT
-    test: |
-      system "#{bin}/openkit --version"
-    install: |
-      bin.install "openkit"
+# Homebrew tap disabled for now
+# brews:
+#   - name: openkit
+#     repository:
+#       owner: openkit-dev
+#       name: homebrew-tap
+#     homepage: https://openkit.dev
+#     description: Universal Spec-Driven Development toolkit for AI coding agents
+#     license: MIT
+#     test: |
+#       system "#{bin}/openkit --version"
+#     install: |
+#       bin.install "openkit"
