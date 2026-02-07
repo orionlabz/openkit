@@ -74,9 +74,10 @@ echo "  Latest version: $LATEST_RELEASE"
 echo ""
 
 # Construct download URL
-FILENAME="${BINARY_NAME}_${OS}_${ARCH}.tar.gz"
+# GoReleaser uses "cli" as the project name, not "openkit"
+FILENAME="cli_${OS}_${ARCH}.tar.gz"
 if [ "$OS" = "windows" ]; then
-  FILENAME="${BINARY_NAME}_${OS}_${ARCH}.zip"
+  FILENAME="cli_${OS}_${ARCH}.zip"
 fi
 
 DOWNLOAD_URL="https://github.com/$REPO/releases/download/$LATEST_RELEASE/$FILENAME"

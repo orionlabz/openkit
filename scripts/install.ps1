@@ -39,7 +39,8 @@ try {
 }
 
 # Construct download URL
-$FILENAME = "${BINARY_NAME}_Windows_${ARCH}.zip"
+# GoReleaser uses "cli" as the project name, not "openkit"
+$FILENAME = "cli_Windows_${ARCH}.zip"
 $DOWNLOAD_URL = "https://github.com/$REPO/releases/download/$LATEST_RELEASE/$FILENAME"
 
 Write-Host "Downloading OpenKit CLI..." -ForegroundColor Cyan
