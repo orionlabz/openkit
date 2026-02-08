@@ -175,3 +175,24 @@ OUTPUT:
 - Updated `cli/docs/agent-compat/agents/codex.md` ✓
 
 VERIFY: Review docs for accuracy ✓
+
+---
+
+## Task 11: Harden Security Scan
+
+**ID:** P0-5
+**Priority:** P0
+**Status:** COMPLETED
+
+INPUT:
+- `internal/templates/base/skills/vulnerability-scanner/scripts/security_scan.py`
+- `.opencode/skills/vulnerability-scanner/scripts/security_scan.py` (generated copy, ignored in git)
+OUTPUT:
+- Scanner skips internal tooling directories (reduces self-scan noise)
+- Scanner exits non-zero on critical/high findings
+
+VERIFY:
+```bash
+python3 .opencode/skills/vulnerability-scanner/scripts/security_scan.py . --output summary  # exit=0
+python3 .opencode/scripts/checklist.py .  # PASS
+```

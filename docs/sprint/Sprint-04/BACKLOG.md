@@ -20,3 +20,7 @@
 - [x] P2-2: Enhance Codex doctor checks
 - [x] P2-3: Update `cli/docs/agent-compat/agents/cursor.md`
 - [x] P2-4: Update `cli/docs/agent-compat/agents/codex.md`
+
+## P0: Quality Gates
+
+- [x] P0-5: Harden security scan exit codes and skip tooling dirs
