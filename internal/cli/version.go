@@ -24,19 +24,19 @@ func printVersionInfo() {
 
 	cyan.Println("OpenKit CLI")
 	fmt.Println()
-	
+
 	white.Print("  Version:    ")
 	fmt.Println(version)
-	
+
 	white.Print("  Commit:     ")
 	dim.Println(commit)
-	
+
 	white.Print("  Built:      ")
 	dim.Println(buildDate)
-	
+
 	white.Print("  Go version: ")
 	dim.Println(runtime.Version())
-	
+
 	white.Print("  OS/Arch:    ")
 	dim.Printf("%s/%s\n", runtime.GOOS, runtime.GOARCH)
 }

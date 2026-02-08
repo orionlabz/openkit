@@ -2,7 +2,6 @@ package cli
 
 import (
 	"fmt"
-	"os"
 	"os/exec"
 	"runtime"
 
@@ -125,7 +124,7 @@ func checkCommand(name, command string, args []string) checkResult {
 	if len(result.version) > 50 {
 		result.version = result.version[:50] + "..."
 	}
-	
+
 	// Clean up version string
 	for i, c := range result.version {
 		if c == '\n' || c == '\r' {
@@ -147,15 +146,4 @@ func printCheckResult(result checkResult, green, red, dim *color.Color) {
 		fmt.Printf("%-15s", result.name)
 		dim.Printf(" %s\n", result.note)
 	}
-}
-
-func detectShell() string {
-	shell := os.Getenv("SHELL")
-	if shell == "" {
-		if runtime.GOOS == "windows" {
-			return "powershell"
-		}
-		return "unknown"
-	}
-	return shell
 }

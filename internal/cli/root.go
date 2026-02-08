@@ -44,7 +44,9 @@ embedded templates, commands, skills, and prompts.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		printBanner()
 		fmt.Println()
-		cmd.Help()
+		if err := cmd.Help(); err != nil {
+			_, _ = fmt.Fprintln(os.Stderr, err)
+		}
 	},
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		return maybeNotifyUpdate(cmd.Context())

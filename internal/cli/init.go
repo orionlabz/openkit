@@ -119,7 +119,7 @@ func runInit(args []string) {
 	fmt.Println()
 	green.Println("Project initialized successfully!")
 	fmt.Println()
-	printInfo(fmt.Sprintf("Next steps:"))
+	printInfo("Next steps:")
 	if !flagHere {
 		fmt.Printf("    cd %s\n", projectName)
 	}

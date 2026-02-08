@@ -2,6 +2,7 @@ package cli
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"runtime"
@@ -117,19 +118,25 @@ func probeURL(ctx context.Context, client *http.Client, url string) error {
 		if err != nil {
 			return err
 		}
-		defer resp.Body.Close()
+		closeBody := func(retErr error) error {
+			closeErr := resp.Body.Close()
+			if closeErr != nil {
+				return errors.Join(retErr, closeErr)
+			}
+			return retErr
+		}
 
 		if resp.StatusCode == http.StatusOK {
-			return nil
+			return closeBody(nil)
 		}
 		if resp.StatusCode == http.StatusNotFound {
-			return fmt.Errorf("artifact not found (404) at %s", url)
+			return closeBody(fmt.Errorf("artifact not found (404) at %s", url))
 		}
 		if resp.StatusCode == http.StatusForbidden {
-			return fmt.Errorf("access denied (403) checking %s - likely API rate limit", url)
+			return closeBody(fmt.Errorf("access denied (403) checking %s - likely API rate limit", url))
 		}
 		// For 405 or others, return error to trigger fallback
-		return fmt.Errorf("HEAD returned %s", resp.Status)
+		return closeBody(fmt.Errorf("HEAD returned %s", resp.Status))
 	}()
 
 	if err == nil {
@@ -155,14 +162,20 @@ func probeURL(ctx context.Context, client *http.Client, url string) error {
 		// or this error. Prefer the GET error as it's the final attempt.
 		return respErr
 	}
-	defer resp.Body.Close()
+	closeBody := func(retErr error) error {
+		closeErr := resp.Body.Close()
+		if closeErr != nil {
+			return errors.Join(retErr, closeErr)
+		}
+		return retErr
+	}
 
 	if resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusPartialContent {
-		return nil
+		return closeBody(nil)
 	}
 	if resp.StatusCode == http.StatusForbidden {
-		return fmt.Errorf("access denied (403) checking %s - likely API rate limit", url)
+		return closeBody(fmt.Errorf("access denied (403) checking %s - likely API rate limit", url))
 	}
 
-	return fmt.Errorf("%s returned %s", url, resp.Status)
+	return closeBody(fmt.Errorf("%s returned %s", url, resp.Status))
 }

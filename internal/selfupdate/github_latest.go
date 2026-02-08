@@ -26,7 +26,7 @@ func FetchLatestTag(ctx context.Context, client *http.Client, url string, etag s
 	if err != nil {
 		return "", "", false, err
 	}
-	defer resp.Body.Close()
+	defer closeWithErr(&err, resp.Body)
 
 	if resp.StatusCode == http.StatusNotModified {
 		return "", resp.Header.Get("ETag"), true, nil

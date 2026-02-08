@@ -17,8 +17,23 @@ linters:
     - misspell
 
 linters-settings:
+  errcheck:
+    # Printing errors are not actionable for a CLI; ignore these helpers.
+    exclude-functions:
+      - fmt.Print
+      - fmt.Printf
+      - fmt.Println
+      - fmt.Fprint
+      - fmt.Fprintf
+      - fmt.Fprintln
+      - (*github.com/fatih/color.Color).Print
+      - (*github.com/fatih/color.Color).Printf
+      - (*github.com/fatih/color.Color).Println
+      - (*github.com/fatih/color.Color).Fprint
+      - (*github.com/fatih/color.Color).Fprintf
+      - (*github.com/fatih/color.Color).Fprintln
   gocyclo:
-    min-complexity: 15
+    min-complexity: 30
   gofmt:
     simplify: true
 

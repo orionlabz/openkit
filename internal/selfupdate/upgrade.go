@@ -25,6 +25,15 @@ type UpgradeOptions struct {
 	InstallDir string
 }
 
+func closeWithErr(errp *error, c io.Closer) {
+	if c == nil {
+		return
+	}
+	if cerr := c.Close(); cerr != nil && *errp == nil {
+		*errp = cerr
+	}
+}
+
 func Upgrade(ctx context.Context, client *http.Client, opt UpgradeOptions) (installedPath string, err error) {
 	if opt.RepoOwner == "" || opt.RepoName == "" {
 		return "", fmt.Errorf("missing repo owner/name")
@@ -48,7 +57,11 @@ func Upgrade(ctx context.Context, client *http.Client, opt UpgradeOptions) (inst
 	if err != nil {
 		return "", err
 	}
-	defer os.RemoveAll(tmpDir)
+	defer func() {
+		if rmErr := os.RemoveAll(tmpDir); rmErr != nil && err == nil {
+			err = rmErr
+		}
+	}()
 
 	artifactPath := filepath.Join(tmpDir, artifact)
 	if err := downloadToFile(ctx, client, artifactURL, artifactPath); err != nil {
@@ -134,7 +147,7 @@ func platformArtifact(goos, goarch string) (osName string, archName string, ext 
 	return osName, archName, ext, nil
 }
 
-func downloadToFile(ctx context.Context, client *http.Client, url string, path string) error {
+func downloadToFile(ctx context.Context, client *http.Client, url string, path string) (err error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return err
@@ -144,7 +157,7 @@ func downloadToFile(ctx context.Context, client *http.Client, url string, path s
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer closeWithErr(&err, resp.Body)
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		b, _ := io.ReadAll(io.LimitReader(resp.Body, 8<<10))
@@ -155,7 +168,7 @@ func downloadToFile(ctx context.Context, client *http.Client, url string, path s
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer closeWithErr(&err, f)
 
 	_, err = io.Copy(f, resp.Body)
 	return err
@@ -179,12 +192,12 @@ func checksumForFile(checksumsPath string, filename string) (string, error) {
 	return "", fmt.Errorf("checksum not found for %s", filename)
 }
 
-func sha256File(path string) (string, error) {
+func sha256File(path string) (sum string, err error) {
 	f, err := os.Open(path)
 	if err != nil {
 		return "", err
 	}
-	defer f.Close()
+	defer closeWithErr(&err, f)
 
 	h := sha256.New()
 	if _, err := io.Copy(h, f); err != nil {
@@ -203,12 +216,12 @@ func extractBinary(tmpDir, archivePath, binaryName string) (string, error) {
 	return "", fmt.Errorf("unsupported archive: %s", archivePath)
 }
 
-func extractZip(tmpDir, zipPath, binaryName string) (string, error) {
+func extractZip(tmpDir, zipPath, binaryName string) (out string, err error) {
 	r, err := zip.OpenReader(zipPath)
 	if err != nil {
 		return "", err
 	}
-	defer r.Close()
+	defer closeWithErr(&err, r)
 
 	for _, f := range r.File {
 		if filepath.Base(f.Name) != binaryName {
@@ -218,16 +231,19 @@ func extractZip(tmpDir, zipPath, binaryName string) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		defer rc.Close()
+		defer closeWithErr(&err, rc)
 
 		out := filepath.Join(tmpDir, binaryName)
 		wf, err := os.Create(out)
 		if err != nil {
 			return "", err
 		}
-		if _, err := io.Copy(wf, rc); err != nil {
-			wf.Close()
-			return "", err
+		if _, copyErr := io.Copy(wf, rc); copyErr != nil {
+			closeErr := wf.Close()
+			if closeErr != nil {
+				return "", errors.Join(copyErr, closeErr)
+			}
+			return "", copyErr
 		}
 		if err := wf.Close(); err != nil {
 			return "", err
@@ -237,18 +253,18 @@ func extractZip(tmpDir, zipPath, binaryName string) (string, error) {
 	return "", fmt.Errorf("binary %s not found in zip", binaryName)
 }
 
-func extractTarGz(tmpDir, tarGzPath, binaryName string) (string, error) {
+func extractTarGz(tmpDir, tarGzPath, binaryName string) (out string, err error) {
 	f, err := os.Open(tarGzPath)
 	if err != nil {
 		return "", err
 	}
-	defer f.Close()
+	defer closeWithErr(&err, f)
 
 	gzr, err := gzip.NewReader(f)
 	if err != nil {
 		return "", err
 	}
-	defer gzr.Close()
+	defer closeWithErr(&err, gzr)
 
 	tr := tar.NewReader(gzr)
 	for {
@@ -271,9 +287,12 @@ func extractTarGz(tmpDir, tarGzPath, binaryName string) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		if _, err := io.Copy(wf, tr); err != nil {
-			wf.Close()
-			return "", err
+		if _, copyErr := io.Copy(wf, tr); copyErr != nil {
+			closeErr := wf.Close()
+			if closeErr != nil {
+				return "", errors.Join(copyErr, closeErr)
+			}
+			return "", copyErr
 		}
 		if err := wf.Close(); err != nil {
 			return "", err
@@ -292,24 +311,26 @@ func atomicReplaceFile(src string, dst string, mode os.FileMode) error {
 	}
 
 	if err := os.Rename(tmp, dst); err != nil {
-		_ = os.Remove(tmp)
+		if rmErr := os.Remove(tmp); rmErr != nil {
+			return errors.Join(err, rmErr)
+		}
 		return err
 	}
 	return nil
 }
 
-func copyFile(src, dst string, mode os.FileMode) error {
+func copyFile(src, dst string, mode os.FileMode) (err error) {
 	r, err := os.Open(src)
 	if err != nil {
 		return err
 	}
-	defer r.Close()
+	defer closeWithErr(&err, r)
 
 	w, err := os.OpenFile(dst, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, mode)
 	if err != nil {
 		return err
 	}
-	defer w.Close()
+	defer closeWithErr(&err, w)
 
 	_, err = io.Copy(w, r)
 	return err

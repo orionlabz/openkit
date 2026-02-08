@@ -284,12 +284,14 @@ See the skills/ folder in your agent configuration for available skills.
 func ListEmbedded() []string {
 	var files []string
 
-	fs.WalkDir(baseTemplates, "base", func(path string, d fs.DirEntry, err error) error {
+	if err := fs.WalkDir(baseTemplates, "base", func(path string, d fs.DirEntry, err error) error {
 		if err == nil && !d.IsDir() {
 			files = append(files, strings.TrimPrefix(path, "base/"))
 		}
 		return nil
-	})
+	}); err != nil {
+		return files
+	}
 
 	return files
 }
