@@ -36,12 +36,10 @@ func Upgrade(ctx context.Context, client *http.Client, opt UpgradeOptions) (inst
 		return "", fmt.Errorf("missing install dir")
 	}
 
-	osName, archName, ext, err := platformArtifact(runtime.GOOS, runtime.GOARCH)
+	artifact, err := artifactFilename(runtime.GOOS, runtime.GOARCH)
 	if err != nil {
 		return "", err
 	}
-
-	artifact := fmt.Sprintf("openkit_%s_%s.%s", osName, archName, ext)
 	base := fmt.Sprintf("https://github.com/%s/%s/releases/download/%s", opt.RepoOwner, opt.RepoName, opt.Tag)
 	artifactURL := base + "/" + artifact
 	checksumsURL := base + "/checksums.txt"
@@ -93,6 +91,14 @@ func Upgrade(ctx context.Context, client *http.Client, opt UpgradeOptions) (inst
 	}
 
 	return installedPath, nil
+}
+
+func artifactFilename(goos, goarch string) (string, error) {
+	osName, archName, ext, err := platformArtifact(goos, goarch)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("openkit_%s_%s.%s", osName, archName, ext), nil
 }
 
 func platformArtifact(goos, goarch string) (osName string, archName string, ext string, err error) {
