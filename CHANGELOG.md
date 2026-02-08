@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed `openkit upgrade` downloading the correct release artifact name prefix (`openkit_...`) to avoid 404s
 - Updated uninstall script to support non-interactive mode for piped execution (`curl ... | bash`) and `-y/--yes`
 
+## [0.2.2] - 2026-02-08
+
+### Added
+- Unit tests for self-update artifact filename generation
+
+### Changed
+- Refactored upgrade code to centralize artifact filename generation
+
 ## [0.2.0] - 2026-02-08
 
 ### Added
@@ -67,5 +75,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cross-platform support (macOS, Linux, Windows)
 
 [0.2.1]: https://github.com/openkit-devtools/openkit/compare/v0.2.0...v0.2.1
+[0.2.2]: https://github.com/openkit-devtools/openkit/compare/v0.2.1...v0.2.2
 [0.2.0]: https://github.com/openkit-devtools/openkit/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/openkit-devtools/openkit/releases/tag/v0.1.0
