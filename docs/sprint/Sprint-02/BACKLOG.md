@@ -1,0 +1,7 @@
+# Sprint 02 Backlog
+
+- P0: Implement TOML generation for `.gemini/commands/openkit/*.toml`
+- P0: Sync rules into `.gemini/rules/*.md` and reference them from `GEMINI.md`
+- P0: Sync skills into `.gemini/skills/**`
+- P1: Update Gemini agent compat docs to match behavior
+- P1: Add minimal unit tests for generator (frontmatter + escaping)
