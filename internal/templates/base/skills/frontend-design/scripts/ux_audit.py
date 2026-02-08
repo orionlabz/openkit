@@ -297,15 +297,28 @@ class UXAuditor:
         # Check for adjacent weight levels (poor contrast)
         weights = re.findall(r'font-weight:\s*(\d+)|font-(?:thin|extralight|light|normal|medium|semibold|bold|extrabold|black)|fw-(\d+)', content, re.IGNORECASE)
         weight_values = []
+        weight_map = {
+            'thin': '100',
+            'extralight': '200',
+            'light': '300',
+            'normal': '400',
+            'medium': '500',
+            'semibold': '600',
+            'bold': '700',
+            'extrabold': '800',
+            'black': '900',
+        }
         for w in weights:
-            val = w[0] or w[1]
-            if val:
-                # Map named weights to numbers
-                weight_map = {'thin': '100', 'extralight': '200', 'light': '300', 'normal': '400', 'medium': '500', 'semibold': '600', 'bold': '700', 'extrabold': '800', 'black': '900'}
-                val = weight_map.get(val.lower(), val)
-                try:
-                    weight_values.append(int(val))
-                except: pass
+            val_raw = w[0] or w[1]
+            if not val_raw:
+                continue
+            val_norm = weight_map.get(val_raw.lower())
+            if val_norm is None:
+                val_norm = val_raw
+            try:
+                weight_values.append(int(val_norm))
+            except ValueError:
+                pass
 
         # Check for adjacent weights (400/500, 500/600, etc.)
         for i in range(len(weight_values) - 1):
@@ -685,7 +698,6 @@ class UXAuditor:
                     'build',
                     '.next',
                     '.opencode',
-                    'blueprints',
                 }
             ]
             for file in files:

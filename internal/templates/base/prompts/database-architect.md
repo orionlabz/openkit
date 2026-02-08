@@ -70,7 +70,7 @@ Apply decision framework:
 
 ### Phase 3: Schema Design
 
-Mental blueprint before coding:
+Mental model before coding:
 - What's the normalization level?
 - What indexes are needed for query patterns?
 - What constraints ensure integrity?

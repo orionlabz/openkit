@@ -1,6 +1,6 @@
 ---
 name: stack-selection
-description: Tech stack selection with decision trees, user preferences, and blueprint defaults. Use when choosing frameworks, libraries, or tools for new projects or features.
+description: Tech stack selection with decision trees, user preferences, and template defaults. Use when choosing frameworks, libraries, or tools for new projects or features.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
@@ -39,7 +39,7 @@ question({
       header: "Backend Framework",
       options: [
         {
-          label: "Fullstack Blueprint (Recommended)",
+          label: "Fullstack Template (Recommended)",
           description: "FastAPI + SQLAlchemy + Alembic - battle-tested, includes Docker, Redis, Celery"
         },
         {
@@ -75,7 +75,7 @@ question({
       multiple: true,
       options: [
         {
-          label: "Use the Fullstack Blueprint",
+          label: "Use the Fullstack Template",
           description: "I want the standard stack: React/Vite + FastAPI + SQLAlchemy"
         },
         {
@@ -109,7 +109,7 @@ Before suggesting anything, gather context:
 | **What's your team size/expertise?** | Solo, small team, large team? |
 | **Any constraints?** | Edge deployment, legacy systems, compliance? |
 
-> **Reference:** See `@blueprints/fullstack/` for an example of a well-configured fullstack setup. Use it as reference, not requirement.
+> **Reference:** In the OpenKit repo, see `internal/templates/base/` for an example of a well-configured fullstack setup. Use it as reference, not requirement.
 
 ### Phase 2: Check Existing Stack
 
@@ -182,11 +182,11 @@ If user wants suggestions, provide options with trade-offs:
 
 ---
 
-## Fullstack Blueprint (Example Stack)
+## Fullstack Template (Example Stack)
 
-### Blueprint Stack Details
+### Template Stack Details
 
-**Note:** This is an example of a well-configured fullstack setup used in `@blueprints/fullstack/`. It's not mandatory - use it as reference, not requirement.
+**Note:** This is an example of a well-configured fullstack setup used as a reference template. It's not mandatory - use it as reference, not requirement.
 
 **Frontend:**
 ```
@@ -278,7 +278,7 @@ Node.js:
 What type of application?
 ├── Single Page App (SPA)
 │   ├── React ecosystem?
-│   │   ├── Yes → React + Vite (recommended in blueprint)
+│   │   ├── Yes → React + Vite (recommended in template)
 │   │   └── No → Svelte + SvelteKit or Vue + Vite
 │   └── Build tools → Vite (fastest) or Next.js (SSR)
 ├── Server-Side Rendering (SSR)
@@ -309,7 +309,7 @@ What state do you need?
 
 ```
 What do you need?
-├── Blueprint default → ShadcnUI (recommended)
+├── Template default → ShadcnUI (recommended)
 ├── Full-featured component library
 │   ├── Radix UI (unstyled primitives)
 │   ├── Mantine (opinionated)
@@ -325,7 +325,7 @@ What do you need?
 
 ```
 What approach?
-├── Blueprint default → Tailwind CSS (recommended)
+├── Template default → Tailwind CSS (recommended)
 ├── CSS-in-JS
 │   ├── Styled Components
 │   └── Emotion
@@ -377,7 +377,7 @@ Before finalizing stack selection:
 
 - [ ] **Asked user about preferences?**
 - [ ] **Checked for existing stack?**
-- [ ] **Offered blueprint as option?**
+- [ ] **Offered template as option?**
 - [ ] **Explained trade-offs of options?**
 - [ ] **Documented rationale?**
 - [ ] **Team expertise considered?**
@@ -399,7 +399,7 @@ Before finalizing stack selection:
 - Explain why you're recommending each option
 - Consider team expertise and constraints
 - Document rationale for decisions
-- Offer blueprint as default, not mandate
+- Offer template as default, not mandate
 
 ---
 
@@ -421,8 +421,8 @@ Before finalizing stack selection:
 **User:** "I want to build a web application for task management"
 
 **Process:**
-1. Ask: "Do you want to use the Fullstack Blueprint (React + FastAPI + SQLAlchemy)?"
-2. If yes → Use blueprint stack
+1. Ask: "Do you want to use the Fullstack Template (React + FastAPI + SQLAlchemy)?"
+2. If yes → Use the template stack
 3. If no → Ask about preferences or suggest based on requirements
 
 ### Example 2: Existing Project

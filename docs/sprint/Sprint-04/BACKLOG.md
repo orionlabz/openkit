@@ -24,3 +24,12 @@
 ## P0: Quality Gates
 
 - [x] P0-5: Harden security scan exit codes and skip tooling dirs
+
+## P0: Cleanup
+
+- [x] P0-6: Remove blueprint references across skills/templates/scripts
+- [x] P0-7: Add regression guardrail (block blueprint alias reintroduction)
+
+## P2: Docs
+
+- [x] P2-5: Add requirements docs for blueprint reference removal

@@ -196,3 +196,53 @@ VERIFY:
 python3 .opencode/skills/vulnerability-scanner/scripts/security_scan.py . --output summary  # exit=0
 python3 .opencode/scripts/checklist.py .  # PASS
 ```
+
+---
+
+## Task 12: Remove blueprint references
+
+**ID:** P0-6
+**Priority:** P0
+**Status:** COMPLETED
+
+INPUT:
+- Repo content containing blueprint alias mentions
+OUTPUT:
+- Updated skills/templates/scripts that reference only shipped OpenKit artifacts
+
+VERIFY:
+```bash
+rg -n "\\bblueprints\\b" .
+python3 .opencode/scripts/checklist.py .
+```
+
+---
+
+## Task 13: Guardrail against reintroduction
+
+**ID:** P0-7
+**Priority:** P0
+**Depends:** P0-6
+**Status:** COMPLETED
+
+INPUT: Repo policies and CI/check scripts
+OUTPUT: A deterministic check that fails if blueprint alias mentions are reintroduced in tracked sources
+
+VERIFY:
+```bash
+python3 .opencode/scripts/checklist.py .
+```
+
+---
+
+## Task 14: Requirements docs
+
+**ID:** P2-5
+**Priority:** P2
+**Status:** COMPLETED
+
+INPUT: Cleanup plan
+OUTPUT:
+- `docs/requirements/remove-blueprints-references/*`
+
+VERIFY: Review docs for accuracy

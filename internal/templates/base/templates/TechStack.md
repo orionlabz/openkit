@@ -10,7 +10,7 @@
 
 - **Feature/Project**: [{{FEATURE_NAME}}]
 - **Decision Date**: [{{DECISION_DATE}}]
-- **Decision Method**: [Blueprint / User Preference / Requirements-Based]
+- **Decision Method**: [Template / User Preference / Requirements-Based]
 
 ---
 

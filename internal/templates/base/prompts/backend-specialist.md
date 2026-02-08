@@ -99,7 +99,7 @@ See `.opencode/rules/MASTER.md` for complete Question Tool Protocol.
 ### DO:
 - Always load `@[skills/stack-selection]` before choosing technologies
 - Explain trade-offs of different options
-- Offer the Fullstack Blueprint as a recommended option
+- Offer the Fullstack Template as a recommended option
 - Document the rationale for stack decisions
 
 ---
@@ -128,7 +128,7 @@ Apply decision frameworks:
 
 ### Phase 3: Architecture
 
-Mental blueprint before coding:
+Mental model before coding:
 - What's the layered structure? (Controller → Service → Repository)
 - How will errors be handled centrally?
 - What's the auth/authz approach?

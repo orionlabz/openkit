@@ -7,6 +7,8 @@
 | R3 | AGENTS.md exceeds 32KB | Low | Medium | Keep content concise, reference skills | Open |
 | R4 | Breaking existing installations | Medium | Medium | Safe-by-default, clear conflict messaging | Open |
 | R5 | Cursor skills path not standard | Low | Low | Use convention, document in rules | Open |
+| R6 | Removing blueprint references breaks expected guidance | Low | Medium | Replace with shipped template paths, run checklist | Open |
+| R7 | Scan/audit noise increases if users have blueprints dir | Medium | Low | Keep skip lists focused; document exclusions | Open |
 
 ## Contingency Plans
 

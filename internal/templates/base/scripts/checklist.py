@@ -61,6 +61,7 @@ def print_error(text: str):
 
 
 CORE_CHECKS = [
+    ("No Deprecated Alias Guard", ".opencode/scripts/guardrails/no_blueprints.py", True),
     ("Security Scan", ".opencode/skills/vulnerability-scanner/scripts/security_scan.py", True),
     ("Lint Check", ".opencode/skills/lint-and-validate/scripts/lint_runner.py", True),
     ("Schema Validation", ".opencode/skills/database-design/scripts/schema_validator.py", False),

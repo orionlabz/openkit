@@ -25,8 +25,10 @@ from datetime import datetime
 
 # Fix Windows console encoding
 try:
-    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
-except:
+    reconfigure = getattr(sys.stdout, "reconfigure", None)
+    if callable(reconfigure):
+        reconfigure(encoding="utf-8", errors="replace")
+except Exception:
     pass
 
 
@@ -37,8 +39,8 @@ SKIP_DIRS = {
     '__tests__', 'spec', 'docs', 'documentation', 'examples'
 }
 
-# OpenKit repo includes templates/blueprints; ignore by default.
-SKIP_DIRS.update({'blueprints', '.opencode'})
+# OpenKit repo includes internal templates and tooling dirs; ignore by default.
+SKIP_DIRS.update({'.opencode'})
 
 # Files to skip (not pages)
 SKIP_PATTERNS = [
