@@ -11,7 +11,7 @@
 - Test with actual Cursor installation
 - Fallback to `.cursorrules` for compatibility
 
-**Status:** Open
+**Status:** Mitigated (Verified by Task P1-3)
 
 ---
 
@@ -26,7 +26,7 @@
 - Add unit test that validates syntax
 - Reference official examples from Codex docs
 
-**Status:** Open
+**Status:** Mitigated (Verified by Task P1-2)
 
 ---
 
@@ -41,7 +41,7 @@
 - Reference skills by path instead of inlining
 - Document limit in generated file
 
-**Status:** Open
+**Status:** Mitigated (Verified by Task P0-3)
 
 ---
 
@@ -56,7 +56,7 @@
 - Clear messaging when conflicts detected
 - Doctor command shows conflict status
 
-**Status:** Open
+**Status:** Mitigated (Verified by Tasks P0-2, P0-4)
 
 ---
 
@@ -71,4 +71,4 @@
 - Document in generated rules that skills are available
 - Let users customize via their own rules
 
-**Status:** Open
+**Status:** Mitigated (Verified by Task P2-3)
