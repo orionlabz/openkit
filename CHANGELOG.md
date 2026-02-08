@@ -11,6 +11,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed `openkit upgrade` downloading the correct release artifact name prefix (`openkit_...`) to avoid 404s
 - Updated uninstall script to support non-interactive mode for piped execution (`curl ... | bash`) and `-y/--yes`
 
+## [0.2.4] - 2026-02-08
+
+### Fixed
+- Hardened `openkit upgrade --check` to use HEAD requests with GET fallback for better compatibility
+- Improved error handling for rate limits (403) and missing artifacts (404)
+
+## [0.2.3] - 2026-02-08
+
+### Added
+- Added `openkit upgrade --check` flag to verify updates without installing
+- Added `openkit upgrade --dry-run` alias
+- Documentation for CLI self-upgrade and uninstall process
+
+### Fixed
+- Corrected release asset filenames in README to `openkit_*`
+
 ## [0.2.2] - 2026-02-08
 
 ### Added

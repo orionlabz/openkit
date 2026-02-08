@@ -107,18 +107,62 @@ func runUpgrade(ctx context.Context, opt upgradeRunOptions) error {
 }
 
 func probeURL(ctx context.Context, client *http.Client, url string) error {
-	req, err := http.NewRequestWithContext(ctx, http.MethodHead, url, nil)
-	if err != nil {
+	// Try HEAD first
+	err := func() error {
+		req, err := http.NewRequestWithContext(ctx, http.MethodHead, url, nil)
+		if err != nil {
+			return err
+		}
+		resp, err := client.Do(req)
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode == http.StatusOK {
+			return nil
+		}
+		if resp.StatusCode == http.StatusNotFound {
+			return fmt.Errorf("artifact not found (404) at %s", url)
+		}
+		if resp.StatusCode == http.StatusForbidden {
+			return fmt.Errorf("access denied (403) checking %s - likely API rate limit", url)
+		}
+		// For 405 or others, return error to trigger fallback
+		return fmt.Errorf("HEAD returned %s", resp.Status)
+	}()
+
+	if err == nil {
+		return nil
+	}
+
+	// If definitive error (404/403), don't retry with GET
+	errStr := err.Error()
+	if len(errStr) >= 3 && (errStr[0:14] == "artifact not f" || errStr[0:13] == "access denied") {
 		return err
 	}
-	resp, err := client.Do(req)
-	if err != nil {
-		return err
+
+	// Fallback to GET with Range: bytes=0-0
+	req, reqErr := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if reqErr != nil {
+		return reqErr
+	}
+	req.Header.Set("Range", "bytes=0-0")
+
+	resp, respErr := client.Do(req)
+	if respErr != nil {
+		// If fallback also fails, return the original HEAD error if it was a network error,
+		// or this error. Prefer the GET error as it's the final attempt.
+		return respErr
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode < 200 || resp.StatusCode >= 400 {
-		return fmt.Errorf("%s returned %s", url, resp.Status)
+	if resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusPartialContent {
+		return nil
 	}
-	return nil
+	if resp.StatusCode == http.StatusForbidden {
+		return fmt.Errorf("access denied (403) checking %s - likely API rate limit", url)
+	}
+
+	return fmt.Errorf("%s returned %s", url, resp.Status)
 }
