@@ -20,3 +20,19 @@ Thumbs.db
 
 # Go
 vendor/
+
+# OpenKit managed state (generated during testing)
+/.openkit/
+/.gemini/
+/.claude/
+/.cursor/
+/.opencode/
+/.codex/
+/.agents/
+/.tmp/
+
+# Agent entrypoint files (generated during testing)
+/GEMINI.md
+/AGENTS.md
+/CLAUDE.md
+/opencode.json
