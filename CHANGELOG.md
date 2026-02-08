@@ -5,7 +5,7 @@ All notable changes to OpenKit CLI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.5] - 2026-02-08
+## [0.2.6] - 2026-02-08
 
 ### Changed
 - Finalized validation for Cursor and Codex targets
@@ -99,6 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Embedded templates for all agents
 - Cross-platform support (macOS, Linux, Windows)
 
+[0.2.6]: https://github.com/openkit-devtools/openkit/compare/v0.2.5...v0.2.6
 [0.2.5]: https://github.com/openkit-devtools/openkit/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/openkit-devtools/openkit/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/openkit-devtools/openkit/compare/v0.2.2...v0.2.3

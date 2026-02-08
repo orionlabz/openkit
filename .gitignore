@@ -26,13 +26,15 @@ vendor/
 /.gemini/
 /.claude/
 /.cursor/
-/.opencode/
 /.codex/
 /.agents/
+/.opencode/
 /.tmp/
 
-# Agent entrypoint files (generated during testing)
+# Generated config files (artifacts from local testing)
+.cursorrules
 /GEMINI.md
-/AGENTS.md
 /CLAUDE.md
+# We keep AGENTS.md and opencode.json as they are part of the project documentation/config
+/AGENTS.md 
 /opencode.json
