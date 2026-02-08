@@ -23,7 +23,11 @@ jobs:
       - name: Lint
         uses: golangci/golangci-lint-action@v6
         with:
-          version: latest
+          # Use goinstall so golangci-lint is built with the job Go toolchain.
+          # This avoids failures like:
+          # "the Go language version (go1.24) used to build golangci-lint is lower than the targeted Go version (1.25.7)"
+          install-mode: goinstall
+          version: v1.64.8
 
       - name: Test
         run: make test
