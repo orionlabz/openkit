@@ -19,9 +19,9 @@ import (
 )
 
 type UpgradeOptions struct {
-	RepoOwner string
-	RepoName  string
-	Tag       string
+	RepoOwner  string
+	RepoName   string
+	Tag        string
 	InstallDir string
 }
 
@@ -41,7 +41,7 @@ func Upgrade(ctx context.Context, client *http.Client, opt UpgradeOptions) (inst
 		return "", err
 	}
 
-	artifact := fmt.Sprintf("cli_%s_%s.%s", osName, archName, ext)
+	artifact := fmt.Sprintf("openkit_%s_%s.%s", osName, archName, ext)
 	base := fmt.Sprintf("https://github.com/%s/%s/releases/download/%s", opt.RepoOwner, opt.RepoName, opt.Tag)
 	artifactURL := base + "/" + artifact
 	checksumsURL := base + "/checksums.txt"
