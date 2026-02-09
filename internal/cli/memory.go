@@ -1065,7 +1065,7 @@ func runMemoryDebug() {
 		dim.Println("  - Enable verbose mode for detailed logs: openkit memory config --verbose")
 	}
 
-	if metrics == nil || len(metrics) < 5 {
+	if len(metrics) < 5 {
 		dim.Println("  - Run more OpenCode sessions to accumulate metrics")
 	}
 
