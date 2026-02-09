@@ -720,7 +720,7 @@ func runMemoryStats() {
 		yellow.Println("  [--] Configuration missing or invalid")
 	}
 
-	if metrics != nil && len(metrics) > 0 {
+	if len(metrics) > 0 {
 		green.Printf("  [OK] %d sessions tracked\n", len(metrics))
 	} else {
 		yellow.Println("  [--] No session metrics yet")
