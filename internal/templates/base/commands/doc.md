@@ -43,3 +43,16 @@ question({
 - **Security**: usage warnings (auth/roles, uploads, limits, privacy).
 - **ADRs**: `docs/adr/ADR_0001_<TITLE>.md` (decision, options, trade-offs).
 - **Runbooks**: `docs/runbooks/<SERVICE>.md` (alarm -> diagnosis -> action).
+- **Glossary**: update `docs/GLOSSARY.md` with domain-specific terms introduced in the feature.
+
+## Glossary Updates
+
+When documenting a new feature:
+
+1. **Check for new terms:** Does this feature introduce domain-specific terminology?
+2. **Update glossary:** Add new terms to `docs/GLOSSARY.md`
+3. **Link references:** In feature docs, link to `docs/GLOSSARY.md` for standard terms
+4. **Template sections:** All SDD templates include a Glossary section for feature-specific terms
+
+**Standard Reference:**
+> For standard terminology definitions, see `docs/GLOSSARY.md`

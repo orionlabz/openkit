@@ -23,3 +23,12 @@
 ## Evidence
 
 - `path/to/file.ext`: short snippet / reason
+
+## Terminology
+
+> For standard terminology definitions, see `docs/GLOSSARY.md`
+
+| Term | Definition (project-specific) |
+|------|-------------------------------|
+| [Term 1] | [Definition specific to this project] |
+| [Term 2] | [Definition specific to this project] |

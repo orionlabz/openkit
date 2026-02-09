@@ -78,8 +78,55 @@ func buildClaude(agent *agents.Agent, cliVersion string) (DesiredResult, error) 
 		files = append(files, rootPrompt...)
 	}
 
-	// Preferred entrypoint.
-	claudeMd := []byte("# OpenKit (Claude Code)\n\nThis project uses OpenKit content synced by OpenKit CLI.\n\n- Rules: .claude/rules/\n- Skills: .claude/skills/\n- Agents: .claude/agents/\n\nRun Claude Code and follow the project instructions.\n")
+	// Commands: copy base/commands/*.md to .claude/commands/*.md
+	cmds, err := desiredClaudeCommands(templates.BaseFS())
+	if err != nil {
+		return DesiredResult{}, err
+	}
+	files = append(files, cmds...)
+
+	// Preferred entrypoint with commands documentation.
+	claudeMd := []byte(strings.Join([]string{
+		"# OpenKit (Claude Code)",
+		"",
+		"This project uses OpenKit content synced by OpenKit CLI.",
+		"",
+		"## What OpenKit installs",
+		"",
+		"- **Commands**: `.claude/commands/` (workflow shortcuts)",
+		"- **Rules**: `.claude/rules/` (mandatory policies)",
+		"- **Skills**: `.claude/skills/` (reusable patterns)",
+		"- **Agents**: `.claude/agents/` (specialist prompts)",
+		"",
+		"## SDD Workflow Commands",
+		"",
+		"Use these commands in order for Spec-Driven Development:",
+		"",
+		"| Phase | Command | Purpose |",
+		"|-------|---------|---------|",
+		"| 0 | `/context` | Discovery - analyze codebase |",
+		"| 1 | `/specify` | Create feature specification |",
+		"| 1 | `/clarify` | Resolve ambiguities |",
+		"| 2 | `/plan` | Create implementation plan |",
+		"| 3 | `/tasks` | Generate task breakdown |",
+		"| 4 | `/impl` | Execute implementation |",
+		"| 5 | `/test` | Run verification |",
+		"| 5 | `/checklist` | Pre-commit validation |",
+		"",
+		"## Quick Start",
+		"",
+		"1. Run `/context` to understand the codebase",
+		"2. Run `/specify <feature>` to create a spec",
+		"3. Run `/plan <feature>` after spec is complete",
+		"4. Run `/impl` to start coding",
+		"",
+		"## Documentation",
+		"",
+		"- Feature specs: `docs/requirements/<feature>/`",
+		"- Sprint tasks: `docs/sprint/Sprint-XX/`",
+		"- Skills reference: `.claude/skills/`",
+		"",
+	}, "\n"))
 	files = append(files, syncer.DesiredFile{
 		OutputPath: ".claude/CLAUDE.md",
 		Bytes:      claudeMd,

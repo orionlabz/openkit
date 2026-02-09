@@ -21,37 +21,43 @@ Before any planning work:
    todoread()
    ```
 
-2. **Create planning todolist:**
+2. **Create planning todolist (using standard ID schema):**
    ```javascript
    todowrite({
      todos: [
        {
-         id: "plan-01-stack",
+         id: "sdd-plan-01-gate",
+         content: "SDD Gate check (verify /specify ran)",
+         status: "pending",
+         priority: "high"
+       },
+       {
+         id: "sdd-plan-02-stack",
          content: "Select technology stack (if new project)",
          status: "pending",
          priority: "high"
        },
        {
-         id: "plan-02-clarify",
+         id: "sdd-plan-03-clarify",
          content: "Socratic gate: clarify requirements",
          status: "pending",
          priority: "high"
        },
        {
-         id: "plan-03-analyze",
+         id: "sdd-plan-04-analyze",
          content: "Analyze project type and identify agents",
          status: "pending",
          priority: "high"
        },
        {
-         id: "plan-04-requirements",
-         content: "Create requirements artifacts in docs/requirements/",
+         id: "sdd-plan-05-requirements",
+         content: "Create PLAN.md in docs/requirements/",
          status: "pending",
          priority: "high"
        },
        {
-         id: "plan-05-sprint",
-         content: "Create/update sprint artifacts in docs/sprint/",
+         id: "sdd-plan-06-sprint",
+         content: "Create sprint artifacts (GOAL, BACKLOG, RISKS)",
          status: "pending",
          priority: "high"
        }
@@ -95,13 +101,41 @@ Before any planning work:
    - Infrastructure (containerization, deployment)
    - Rationale for each choice
 
+### Phase 1.5: SDD Gate Check (MANDATORY)
+
+Before creating planning artifacts, verify if `/specify` artifacts exist:
+
+1. **Check for existing specification:**
+   - Look for `docs/requirements/<feature>/PROBLEM_STATEMENT.md`
+   - Look for `docs/requirements/<feature>/USER_STORIES.md`
+   
+2. **If specification exists:**
+   - Read existing artifacts to understand scope
+   - Skip redundant Socratic questions already answered
+   - Proceed to Phase 2
+
+3. **If specification is MISSING:**
+   - Use the question tool:
+   ```javascript
+   question({
+     questions: [{
+       header: "Specification Required",
+       question: "No specification found for this feature. The /specify command creates the foundation (Problem Statement, User Stories, Acceptance Criteria). How would you like to proceed?",
+       options: [
+         { label: "Run /specify first (Recommended)", description: "Create specification before planning" },
+         { label: "Create minimal spec inline", description: "I'll ask key questions and create basic spec" }
+       ]
+     }]
+   })
+   ```
+
 ### Phase 2: Socratic Gate
 - Use the question tool to ask clarifying questions if needed:
   1. What is the main goal.
   2. Any technology preferences (if not set in Phase 1).
   3. Any constraints or priorities.
 
-### Phase 2: Analysis
+### Phase 2.5: Analysis
 - Determine project type: WEB / MOBILE / BACKEND
 - Identify required agents
 - List core components
@@ -158,10 +192,8 @@ Ensure `docs/` exists and follow the planning standard:
       "Do you want to use the latest sprint or create a new sprint?"
     - If no sprint exists, create `docs/sprint/Sprint-01/`.
     - If creating a new sprint, use the next sequential number.
-    - Update `SPRINT_GOAL.md`, `BACKLOG.md`, `TASKS.md`, `RISK_REGISTER.md`.
-
-**Tasks template (REQUIRED for TASKS.md):**
-- `.opencode/templates/SDD-Tasks.md`
+    - Update `SPRINT_GOAL.md`, `BACKLOG.md`, `RISK_REGISTER.md`.
+    - **NOTE:** DO NOT create `TASKS.md` here. Use `/tasks` command for detailed task breakdown.
 
 **After sprint creation:**
 - Update todolist: Mark "plan-05-sprint" as `completed`
@@ -175,7 +207,21 @@ Ensure `docs/` exists and follow the planning standard:
 ### MANDATORY STOP POINT
 
 After creating/updating the artifacts:
-> **STOP:** "Plan recorded in `docs/requirements/` and `docs/sprint/Sprint-XX/`. Review it and confirm with 'yes' to proceed with implementation, or tell me what to adjust."
+
+Use the question tool:
+```javascript
+question({
+  questions: [{
+    header: "Plan Complete",
+    question: "Plan recorded in docs/requirements/ and docs/sprint/Sprint-XX/. What would you like to do next?",
+    options: [
+      { label: "Generate tasks (/tasks)", description: "Create detailed TASKS.md with INPUT->OUTPUT->VERIFY" },
+      { label: "Review artifacts first", description: "Let me check the plan before proceeding" },
+      { label: "Adjust the plan", description: "Make changes to the plan" }
+    ]
+  }]
+})
+```
 
 **DO NOT CONTINUE WITHOUT EXPLICIT USER APPROVAL.**
 

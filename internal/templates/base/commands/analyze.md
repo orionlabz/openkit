@@ -1,15 +1,27 @@
 ---
-description: Cross-artifact consistency analysis for spec, plan, and tasks.
+description: Deep cross-artifact consistency analysis with remediation actions.
 subtask: true
 ---
 
-# /analyze - Spec/Plan/Tasks Analysis
+# /analyze - Deep Analysis (Gaps & Remediation)
 
 $ARGUMENTS
 
 ## Purpose
 
-Validate consistency across requirements, plan, and tasks. Identify gaps, contradictions, or missing coverage.
+**Deep dive analysis** that validates consistency across ALL artifacts and produces actionable remediation.
+
+**When to use /analyze vs /checklist:**
+| Command | Purpose | Output | Time |
+|---------|---------|--------|------|
+| `/checklist` | Quick pre-flight validation | Pass/Fail checklist | Fast (1-2 min) |
+| `/analyze` | Deep consistency analysis | Detailed analysis + remediation | Thorough (5-10 min) |
+
+**Use /analyze when:**
+- You need to understand WHY something is inconsistent
+- You want specific remediation actions
+- You're preparing for a complex implementation
+- QA review before merging to main
 
 ## Inputs
 
@@ -28,6 +40,16 @@ Write analysis to:
 
 - `docs/requirements/<feature>/analysis.md`
 
+## Analysis Dimensions
+
+| Dimension | What to Check |
+|-----------|---------------|
+| **Requirement Traceability** | Each requirement maps to plan sections |
+| **Story Coverage** | Each user story has one or more tasks |
+| **Contract Completeness** | DATA_CONTRACTS.md exists if data involved |
+| **Test Coverage** | Each AC has corresponding test task |
+| **Risk Mitigation** | Each risk has mitigation in plan |
+
 ## Workflow
 
 1. Trace each requirement to plan sections.
@@ -38,7 +60,7 @@ Write analysis to:
    - `contracts/` when APIs/events/integrations exist
    - `quickstart.md` when setup or verification steps are non-trivial
 4. Identify missing tests, missing contracts, or unclear verification steps.
-4. List remediation actions.
+5. **Produce remediation actions** with priority and responsible command.
 
 ## Rules
 

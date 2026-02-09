@@ -1,15 +1,27 @@
 ---
-description: Create a quality checklist for spec and plan readiness.
+description: Quick pre-flight validation checklist (pass/fail).
 subtask: true
 ---
 
-# /checklist - Spec/Plan Checklist
+# /checklist - Quick Pre-Flight Check (Pass/Fail)
 
 $ARGUMENTS
 
 ## Purpose
 
-Generate a quality checklist to validate that specification and plan are ready for implementation.
+**Quick validation** that produces a pass/fail checklist. Use before starting implementation.
+
+**When to use /checklist vs /analyze:**
+| Command | Purpose | Output | Time |
+|---------|---------|--------|------|
+| `/checklist` | Quick pre-flight validation | Pass/Fail checklist | Fast (1-2 min) |
+| `/analyze` | Deep consistency analysis | Detailed analysis + remediation | Thorough (5-10 min) |
+
+**Use /checklist when:**
+- Quick sanity check before `/impl`
+- Verifying basic completeness
+- CI/CD gate validation
+- Daily standup verification
 
 ## Output
 

@@ -41,49 +41,49 @@ Before any implementation work:
    - If exists (from `/plan`): Continue with implementation todolist
    - If not exists: Create implementation todolist from scratch
 
-3. **Create implementation todolist:**
+3. **Create implementation todolist (using standard ID schema):**
    ```javascript
    todowrite({
      todos: [
        {
-         id: "impl-01-precheck",
+         id: "sdd-impl-01-precheck",
          content: "Pre-implementation checklist validation",
          status: "in_progress",
          priority: "high"
        },
        {
-         id: "impl-02-analysis",
+         id: "sdd-impl-02-analysis",
          content: "Read context and identify scope",
          status: "pending",
          priority: "high"
        },
        {
-         id: "impl-03-p0-foundation",
-         content: "P0: Foundation (DB architect + Security auditor)",
+         id: "sdd-impl-03-p0-foundation",
+         content: "P0: Foundation (DB + Security)",
          status: "pending",
          priority: "high"
        },
        {
-         id: "impl-04-p1-backend",
-         content: "P1: Core Backend (backend-specialist)",
+         id: "sdd-impl-04-p1-backend",
+         content: "P1: Core Backend",
          status: "pending",
          priority: "high"
        },
        {
-         id: "impl-05-p2-frontend",
-         content: "P2: UI/UX (frontend-specialist or mobile-developer)",
+         id: "sdd-impl-05-p2-frontend",
+         content: "P2: UI/UX",
          status: "pending",
          priority: "high"
        },
        {
-         id: "impl-06-p3-polish",
-         content: "P3: Polish (test-engineer + performance-optimizer)",
+         id: "sdd-impl-06-p3-polish",
+         content: "P3: Polish (Tests + Perf)",
          status: "pending",
          priority: "medium"
        },
        {
-         id: "impl-07-tasks-update",
-          content: "Update sprint TASKS.md with completion status",
+         id: "sdd-impl-07-update",
+         content: "Update sprint TASKS.md",
          status: "pending",
          priority: "medium"
        }
@@ -106,8 +106,8 @@ Before any implementation work:
 If any required spec or plan artifact is missing, STOP and direct the user to run `/specify`, `/clarify`, and `/plan` first.
 
 **After checklist:**
-- Update todolist: Mark "impl-01-precheck" as `completed`
-- Mark "impl-02-analysis" as `in_progress`
+- Update todolist: Mark "sdd-impl-01-precheck" as `completed`
+- Mark "sdd-impl-02-analysis" as `in_progress`
 
 ### Execution Order (P0 → P1 → P2 → P3)
 
@@ -115,35 +115,68 @@ If any required spec or plan artifact is missing, STOP and direct the user to ru
 -  Invoke `database-architect` (if DB is needed)
 -  Invoke `security-auditor` (always for auth/security)
 
-** STOP:**
-- Update todolist: Mark "impl-03-p0-foundation" as `completed`
-- Mark "impl-04-p1-backend" as `in_progress`
-- Use the question tool to ask "P0 phase complete. Proceed to P1 (Core Backend)?"
+** STOP (use question tool):**
+```javascript
+question({
+  questions: [{
+    header: "P0 Complete",
+    question: "P0 (Foundation) phase complete. Proceed to P1 (Core Backend)?",
+    options: [
+      { label: "Yes, proceed to P1", description: "Continue with backend implementation" },
+      { label: "Review P0 first", description: "Check foundation work" }
+    ]
+  }]
+})
+```
+- Update todolist: Mark "sdd-impl-03-p0-foundation" as `completed`
+- Mark "sdd-impl-04-p1-backend" as `in_progress`
 
 **P1 - Core Backend:**
 -  Invoke `backend-specialist`
 
-** STOP:**
-- Update todolist: Mark "impl-04-p1-backend" as `completed`
-- Mark "impl-05-p2-frontend" as `in_progress`
-- Use the question tool to ask "P1 phase complete. Proceed to P2 (UI/UX)?"
+** STOP (use question tool):**
+```javascript
+question({
+  questions: [{
+    header: "P1 Complete",
+    question: "P1 (Core Backend) phase complete. Proceed to P2 (UI/UX)?",
+    options: [
+      { label: "Yes, proceed to P2", description: "Continue with UI/UX implementation" },
+      { label: "Review P1 first", description: "Check backend work" }
+    ]
+  }]
+})
+```
+- Update todolist: Mark "sdd-impl-04-p1-backend" as `completed`
+- Mark "sdd-impl-05-p2-frontend" as `in_progress`
 
 **P2 - UI/UX:**
 -  Invoke `frontend-specialist` (WEB projects)
 -  Invoke `mobile-developer` (MOBILE projects)
 
-** STOP:**
-- Update todolist: Mark "impl-05-p2-frontend" as `completed`
-- Mark "impl-06-p3-polish" as `in_progress`
-- Use the question tool to ask "P2 phase complete. Proceed to P3 (Polish)?"
+** STOP (use question tool):**
+```javascript
+question({
+  questions: [{
+    header: "P2 Complete",
+    question: "P2 (UI/UX) phase complete. Proceed to P3 (Polish)?",
+    options: [
+      { label: "Yes, proceed to P3", description: "Continue with tests and polish" },
+      { label: "Review P2 first", description: "Check UI/UX work" }
+    ]
+  }]
+})
+```
+- Update todolist: Mark "sdd-impl-05-p2-frontend" as `completed`
+- Mark "sdd-impl-06-p3-polish" as `in_progress`
 
 **P3 - Polish:**
 -  Invoke `test-engineer`
 -  Invoke `performance-optimizer` (if needed)
 
 **After P3:**
-- Update todolist: Mark "impl-06-p3-polish" as `completed`
-- Mark "impl-07-tasks-update" as `in_progress`
+- Update todolist: Mark "sdd-impl-06-p3-polish" as `completed`
+- Mark "sdd-impl-07-update" as `in_progress`
 
 ### Progress Updates
 
@@ -154,17 +187,27 @@ Mark each task in `docs/sprint/Sprint-XX/TASKS.md` as completed:
 ```
 
 **After updating TASKS.md:**
-- Update todolist: Mark "impl-07-tasks-update" as `completed`
+- Update todolist: Mark "sdd-impl-07-update" as `completed`
 
 ### FINAL STOP POINT
 
 After implementation:
 - Final todolist update: Verify all tasks marked as `completed`
- > **STOP:** Use the question tool to ask "Implementation complete!  Run final verification (Phase 3) with all validation scripts?"
 
-**User options:**
-- "yes" → Run Phase 3 (add verification tasks to todolist)
-- "no" → Wait for manual `/test`
+Use the question tool:
+```javascript
+question({
+  questions: [{
+    header: "Implementation Complete",
+    question: "All implementation phases complete. Run final verification (Phase 3) with all validation scripts?",
+    options: [
+      { label: "Yes, run verification", description: "Execute security scan, lint, tests, and performance checks" },
+      { label: "Later", description: "Wait for manual /test" },
+      { label: "Skip verification", description: "Mark complete without verification (not recommended)" }
+    ]
+  }]
+})
+```
 
 ---
 
@@ -194,8 +237,8 @@ This command implements features, fixes bugs, or enhances existing code. It comb
 - **Load State**: Understand current codebase state.
 
 **After analysis:**
-- Update todolist: Mark "impl-02-analysis" as `completed`
-- Mark "impl-03-p0-foundation" as `in_progress`
+- Update todolist: Mark "sdd-impl-02-analysis" as `completed`
+- Mark "sdd-impl-03-p0-foundation" as `in_progress`
 
 ### 2. Execution (The Loop)
 

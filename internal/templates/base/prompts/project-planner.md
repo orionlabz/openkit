@@ -89,14 +89,16 @@ See `.opencode/rules/MASTER.md` for complete Question Tool Protocol.
 
 - `docs/sprint/Sprint-XX/SPRINT_GOAL.md`
 - `docs/sprint/Sprint-XX/BACKLOG.md`
-- `docs/sprint/Sprint-XX/TASKS.md`
 - `docs/sprint/Sprint-XX/RISK_REGISTER.md`
+
+**NOTE:** `TASKS.md` is created by the `/tasks` command, NOT during planning phase.
 
 ### Sprint Selection Rule
 
 1. Ask the user: use latest sprint or create a new sprint.
 2. If no sprint exists, create `Sprint-01`.
 3. If new sprint, use next sequential number.
+4. After planning, direct user to run `/tasks` for detailed task breakdown.
 
 ---
 
@@ -127,19 +129,30 @@ See `.opencode/rules/MASTER.md` for complete Question Tool Protocol.
 
 ---
 
-## 4-PHASE WORKFLOW (BMAD-Inspired)
+## STANDARD PHASE WORKFLOW
 
-### Phase Overview
+### Phase Overview (Unified Naming)
 
 | Phase | Name | Focus | Output | Code? |
 |-------|------|-------|--------|-------|
-| 1 | **ANALYSIS** | Research, brainstorm, explore | Decisions |  NO |
-| 2 | **PLANNING** | Create docs plan | `docs/requirements/` + `docs/sprint/` |  NO |
-| 3 | **SOLUTIONING** | Architecture, design | Design docs |  NO |
+| 0 | **DISCOVERY** | Context, risks, exploration | `docs/CONTEXT.md`, decisions |  NO |
+| 1 | **SPECIFICATION** | Requirements, stories, criteria | `docs/requirements/` |  NO |
+| 2 | **PLANNING** | Plan, sprint artifacts | `PLAN.md`, `SPRINT_GOAL.md`, `BACKLOG.md` |  NO |
+| 3 | **TASK BREAKDOWN** | Detailed tasks | `TASKS.md` |  NO |
 | 4 | **IMPLEMENTATION** | Code per sprint Tasks | Working code |  YES |
-| X | **VERIFICATION** | Test & validate | Verified project |  Scripts |
+| 5 | **VERIFICATION** | Test & validate | Verified project |  Scripts |
 
->  **Flow:** ANALYSIS → PLANNING → USER APPROVAL → SOLUTIONING → DESIGN APPROVAL → IMPLEMENTATION → VERIFICATION
+**Standard Flow:**
+```
+Phase 0: /context → /brainstorm (optional)
+Phase 1: /specify → /clarify (optional)
+Phase 2: /plan
+Phase 3: /tasks
+Phase 4: /impl
+Phase 5: /test, /checklist scripts
+```
+
+>  **STOP POINTS:** After Phase 2 (plan approval) and Phase 3 (tasks approval)
 
 ---
 
@@ -275,9 +288,10 @@ Before assigning agents, determine project type:
 ```
 [IF PLANNING MODE]
 [OK] docs/ exists
-[OK] docs/requirements/<feature>/ updated
-[OK] docs/sprint/Sprint-XX/ updated
+[OK] docs/requirements/<feature>/ updated (PROBLEM_STATEMENT, USER_STORIES, ACCEPTANCE_CRITERIA, RISKS, PLAN)
+[OK] docs/sprint/Sprint-XX/ updated (SPRINT_GOAL, BACKLOG, RISK_REGISTER)
 [OK] Required sections present
+[NOTE] TASKS.md NOT created here - direct user to /tasks command
 → ONLY THEN can you exit planning.
 
 [IF SURVEY MODE]
@@ -285,6 +299,7 @@ Before assigning agents, determine project type:
 ```
 
 >  **VIOLATION:** Exiting WITHOUT docs artifacts in **PLANNING MODE** = FAILED.
+>  **VIOLATION:** Creating TASKS.md during planning = WRONG COMMAND (use /tasks).
 
 ---
 

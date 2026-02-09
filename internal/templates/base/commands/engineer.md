@@ -102,46 +102,58 @@ question({
    ```javascript
    todoread()
    ```
-2. **Create orchestration todolist:**
+2. **Create orchestration todolist (using standard ID schema):**
    ```javascript
    todowrite({
      todos: [
        {
-         id: "phase1-analysis",
-         content: "Phase 1: Analyze mission complexity",
+         id: "orch-01-analysis",
+         content: "Analyze mission complexity",
          status: "in_progress",
          priority: "high"
        },
        {
-         id: "phase1-planning",
-         content: "Phase 1: Create planning artifacts",
+         id: "orch-02-planning",
+         content: "Create planning artifacts",
          status: "pending",
          priority: "high"
        },
        {
-         id: "phase2-foundation",
-         content: "Phase 2: Foundation (DB + Security)",
+         id: "orch-03-tasks",
+         content: "Generate task breakdown (/tasks)",
          status: "pending",
          priority: "high"
        },
        {
-         id: "phase2-core",
-         content: "Phase 2: Core (Backend + Frontend)",
+         id: "orch-04-p0-foundation",
+         content: "P0: Foundation (DB + Security)",
          status: "pending",
          priority: "high"
        },
        {
-         id: "phase2-polish",
-         content: "Phase 2: Polish (Tests + Performance)",
+         id: "orch-05-p1-backend",
+         content: "P1: Core Backend",
+         status: "pending",
+         priority: "high"
+       },
+       {
+         id: "orch-06-p2-frontend",
+         content: "P2: UI/UX",
+         status: "pending",
+         priority: "high"
+       },
+       {
+         id: "orch-07-p3-polish",
+         content: "P3: Polish (Tests + Perf)",
          status: "pending",
          priority: "medium"
        },
-        {
-          id: "phase3-verification",
-          content: "Phase 3: Final verification",
-          status: "pending",
-          priority: "high"
-        }
+       {
+         id: "orch-08-verification",
+         content: "Final verification scripts",
+         status: "pending",
+         priority: "high"
+       }
      ]
    })
    ```
@@ -166,11 +178,15 @@ question({
 1. Ensure `docs/` exists at the root (create if missing).
 2. Use the question tool to ask whether to use the latest sprint or create a new one.
 3. If no sprint exists, create `docs/sprint/Sprint-01/`.
-4. Update `SPRINT_GOAL.md`, `BACKLOG.md`, `TASKS.md`, `RISK_REGISTER.md`.
+4. Update `SPRINT_GOAL.md`, `BACKLOG.md`, `RISK_REGISTER.md`.
+5. **NOTE:** `TASKS.md` is created separately via `/tasks` command after planning phase.
 
 **After planning artifacts:**
-- Update todolist: Mark "phase1-analysis" and "phase1-planning" as `completed`
-- Mark "phase2-foundation" as `in_progress`
+- Update todolist: Mark "orch-01-analysis" and "orch-02-planning" as `completed`
+- Mark "orch-03-tasks" as `in_progress`
+- Run `/tasks` to generate detailed task breakdown
+- After tasks complete: Mark "orch-03-tasks" as `completed`
+- Mark "orch-04-p0-foundation" as `in_progress`
 
 ### MANDATORY STOP POINT
 
@@ -198,29 +214,62 @@ Run in parallel:
 -  `database-architect` (if DB is needed)
 -  `security-auditor` (always for auth/security)
 
-** STOP:**
-- Update todolist: Mark "phase2-foundation" as `completed`
-- Mark "phase2-core" as `in_progress`
-- " P0 (Foundation) completed. Proceed to P1 (Core Backend)?"
+** STOP (use question tool):**
+```javascript
+question({
+  questions: [{
+    header: "P0 Complete",
+    question: "P0 (Foundation) completed. Proceed to P1 (Core Backend)?",
+    options: [
+      { label: "Yes, proceed to P1", description: "Continue with backend" },
+      { label: "Review P0", description: "Check foundation work first" }
+    ]
+  }]
+})
+```
+- Update todolist: Mark "orch-04-p0-foundation" as `completed`
+- Mark "orch-05-p1-backend" as `in_progress`
 
 **P1 - Core Backend**
 Run:
 -  `backend-specialist`
 
-** STOP:**
-- Update todolist: Mark "phase2-core" as `completed`
-- Mark "phase2-polish" as `in_progress`
-- " P1 (Core Backend) completed. Proceed to P2 (UI/UX)?"
+** STOP (use question tool):**
+```javascript
+question({
+  questions: [{
+    header: "P1 Complete",
+    question: "P1 (Core Backend) completed. Proceed to P2 (UI/UX)?",
+    options: [
+      { label: "Yes, proceed to P2", description: "Continue with UI/UX" },
+      { label: "Review P1", description: "Check backend work first" }
+    ]
+  }]
+})
+```
+- Update todolist: Mark "orch-05-p1-backend" as `completed`
+- Mark "orch-06-p2-frontend" as `in_progress`
 
 **P2 - UI/UX**
 Choose ONE (never both):
 -  `frontend-specialist` (WEB projects)
 -  `mobile-developer` (MOBILE projects)
 
-** STOP:**
-- Update todolist: Mark "phase2-polish" as `completed`
-- Mark "phase3-verification" as `in_progress`
-- " P2 (UI/UX) completed. Proceed to P3 (Polish)?"
+** STOP (use question tool):**
+```javascript
+question({
+  questions: [{
+    header: "P2 Complete",
+    question: "P2 (UI/UX) completed. Proceed to P3 (Polish)?",
+    options: [
+      { label: "Yes, proceed to P3", description: "Continue with tests and polish" },
+      { label: "Review P2", description: "Check UI/UX work first" }
+    ]
+  }]
+})
+```
+- Update todolist: Mark "orch-06-p2-frontend" as `completed`
+- Mark "orch-07-p3-polish" as `in_progress`
 
 **P3 - Polish**
 Run in parallel:
@@ -250,7 +299,8 @@ Run in parallel:
 ## PHASE 3: VERIFICATION
 
 **Before running verification:**
-- Update todolist: Ensure "phase3-verification" is `in_progress`
+- Update todolist: Mark "orch-07-p3-polish" as `completed`
+- Mark "orch-08-verification" as `in_progress`
 
 **MANDATORY SCRIPTS (run in order):**
 
@@ -274,7 +324,7 @@ npx tsc --noEmit
 !`python .opencode/scripts/verify_all.py . --url http://localhost:3000`
 
 **After all scripts pass:**
-- Update todolist: Mark "phase3-verification" as `completed`
+- Update todolist: Mark "orch-08-verification" as `completed`
 
 ### FINAL STOP POINT
 
@@ -414,13 +464,17 @@ Use these sub-commands for focused tasks:
 **Goal**: Coordinate specialized agents (Frontend, Backend, Database, Security) to solve the problem.
 
 ### Critical Rules
-- **Documentation**: All plans and artifacts MUST follow `rules/MASTER.md` Documentation Integrity Protocol.
-- **Discovery Gate:** Always execute `/context` (or `/brainstorm`) before authoring a new plan or touching code.
+- **Documentation**: All plans MUST follow `rules/MASTER.md` Documentation Integrity Protocol.
+- **Discovery Gate:** Always execute `/context` (MANDATORY) before authoring a new plan. Use `/brainstorm` additionally when scope is unclear.
 - **Planning Gate:** `/impl` or specialist agents cannot run until `/specify`, `/clarify`, `/plan`, and `/tasks` have produced the required docs.
 - **Minimum 3 Agents**: If you use fewer than 3, you are not orchestrating.
-- **2-Phase Strict Execution**:
-    - **Phase 1: Planning** (`project-planner` only). STOP for approval.
-    - **Phase 2: Implementation** (Parallel agents based on approval).
+- **Standard Phase Execution (aligned with SDD workflow):**
+    - **Phase 0: Discovery** - `/context` (MANDATORY), `/brainstorm` (optional)
+    - **Phase 1: Specification** - `/specify`, `/clarify`
+    - **Phase 2: Planning** - `/plan` → Creates SPRINT_GOAL, BACKLOG, RISK_REGISTER. STOP for approval.
+    - **Phase 3: Task Breakdown** - `/tasks` → Creates TASKS.md. STOP for approval.
+    - **Phase 4: Implementation** - Parallel agents (P0→P1→P2→P3)
+    - **Phase 5: Verification** - Scripts and tests
 
 ### Orchestration Protocol
 

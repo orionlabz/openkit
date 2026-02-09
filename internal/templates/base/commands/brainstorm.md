@@ -1,14 +1,31 @@
 ---
-description: Structured brainstorming for projects and features. Explores multiple options before implementation.
+description: Structured brainstorming for projects and features (OPTIONAL, use when scope unclear).
 ---
 
-# /brainstorm - Structured Idea Exploration
+# /brainstorm - Structured Idea Exploration (OPTIONAL)
 
 $ARGUMENTS
 
 ## Purpose
 
 This command activates BRAINSTORM mode for structured idea exploration. Use when you need to explore options before committing to an implementation.
+
+**IMPORTANT:** This command is OPTIONAL and does NOT replace `/context`.
+- `/context` is MANDATORY and generates technical documentation
+- `/brainstorm` is OPTIONAL and explores options when scope is unclear
+
+**When to use /brainstorm:**
+- Multiple valid approaches exist
+- Scope is ambiguous
+- User needs help deciding direction
+- Comparing frameworks, architectures, or strategies
+
+**Discovery Gate Flow:**
+```
+/context (MANDATORY) → /specify → /clarify → /plan → /tasks → /impl
+    ↑
+/brainstorm (OPTIONAL) ← use when scope unclear
+```
 
 ## Behavior
 
@@ -121,13 +138,13 @@ When brainstorming complex projects with 3+ options or multiple decision points:
    todoread()
    ```
 
-2. **Create brainstorming todolist:**
+2. **Create brainstorming todolist (using standard ID schema):**
    ```javascript
    todowrite({
      todos: [
        {
          id: "brainstorm-01-context",
-         content: "Gather context and understand requirements",
+         content: "Gather context and requirements",
          status: "in_progress",
          priority: "high"
        },
@@ -139,13 +156,13 @@ When brainstorming complex projects with 3+ options or multiple decision points:
        },
        {
          id: "brainstorm-03-analysis",
-         content: "Analyze trade-offs for each option",
+         content: "Analyze trade-offs",
          status: "pending",
          priority: "medium"
        },
        {
-         id: "brainstorm-04-recommendation",
-         content: "Provide recommendation with reasoning",
+         id: "brainstorm-04-recommend",
+         content: "Provide recommendation",
          status: "pending",
          priority: "high"
        }
@@ -179,7 +196,7 @@ When brainstorming complex projects with 3+ options or multiple decision points:
 - Give a recommendation with reasoning
 
 **After recommendation:**
-- Update todolist: Mark "brainstorm-03-analysis" and "brainstorm-04-recommendation" as `completed`
+- Update todolist: Mark "brainstorm-03-analysis" and "brainstorm-04-recommend" as `completed`
 
 ### Use Question Tool
 

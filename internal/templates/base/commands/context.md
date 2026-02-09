@@ -1,14 +1,25 @@
 ---
-description: Create a contextual docs pack for this project.
+description: Create a contextual docs pack for this project (MANDATORY before /specify).
 ---
 
-# /context - Context Preflight
+# /context - Context Preflight (MANDATORY)
 
 $ARGUMENTS
 
 ## Overview
 
 Generate a verified context pack for the current project, documenting risks, drift, and gaps with file-cited evidence. Outputs are contextual (no frontend/backend docs unless applicable).
+
+**IMPORTANT:** This command is MANDATORY before starting the SDD workflow.
+- `/context` generates technical context (CONTEXT.md, SECURITY.md, etc.)
+- `/brainstorm` is OPTIONAL and used for exploring options when scope is unclear
+
+**Discovery Gate Flow:**
+```
+/context (MANDATORY) → /specify → /clarify → /plan → /tasks → /impl
+    ↑
+/brainstorm (OPTIONAL, when scope unclear)
+```
 
 ## Workflow
 

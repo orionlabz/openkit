@@ -43,3 +43,18 @@
 - FR-001 -> [Plan section]
 - FR-002 -> [Plan section]
 - FR-003 -> [Plan section]
+
+## Glossary
+
+> For standard terminology, see `docs/GLOSSARY.md`
+
+| Term | Definition |
+|------|------------|
+| [Domain-specific term] | [Definition] |
+
+## References
+
+- Problem Statement: `docs/requirements/<feature>/PROBLEM_STATEMENT.md`
+- User Stories: `docs/requirements/<feature>/USER_STORIES.md`
+- Acceptance Criteria: `docs/requirements/<feature>/ACCEPTANCE_CRITERIA.md`
+- Glossary: `docs/GLOSSARY.md`

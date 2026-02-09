@@ -467,15 +467,89 @@ todowrite({
 
 ---
 
+## Standard TodoList ID Schema
+
+**All commands MUST use this standardized ID schema:**
+
+```
+{workflow}-{phase}-{step}
+```
+
+### ID Prefixes by Command
+
+| Command | ID Prefix | Example |
+|---------|-----------|---------|
+| `/specify` | `sdd-spec-` | `sdd-spec-problem`, `sdd-spec-stories`, `sdd-spec-criteria` |
+| `/clarify` | `sdd-clarify-` | `sdd-clarify-gather`, `sdd-clarify-resolve` |
+| `/plan` | `sdd-plan-` | `sdd-plan-analyze`, `sdd-plan-requirements`, `sdd-plan-sprint` |
+| `/tasks` | `sdd-tasks-` | `sdd-tasks-breakdown`, `sdd-tasks-verify` |
+| `/impl` | `sdd-impl-` | `sdd-impl-p0-foundation`, `sdd-impl-p1-backend`, `sdd-impl-p2-frontend` |
+| `/engineer` | `orch-` | `orch-phase1-planning`, `orch-phase2-foundation`, `orch-phase3-verify` |
+| `/brainstorm` | `brainstorm-` | `brainstorm-context`, `brainstorm-options`, `brainstorm-recommend` |
+| `/context` | `context-` | `context-discover`, `context-analyze`, `context-document` |
+| `/test` | `test-` | `test-unit`, `test-e2e`, `test-verify` |
+
+### Standard Phase IDs for SDD Workflow
+
+```javascript
+// /specify command
+{ id: "sdd-spec-01-problem", content: "Create PROBLEM_STATEMENT.md", ... }
+{ id: "sdd-spec-02-stories", content: "Create USER_STORIES.md", ... }
+{ id: "sdd-spec-03-criteria", content: "Create ACCEPTANCE_CRITERIA.md", ... }
+{ id: "sdd-spec-04-risks", content: "Create RISKS.md", ... }
+
+// /plan command
+{ id: "sdd-plan-01-check", content: "SDD Gate check (verify /specify ran)", ... }
+{ id: "sdd-plan-02-analyze", content: "Analyze project type and scope", ... }
+{ id: "sdd-plan-03-requirements", content: "Create PLAN.md", ... }
+{ id: "sdd-plan-04-sprint", content: "Create sprint artifacts", ... }
+
+// /tasks command
+{ id: "sdd-tasks-01-read", content: "Read plan and requirements", ... }
+{ id: "sdd-tasks-02-breakdown", content: "Create task breakdown", ... }
+{ id: "sdd-tasks-03-verify", content: "Verify INPUT->OUTPUT->VERIFY criteria", ... }
+
+// /impl command
+{ id: "sdd-impl-01-precheck", content: "Pre-implementation checklist", ... }
+{ id: "sdd-impl-02-p0-foundation", content: "P0: Foundation (DB + Security)", ... }
+{ id: "sdd-impl-03-p1-backend", content: "P1: Core Backend", ... }
+{ id: "sdd-impl-04-p2-frontend", content: "P2: UI/UX", ... }
+{ id: "sdd-impl-05-p3-polish", content: "P3: Polish (Tests)", ... }
+{ id: "sdd-impl-06-update", content: "Update sprint TASKS.md", ... }
+```
+
+### Standard Phase IDs for Orchestration
+
+```javascript
+// /engineer orchestrator mode
+{ id: "orch-01-analysis", content: "Analyze mission complexity", ... }
+{ id: "orch-02-planning", content: "Create planning artifacts", ... }
+{ id: "orch-03-p0-foundation", content: "P0: Foundation (DB + Security)", ... }
+{ id: "orch-04-p1-backend", content: "P1: Core Backend", ... }
+{ id: "orch-05-p2-frontend", content: "P2: UI/UX", ... }
+{ id: "orch-06-p3-polish", content: "P3: Polish (Tests + Perf)", ... }
+{ id: "orch-07-verification", content: "Final verification scripts", ... }
+```
+
+### Why Standardized IDs?
+
+1. **Continuity:** When user runs `/plan` then `/tasks`, the IDs connect logically
+2. **Tracking:** Easy to filter by prefix to see what phase/command we're in
+3. **Debugging:** Clear provenance when something fails
+4. **Consistency:** All agents speak the same language
+
+---
+
 ## Summary
 
 **The TodoList Protocol is:**
 
 1. **Create** todolist with `todowrite` (NO emojis)
-2. **Request approval** with `question` tool (MANDATORY)
-3. **Execute** only after user approval
-4. **Update status** as you progress (NO emojis)
-5. **Only ONE** task `in_progress` at a time
+2. **Use standard ID schema** (`{workflow}-{phase}-{step}`)
+3. **Request approval** with `question` tool (MANDATORY)
+4. **Execute** only after user approval
+5. **Update status** as you progress (NO emojis)
+6. **Only ONE** task `in_progress` at a time
 
 **This is a MANDATORY workflow for all complex tasks (3+ steps).**
 

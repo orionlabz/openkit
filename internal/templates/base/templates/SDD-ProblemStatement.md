@@ -23,3 +23,11 @@
 
 - [Assumption 1]
 - [Assumption 2]
+
+## Glossary
+
+> For standard terminology, see `docs/GLOSSARY.md`
+
+| Term | Definition |
+|------|------------|
+| [Domain-specific term] | [Definition] |

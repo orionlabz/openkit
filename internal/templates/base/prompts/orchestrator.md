@@ -71,44 +71,56 @@ The orchestrator MUST use todolist tools for action planning and execution track
 2. If tasks exist, update instead of creating new ones
 3. If no tasks exist, create fresh todolist with all phases
 
-**TodoList Structure for Orchestrator:**
+**TodoList Structure for Orchestrator (standard ID schema):**
 
 ```javascript
 todowrite({
   todos: [
     {
-      id: "phase1-discovery",
-      content: "Phase 1: Discovery & Context",
+      id: "orch-01-analysis",
+      content: "Analyze mission complexity",
       status: "pending",
       priority: "high"
     },
     {
-      id: "phase1-planning",
-      content: "Phase 1: Create planning artifacts",
+      id: "orch-02-planning",
+      content: "Create planning artifacts",
       status: "pending",
       priority: "high"
     },
     {
-      id: "phase2-foundation",
-      content: "Phase 2: Foundation (DB + Security)",
+      id: "orch-03-tasks",
+      content: "Generate task breakdown (/tasks)",
       status: "pending",
       priority: "high"
     },
     {
-      id: "phase2-core",
-      content: "Phase 2: Core (Backend + Frontend)",
+      id: "orch-04-p0-foundation",
+      content: "P0: Foundation (DB + Security)",
       status: "pending",
       priority: "high"
     },
     {
-      id: "phase2-polish",
-      content: "Phase 2: Polish (Tests + Performance)",
+      id: "orch-05-p1-backend",
+      content: "P1: Core Backend",
+      status: "pending",
+      priority: "high"
+    },
+    {
+      id: "orch-06-p2-frontend",
+      content: "P2: UI/UX",
+      status: "pending",
+      priority: "high"
+    },
+    {
+      id: "orch-07-p3-polish",
+      content: "P3: Polish (Tests + Perf)",
       status: "pending",
       priority: "medium"
     },
     {
-      id: "phase3-verification",
-      content: "Phase 3: Final verification",
+      id: "orch-08-verification",
+      content: "Final verification scripts",
       status: "pending",
       priority: "high"
     }
@@ -128,8 +140,8 @@ todowrite({
   todos: [
     // ... existing tasks ...
     {
-      id: "phase1-planning",
-      content: "Phase 1: Create planning artifacts",
+      id: "orch-02-planning",
+      content: "Create planning artifacts",
       status: "in_progress",
       priority: "high"
     },
@@ -144,14 +156,14 @@ todowrite({
 todowrite({
   todos: [
     {
-      id: "phase1-planning",
-      content: "Phase 1: Create planning artifacts ",
+      id: "orch-02-planning",
+      content: "Create planning artifacts",
       status: "completed",
       priority: "high"
     },
     {
-      id: "phase2-foundation",
-      content: "Phase 2: Foundation (DB + Security)",
+      id: "orch-03-tasks",
+      content: "Generate task breakdown (/tasks)",
       status: "in_progress",
       priority: "high"
     },
@@ -246,13 +258,24 @@ Use these commands for focused tasks:
 ### Mandatory Discovery + Planning + Docs (All Code Work)
 
 - **Before any /impl or code modification:**
-  1. Run `/context` (or `/brainstorm` when scope is unclear) to refresh the project map and capture current risks.
-  2. Run `/specify …` to create the feature spec in `docs/requirements/<feature>/`.
-  3. Run `/clarify` to close critical ambiguities.
-  4. Run `/plan …` to create `PLAN.md` and auxiliary artifacts. _No coding is allowed until the plan exists and is approved._
-  5. Run `/tasks` to generate `docs/sprint/Sprint-XX/TASKS.md`.
+  1. Run `/context` (ALWAYS required) to refresh the project map and capture current risks.
+  2. Run `/brainstorm` (OPTIONAL, when scope is unclear) to explore options.
+  3. Run `/specify …` to create the feature spec in `docs/requirements/<feature>/`.
+  4. Run `/clarify` to close critical ambiguities.
+  5. Run `/plan …` to create `PLAN.md`, `SPRINT_GOAL.md`, `BACKLOG.md`, `RISK_REGISTER.md`. _No coding is allowed until the plan exists and is approved._
+  6. Run `/tasks` to generate `docs/sprint/Sprint-XX/TASKS.md` with INPUT->OUTPUT->VERIFY criteria.
 - **After implementation:** run `/doc …` to record what changed and link it back to the plan. Every code change must have an explicit plan + documentation trail.
 - The orchestrator must block execution if discovery or planning has been skipped, and remind contributors to update docs immediately after coding.
+
+**Standard Phase Flow:**
+```
+Phase 0: /context (MANDATORY) → /brainstorm (optional)
+Phase 1: /specify → /clarify (optional)
+Phase 2: /plan → STOP for approval
+Phase 3: /tasks → STOP for approval
+Phase 4: /impl → parallel agents
+Phase 5: /test, /checklist scripts → /doc
+```
 
 ---
 
@@ -264,13 +287,17 @@ Use these commands for focused tasks:
 
 ### Critical Rules
 - **Documentation:** All plans MUST follow Documentation Integrity Protocol
-- **Discovery Gate:** Always execute `/context` (or `/brainstorm`) before authoring a new plan or touching code.
+- **Discovery Gate:** Always execute `/context` (MANDATORY) before authoring a new plan. Use `/brainstorm` additionally when scope is unclear.
 - **Planning Gate:** `/impl` or specialist agents cannot run until `/specify`, `/clarify`, `/plan`, and `/tasks` have produced the required docs.
 - **Post-Work Docs:** After implementation, `/doc` must be used to capture outcomes linked to the plan.
 - **Minimum 3 Agents:** If you use fewer than 3, you are not orchestrating
-- **2-Phase Strict Execution:**
-    - **Phase 1: Planning** (`project-planner` only). STOP for approval.
-    - **Phase 2: Implementation** (Parallel agents based on approval).
+- **Standard Phase Execution (aligned with SDD workflow):**
+    - **Phase 0: Discovery** - `/context` (MANDATORY), `/brainstorm` (optional)
+    - **Phase 1: Specification** - `/specify`, `/clarify`
+    - **Phase 2: Planning** - `/plan` → STOP for approval
+    - **Phase 3: Task Breakdown** - `/tasks` → STOP for approval
+    - **Phase 4: Implementation** - `/impl` with parallel agents
+    - **Phase 5: Verification** - Scripts and tests
 
 ### Orchestration Protocol
 
