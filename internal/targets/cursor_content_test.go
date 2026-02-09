@@ -11,9 +11,11 @@ func TestGenerateCursorRules_ContainsExpectedSections(t *testing.T) {
 
 	expectedSections := []string{
 		"# Cursor Rules - OpenKit",
+		"## SDD Workflow Commands",
+		"## Quick Start",
 		"## Core Principles",
 		"## Project Structure",
-		"## Commands",
+		"## Verification Commands",
 		"## Skills",
 	}
 

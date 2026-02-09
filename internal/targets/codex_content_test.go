@@ -12,8 +12,10 @@ func TestGenerateAgentsMD_ContainsExpectedSections(t *testing.T) {
 	expectedSections := []string{
 		"# OpenKit - Agents Configuration",
 		"## What is OpenKit?",
+		"## SDD Workflow Commands",
+		"## Quick Start",
 		"## Project Structure",
-		"## SDD Workflow",
+		"## SDD Workflow Details",
 		"## Skills Reference",
 		"## Command Policies",
 		"## Working Agreements",
@@ -27,22 +29,22 @@ func TestGenerateAgentsMD_ContainsExpectedSections(t *testing.T) {
 	}
 }
 
-func TestGenerateAgentsMD_ContainsSDDSteps(t *testing.T) {
+func TestGenerateAgentsMD_ContainsSDDPhases(t *testing.T) {
 	content := generateAgentsMD()
 	text := string(content)
 
-	expectedSteps := []string{
-		"### 1. Specify",
-		"### 2. Clarify",
-		"### 3. Plan",
-		"### 4. Tasks",
-		"### 5. Implement",
-		"### 6. Test",
+	expectedPhases := []string{
+		"### Phase 0: Discovery",
+		"### Phase 1: Specification",
+		"### Phase 2: Planning",
+		"### Phase 3: Task Breakdown",
+		"### Phase 4: Implementation",
+		"### Phase 5: Verification",
 	}
 
-	for _, step := range expectedSteps {
-		if !strings.Contains(text, step) {
-			t.Errorf("Expected SDD step %q not found in AGENTS.md", step)
+	for _, phase := range expectedPhases {
+		if !strings.Contains(text, phase) {
+			t.Errorf("Expected SDD phase %q not found in AGENTS.md", phase)
 		}
 	}
 }
