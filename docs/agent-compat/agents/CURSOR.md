@@ -43,3 +43,9 @@ When you run `openkit cursor sync`, the following files are created:
 3. **`.cursor/skills/**`** - Complete skills library
 
 All files are tracked in `.openkit/managed.json`.
+
+## Related
+
+- [[docs/agent-compat/agents/README.md]]
+- [[docs/agent-compat/README.md]]
+- [[docs/content-protocol/PROTOCOL.md]]

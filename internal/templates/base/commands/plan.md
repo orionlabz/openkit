@@ -150,7 +150,7 @@ Ensure `docs/` exists and follow the planning standard:
 1. **Discovery/Requirements (MANDATORY)**
     - Create/update `docs/requirements/<feature>/` with:
       `PROBLEM_STATEMENT.md`, `USER_STORIES.md`, `ACCEPTANCE_CRITERIA.md`,
-      `DATA_CONTRACTS.md`, `RISKS.md`, `PLAN.md`, `README.md`.
+      `DATA_CONTRACTS.md`, `RISKS.md`, `PLAN.md`, `HUB-<FEATURE>.md`.
 
 **Required artifacts (SDD Gate):**
 - `docs/requirements/<feature>/PLAN.md`
@@ -182,13 +182,13 @@ Ensure `docs/` exists and follow the planning standard:
 - `.opencode/templates/SDD-AcceptanceCriteria.md`
 - `.opencode/templates/SDD-Risks.md`
 - `.opencode/templates/SDD-Plan.md`
-- `.opencode/templates/SDD-RequirementsIndex.md` (for `docs/requirements/README.md`)
-- `.opencode/templates/SDD-FeatureIndex.md` (for `docs/requirements/<feature>/README.md`)
+- `.opencode/templates/SDD-RequirementsIndex.md` (for `docs/requirements/HUB-REQUIREMENTS.md`)
+- `.opencode/templates/SDD-FeatureIndex.md` (for `docs/requirements/<feature>/HUB-<FEATURE>.md`)
 - `.opencode/templates/SDD-Research.md` (if applicable)
 - `.opencode/templates/SDD-Contracts.md` (if applicable)
 - `.opencode/templates/SDD-Quickstart.md` (if applicable)
 - `.opencode/templates/TechStack.md` (for `TECH_STACK.md`, if applicable)
-- `.opencode/templates/SDD-SprintIndex.md` (for `docs/sprint/Sprint-XX/README.md`)
+- `.opencode/templates/SDD-SprintIndex.md` (for `docs/sprint/Sprint-XX/HUB-SPRINT-XX.md`)
 
 **After requirements:**
 - Update todolist: Mark "plan-04-requirements" as `completed`
@@ -199,7 +199,7 @@ Ensure `docs/` exists and follow the planning standard:
       "Do you want to use the latest sprint or create a new sprint?"
     - If no sprint exists, create `docs/sprint/Sprint-01/`.
     - If creating a new sprint, use the next sequential number.
-    - Update `README.md`, `SPRINT_GOAL.md`, `BACKLOG.md`, `RISK_REGISTER.md`.
+    - Update `HUB-SPRINT-XX.md`, `SPRINT_GOAL.md`, `BACKLOG.md`, `RISK_REGISTER.md`.
     - **NOTE:** DO NOT create `TASKS.md` here. Use `/tasks` command for detailed task breakdown.
 
 **After sprint creation:**
@@ -283,7 +283,8 @@ This command routes to the appropriate planning agent based on the scope:
 4. **Naming Rules**:
     - Feature folders use kebab-case (e.g., `auth-fix`, `cart-feature`).
     - Sprint folders use `Sprint-XX` with zero padding.
-    - Documentation files use uppercase snake case (`TUDO_MAIUSCULO.md`).
+    - Artifact files use uppercase snake case (`TUDO_MAIUSCULO.md`).
+    - Hub files use `HUB-<RESOURCE>.md` (for example `HUB-REQUIREMENTS.md`, `HUB-SPRINT-XX.md`).
 
 ---
 

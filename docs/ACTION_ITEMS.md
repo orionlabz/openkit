@@ -79,3 +79,10 @@
 - **SECURITY.md** - Detailed security threat analysis and controls
 - **QUALITY_GATES.md** - Current quality gate status
 - **CONTEXT.md** - Project architecture and overview
+
+## Related
+
+- [[docs/README.md]]
+- [[docs/CONTEXT.md]]
+- [[docs/QUALITY_GATES.md]]
+- [[docs/SECURITY.md]]

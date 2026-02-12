@@ -34,3 +34,10 @@
 - Windsurf target (future sprint)
 - CI/CD pipeline (future sprint)
 - Init command improvements (future sprint)
+
+## Related
+
+- [[docs/sprint/Sprint-04/README.md]]
+- [[docs/sprint/Sprint-04/BACKLOG.md]]
+- [[docs/sprint/Sprint-04/TASKS.md]]
+- [[docs/requirements/cursor-codex-targets/README.md]]

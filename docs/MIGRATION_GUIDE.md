@@ -41,3 +41,9 @@ OpenKit now adapts to project type instead of assuming `backend/` + `frontend/` 
 ## Rollback
 
 If needed, pin to previous OpenKit release and restore previous generated docs from git history.
+
+## Related
+
+- [[docs/README.md]]
+- [[docs/CONTEXT.md]]
+- [[docs/MIGRATION_CHECKLIST.md]]

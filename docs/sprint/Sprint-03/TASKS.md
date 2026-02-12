@@ -17,3 +17,10 @@ VERIFY: README instructions match installed file paths
 INPUT: code and template changes
 OUTPUT: passing tests
 VERIFY: `go test ./...` in `cli/`
+
+## Related
+
+- [[docs/sprint/Sprint-03/README.md]]
+- [[docs/sprint/Sprint-03/SPRINT_GOAL.md]]
+- [[docs/sprint/Sprint-03/BACKLOG.md]]
+- [[docs/requirements/opencode-scripts/PLAN.md]]

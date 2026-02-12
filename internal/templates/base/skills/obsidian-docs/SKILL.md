@@ -18,7 +18,7 @@ Produce documentation that behaves like an Obsidian knowledge graph:
 ## Core Rules
 
 1. Use wikilinks for internal docs references.
-   - `[[docs/README.md]]`
+   - `[[docs/HUB-DOCS.md]]`
    - `[[docs/requirements/<feature>/PLAN.md]]`
 2. Use heading links for precise references.
    - `[[docs/SECURITY.md#Threats]]`
@@ -32,7 +32,7 @@ Produce documentation that behaves like an Obsidian knowledge graph:
 ```markdown
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/GLOSSARY.md]]
 ```
 

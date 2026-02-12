@@ -6,5 +6,5 @@
 
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/CONTEXT.md]]

@@ -540,23 +540,23 @@ python .opencode/scripts/verify_all.py . --url http://localhost:3000
 ## Documentation Standards
 
 All planning artifacts MUST be recorded in `docs/` and include:
-- **Docs Hub** in `docs/README.md`
-- **Requirements Hub** in `docs/requirements/README.md`
-- **Feature Hub** in `docs/requirements/<feature>/README.md`
+- **Docs Hub** in `docs/HUB-DOCS.md`
+- **Requirements Hub** in `docs/requirements/HUB-REQUIREMENTS.md`
+- **Feature Hub** in `docs/requirements/<feature>/HUB-<FEATURE>.md`
 - **Problem Statement** in `docs/requirements/<feature>/PROBLEM_STATEMENT.md`
 - **User Stories** in `docs/requirements/<feature>/USER_STORIES.md`
 - **Acceptance Criteria** in `docs/requirements/<feature>/ACCEPTANCE_CRITERIA.md`
 - **Data Contracts** in `docs/requirements/<feature>/DATA_CONTRACTS.md`
 - **Risks** in `docs/requirements/<feature>/RISKS.md`
-- **Sprint Hub** in `docs/sprint/README.md`
-- **Sprint Index** in `docs/sprint/Sprint-XX/README.md`
+- **Sprint Hub** in `docs/sprint/HUB-SPRINTS.md`
+- **Sprint Index** in `docs/sprint/Sprint-XX/HUB-SPRINT-XX.md`
 - **Sprint Goal** in `docs/sprint/Sprint-XX/SPRINT_GOAL.md`
 - **Backlog** in `docs/sprint/Sprint-XX/BACKLOG.md`
 - **Tasks** in `docs/sprint/Sprint-XX/TASKS.md` with INPUT→OUTPUT→VERIFY
 - **Risk Register** in `docs/sprint/Sprint-XX/RISK_REGISTER.md`
 
 All documentation artifacts must also follow Obsidian linking conventions:
-- Use wikilinks for internal references, for example `[[docs/README.md]]`
+- Use wikilinks for internal references, for example `[[docs/HUB-DOCS.md]]`
 - Add `## Related` sections to connect docs
 - Keep links stable to support context retrieval and long-term memory
 - Use canonical docs filenames from `.opencode/rules/DOCS_FILE_GLOSSARY.md`

@@ -75,3 +75,10 @@
 - Doctor checks for `AGENTS.md`
 - Doctor checks for `.codex/rules/` if rules installed
 - Reports managed file count and drift status
+
+## Related
+
+- [[docs/requirements/cursor-codex-targets/README.md]]
+- [[docs/requirements/cursor-codex-targets/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/cursor-codex-targets/ACCEPTANCE_CRITERIA.md]]
+- [[docs/requirements/cursor-codex-targets/PLAN.md]]

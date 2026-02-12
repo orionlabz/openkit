@@ -302,11 +302,11 @@ Before starting the SDD workflow, execute discovery commands:
 
 ## Sprint Documentation & Artifacts
 
-1. **Identification**: Locate `docs/sprint/Sprint-XX/` and review `README.md`, `SPRINT_GOAL.md`, `BACKLOG.md`, `TASKS.md`.
+1. **Identification**: Locate `docs/sprint/Sprint-XX/` and review `HUB-SPRINT-XX.md`, `SPRINT_GOAL.md`, `BACKLOG.md`, `TASKS.md`.
 2. **Sprint Selection**: Ask the user whether to use the latest sprint or create a new one.
    - If no sprint exists, create `Sprint-01`.
    - If creating a new sprint, use the next sequential number.
-3. **Planning** (`/plan`): Create requirements in `docs/requirements/<feature>/` and update `README.md`, `SPRINT_GOAL.md`, `BACKLOG.md`, `RISK_REGISTER.md`.
+3. **Planning** (`/plan`): Create requirements in `docs/requirements/<feature>/` and update `HUB-SPRINT-XX.md`, `SPRINT_GOAL.md`, `BACKLOG.md`, `RISK_REGISTER.md`.
 4. **Task Breakdown** (`/tasks`): Create detailed `TASKS.md` with INPUT->OUTPUT->VERIFY criteria.
 5. **Execution** (`/impl`): Mark progress in `TASKS.md`; update story status in `BACKLOG.md`.
 6. **Completion**: Mark tasks as `[x]`, register changes in `docs/CHANGELOG.md` when requested.
@@ -315,11 +315,11 @@ Before starting the SDD workflow, execute discovery commands:
 **Command Ownership:**
 | Artifact | Created By |
 |----------|------------|
-| docs/README.md | `/context` or `/plan` |
-| docs/requirements/README.md | `/context` or `/plan` |
-| docs/requirements/<feature>/README.md | `/plan` |
-| docs/sprint/README.md | `/context` or `/plan` |
-| docs/sprint/Sprint-XX/README.md | `/plan` |
+| docs/HUB-DOCS.md | `/context` or `/plan` |
+| docs/requirements/HUB-REQUIREMENTS.md | `/context` or `/plan` |
+| docs/requirements/<feature>/HUB-<FEATURE>.md | `/plan` |
+| docs/sprint/HUB-SPRINTS.md | `/context` or `/plan` |
+| docs/sprint/Sprint-XX/HUB-SPRINT-XX.md | `/plan` |
 | SPRINT_GOAL.md | `/plan` |
 | BACKLOG.md | `/plan` |
 | RISK_REGISTER.md | `/plan` |

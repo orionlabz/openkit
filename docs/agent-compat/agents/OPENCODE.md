@@ -47,3 +47,9 @@ No semantic merges are assumed for Markdown. Sync is file-level (copy/render) wi
 | `skills/<name>/SKILL.md` | `.opencode/skills/<name>/SKILL.md` | Skill directory name is the canonical skill name |
 | `skills/<name>/**` | `.opencode/skills/<name>/**` | Optional scripts/templates/assets; copied verbatim |
 | `templates/**` | `.opencode/templates/**` (or pack-defined) | Prefer pack-defined destinations to avoid collisions |
+
+## Related
+
+- [[docs/agent-compat/agents/README.md]]
+- [[docs/agent-compat/README.md]]
+- [[docs/content-protocol/PROTOCOL.md]]

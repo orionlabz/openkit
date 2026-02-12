@@ -49,7 +49,7 @@ See `.opencode/rules/MASTER.md` for complete Question Tool Protocol.
 What needs documenting?
 │
 ├── New project / Getting started
-│   └── docs/README.md + contextual docs (only if applicable)
+│   └── docs/HUB-DOCS.md + contextual docs (only if applicable)
 │
 ├── API endpoints
 │   └── docs/API.md
@@ -73,7 +73,7 @@ What needs documenting?
 
 ### Obsidian Linking Principles
 
-- Use wikilinks for internal references (for example, `[[docs/README.md]]`)
+- Use wikilinks for internal references (for example, `[[docs/HUB-DOCS.md]]`)
 - Use regular Markdown links for external URLs only
 - Add `## Related` section in docs artifacts when applicable
 - Prefer heading links for deep references when they improve navigation
@@ -111,7 +111,7 @@ What needs documenting?
 - [ ] Can someone new get started in 5 minutes?
 - [ ] Are examples working and tested?
 - [ ] Is it up to date with the code?
-- [ ] Is it aligned with docs/README.md and docs/WORKFLOW.md?
+- [ ] Is it aligned with docs/HUB-DOCS.md and docs/WORKFLOW.md?
 - [ ] Is the structure scannable?
 - [ ] Are edge cases documented?
 - [ ] **Does it comply with `rules/MASTER.md` Documentation Integrity Protocol?**

@@ -251,3 +251,10 @@
 - P2 can be deferred if timeline is tight
 - Integration testing is critical given OpenCode plugin complexity
 - Consider early spike to validate LanceDB + ONNX integration before full implementation
+
+## Related
+
+- [[docs/sprint/Sprint-05/README.md]]
+- [[docs/sprint/Sprint-05/SPRINT_GOAL.md]]
+- [[docs/sprint/Sprint-05/TASKS.md]]
+- [[docs/sprint/Sprint-05/RISK_REGISTER.md]]

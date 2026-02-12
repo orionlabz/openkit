@@ -19,3 +19,10 @@
 
 - Risk: syncing all skills/rules increases file count.
 - Mitigation: rely on managed state + safe prune; keep directories scoped under `.gemini/`.
+
+## Related
+
+- [[docs/requirements/gemini-sync/README.md]]
+- [[docs/requirements/gemini-sync/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/gemini-sync/PLAN.md]]
+- [[docs/sprint/Sprint-02/RISK_REGISTER.md]]

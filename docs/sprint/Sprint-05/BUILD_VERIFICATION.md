@@ -240,3 +240,10 @@ cat .opencode/memory/config.json
 **Verified By**: AI Orchestrator (claude-sonnet-4)
 **Date**: 2026-02-09 13:25 UTC-3
 **Status**: ✅ **APPROVED FOR PRODUCTION**
+
+## Related
+
+- [[docs/sprint/Sprint-05/README.md]]
+- [[docs/sprint/Sprint-05/IMPLEMENTATION_STATUS.md]]
+- [[docs/QUALITY_GATES.md]]
+- [[docs/sprint/Sprint-05/TASKS.md]]

@@ -137,3 +137,10 @@ openkit codex sync
 ls -la .codex/
 cat AGENTS.md
 ```
+
+## Related
+
+- [[docs/requirements/cursor-codex-targets/README.md]]
+- [[docs/requirements/cursor-codex-targets/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/cursor-codex-targets/USER_STORIES.md]]
+- [[docs/sprint/Sprint-04/TASKS.md]]

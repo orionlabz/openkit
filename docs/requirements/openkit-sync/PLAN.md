@@ -25,3 +25,10 @@ Follow `cli/docs/content-protocol/SYNC_SEMANTICS.md`.
 
 - Unit tests for: hashing, path safety, drift detection, plan determinism.
 - Integration tests for: sync then upgrade with a modified file -> conflict bucket.
+
+## Related
+
+- [[docs/requirements/openkit-sync/README.md]]
+- [[docs/content-protocol/PROTOCOL.md]]
+- [[docs/content-protocol/MANAGED_STATE_SCHEMA.md]]
+- [[docs/content-protocol/SYNC_SEMANTICS.md]]

@@ -41,3 +41,10 @@ Remove references and mentions of "blueprints" across the OpenKit CLI repository
 
 - 2026-02-08: `python3 .opencode/scripts/checklist.py .` PASS
 - 2026-02-08: `python3 .opencode/scripts/verify_all.py . --url http://localhost:3000` PASS
+
+## Related
+
+- [[docs/requirements/remove-blueprints-references/README.md]]
+- [[docs/requirements/remove-blueprints-references/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/remove-blueprints-references/USER_STORIES.md]]
+- [[docs/sprint/Sprint-06/TASKS.md]]

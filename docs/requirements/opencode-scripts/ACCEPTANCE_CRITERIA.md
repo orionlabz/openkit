@@ -15,3 +15,10 @@
   - Standard SDD flow: `/specify` -> `/clarify` -> `/plan` -> `/tasks` -> `/impl` -> `/test`
   - Orchestrated flow via `/engineer`
   - Verification scripts (`.opencode/scripts/checklist.py`, `.opencode/scripts/verify_all.py`)
+
+## Related
+
+- [[docs/requirements/opencode-scripts/README.md]]
+- [[docs/requirements/opencode-scripts/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/opencode-scripts/PLAN.md]]
+- [[docs/sprint/Sprint-03/TASKS.md]]

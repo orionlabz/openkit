@@ -156,3 +156,10 @@ Para uma User Story ser considerada completa:
 5. [ ] Code review aprovado
 6. [ ] Sem regressoes de performance
 7. [ ] Sem warnings de linter
+
+## Related
+
+- [[docs/requirements/semantic-memory/README.md]]
+- [[docs/requirements/semantic-memory/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/semantic-memory/USER_STORIES.md]]
+- [[docs/sprint/Sprint-05/TASKS.md]]

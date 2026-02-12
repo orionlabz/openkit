@@ -1023,3 +1023,10 @@ A sprint is "Done" when:
 - Sprint goal is achieved
 - Sprint retrospective is completed
 - Next sprint is planned (if needed)
+
+## Related
+
+- [[docs/sprint/Sprint-06/README.md]]
+- [[docs/sprint/Sprint-06/SPRINT_GOAL.md]]
+- [[docs/sprint/Sprint-06/BACKLOG.md]]
+- [[docs/requirements/security-scan-hardening/PLAN.md]]

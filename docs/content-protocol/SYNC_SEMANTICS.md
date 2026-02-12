@@ -116,3 +116,9 @@ Doctor checks SHOULD include:
 - Trust-gated features (Gemini trust mode; Codex trusted-project config)
 - `.openkit/managed.json` validity and checksum drift summary
 - Orphaned managed entries (state references missing files)
+
+## Related
+
+- [[docs/content-protocol/README.md]]
+- [[docs/content-protocol/PROTOCOL.md]]
+- [[docs/content-protocol/MANAGED_STATE_SCHEMA.md]]

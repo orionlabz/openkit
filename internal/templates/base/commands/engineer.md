@@ -165,7 +165,7 @@ question({
    - Inspect `docs/` structure for legacy patterns:
      - non-canonical filenames (not in `.opencode/rules/DOCS_FILE_GLOSSARY.md`)
      - internal markdown links instead of wikilinks
-     - missing hubs (`docs/README.md`, `docs/requirements/README.md`, `docs/sprint/README.md`)
+     - missing hubs (`docs/HUB-DOCS.md`, `docs/requirements/HUB-REQUIREMENTS.md`, `docs/sprint/HUB-SPRINTS.md`)
    - If drift exists, invoke `docs-migration-specialist` before continuing planning.
 
 **Tasks:**

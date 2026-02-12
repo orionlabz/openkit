@@ -52,3 +52,10 @@
 ## 5. Conclusion
 
 The feature implementation is complete and verified according to `TASKS.md`. The documentation artifacts (Backlog, Risks) need to be synchronized to reflect this state.
+
+## Related
+
+- [[docs/requirements/cursor-codex-targets/README.md]]
+- [[docs/requirements/cursor-codex-targets/RISKS.md]]
+- [[docs/sprint/Sprint-04/BACKLOG.md]]
+- [[docs/sprint/Sprint-04/TASKS.md]]

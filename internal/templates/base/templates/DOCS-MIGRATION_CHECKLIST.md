@@ -18,14 +18,14 @@ Use this file to migrate legacy documentation to the Obsidian-compatible standar
 
 ## Hub Notes
 
-- [ ] Ensure `[[docs/README.md]]` exists and links all major sections
-- [ ] Ensure `[[docs/requirements/README.md]]` exists
-- [ ] Ensure `[[docs/sprint/README.md]]` exists
+- [ ] Ensure `[[docs/HUB-DOCS.md]]` exists and links all major sections
+- [ ] Ensure `[[docs/requirements/HUB-REQUIREMENTS.md]]` exists
+- [ ] Ensure `[[docs/sprint/HUB-SPRINTS.md]]` exists
 
 ## Feature/Sprint Hubs
 
-- [ ] Ensure each `docs/requirements/<feature>/README.md` links feature artifacts
-- [ ] Ensure each `docs/sprint/Sprint-XX/README.md` links sprint artifacts
+- [ ] Ensure each `docs/requirements/<feature>/HUB-<FEATURE>.md` links feature artifacts
+- [ ] Ensure each `docs/sprint/Sprint-XX/HUB-SPRINT-XX.md` links sprint artifacts
 
 ## Validation
 
@@ -34,6 +34,6 @@ Use this file to migrate legacy documentation to the Obsidian-compatible standar
 
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/GLOSSARY.md]]
 - [[docs/CONTEXT.md]]

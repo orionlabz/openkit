@@ -255,7 +255,7 @@ Phase 5: /test, /checklist scripts --> /doc
 
 ## Additional Artifacts Created
 
-### Glossary (docs/GLOSSARY.md)
+### Glossary ([[docs/GLOSSARY.md]])
 
 A comprehensive glossary was created defining standard terminology for:
 - Agent system concepts (Agent, Orchestrator, Skill)
@@ -277,3 +277,9 @@ The following templates were updated to include Glossary sections:
 
 **Report Generated:** 2026-02-09
 **Total Fixes Applied:** 7 conflicts across 12 files + Glossary system
+
+## Related
+
+- [[docs/README.md]]
+- [[docs/GLOSSARY.md]]
+- [[docs/CONTEXT.md]]

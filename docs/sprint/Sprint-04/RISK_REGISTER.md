@@ -26,3 +26,10 @@ If Starlark validation fails:
 If users report conflicts:
 - Improve doctor messaging
 - Add `--force` migration flag
+
+## Related
+
+- [[docs/sprint/Sprint-04/README.md]]
+- [[docs/sprint/Sprint-04/SPRINT_GOAL.md]]
+- [[docs/sprint/Sprint-04/BACKLOG.md]]
+- [[docs/requirements/cursor-codex-targets/RISKS.md]]

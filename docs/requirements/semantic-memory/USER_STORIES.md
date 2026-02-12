@@ -173,3 +173,10 @@
 | P1 | US-003, US-004, US-008 | v0.2 |
 | P2 | US-005, US-006, US-007 | v0.3 |
 | P3 | US-009, US-010 | v1.0 |
+
+## Related
+
+- [[docs/requirements/semantic-memory/README.md]]
+- [[docs/requirements/semantic-memory/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/semantic-memory/ACCEPTANCE_CRITERIA.md]]
+- [[docs/requirements/semantic-memory/RISKS.md]]

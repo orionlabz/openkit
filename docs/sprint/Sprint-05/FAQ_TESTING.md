@@ -353,3 +353,10 @@ Use memory_save with type='decision', title='Use PostgreSQL', content='...'
 | `.opencode/memory/config.json` | Configuracao |
 | `.opencode/memory/metrics.json` | Metricas de sessao |
 | `.opencode/memory/index.lance/` | Database LanceDB |
+
+## Related
+
+- [[docs/sprint/Sprint-05/README.md]]
+- [[docs/sprint/Sprint-05/TASKS.md]]
+- [[docs/sprint/Sprint-05/BUILD_VERIFICATION.md]]
+- [[docs/QUALITY_GATES.md]]

@@ -15,7 +15,7 @@ allowed-tools: Read, Glob, Grep
 When writing docs in `docs/`, use Obsidian-compatible internal references:
 
 - Prefer wikilinks for internal docs:
-  - `[[docs/README.md]]`
+  - `[[docs/HUB-DOCS.md]]`
   - `[[docs/requirements/<feature>/PLAN.md]]`
 - Use standard Markdown links for external URLs.
 - Add `## Related` section to connect artifacts.
@@ -23,7 +23,7 @@ When writing docs in `docs/`, use Obsidian-compatible internal references:
 ```markdown
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/GLOSSARY.md]]
 ```
 

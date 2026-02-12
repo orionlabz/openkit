@@ -20,3 +20,10 @@ This creates a false sense of safety in `.opencode/scripts/checklist.py` because
 
 - Do not redesign the security ruleset or add external dependencies.
 - Do not change other checklist steps.
+
+## Related
+
+- [[docs/requirements/security-scan-hardening/README.md]]
+- [[docs/requirements/security-scan-hardening/USER_STORIES.md]]
+- [[docs/requirements/security-scan-hardening/ACCEPTANCE_CRITERIA.md]]
+- [[docs/requirements/security-scan-hardening/PLAN.md]]

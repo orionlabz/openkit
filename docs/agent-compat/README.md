@@ -3,9 +3,12 @@
 This directory documents how a canonical OpenKit content pack is synced into different agent-specific project layouts. It is intentionally independent of the OpenKit CLI binary and focuses on file-system artifacts.
 
 Canonical protocol definitions:
-- `cli/docs/content-protocol/PROTOCOL.md`
-- `cli/docs/content-protocol/MANIFEST_SCHEMA.md`
-- `cli/docs/content-protocol/SYNC_SEMANTICS.md`
+- [[docs/content-protocol/PROTOCOL.md]]
+- [[docs/content-protocol/MANIFEST_SCHEMA.md]]
+- [[docs/content-protocol/SYNC_SEMANTICS.md]]
+
+Agent-specific profiles:
+- [[docs/agent-compat/agents/README.md]]
 
 ## At A Glance
 
@@ -35,3 +38,9 @@ The sync engine is responsible for:
 - Rendering/copying artifacts into the agent layout
 - Tracking managed files under `.openkit/managed.json`
 - Avoiding destructive behavior by default (see sync semantics)
+
+## Related
+
+- [[docs/README.md]]
+- [[docs/agent-compat/agents/README.md]]
+- [[docs/content-protocol/README.md]]

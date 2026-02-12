@@ -35,7 +35,7 @@
 
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/QUALITY_GATES.md]]
 - [[docs/SECURITY.md]]
 - [[docs/ACTION_ITEMS.md]]

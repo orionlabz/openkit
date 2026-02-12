@@ -80,8 +80,8 @@ See `.opencode/rules/MASTER.md` for complete Question Tool Protocol.
 
 ### Requirements Location
 
-- `docs/requirements/README.md`
-- `docs/requirements/<feature>/README.md`
+- `docs/requirements/HUB-REQUIREMENTS.md`
+- `docs/requirements/<feature>/HUB-<FEATURE>.md`
 - `docs/requirements/<feature>/PROBLEM_STATEMENT.md`
 - `docs/requirements/<feature>/USER_STORIES.md`
 - `docs/requirements/<feature>/ACCEPTANCE_CRITERIA.md`
@@ -90,8 +90,8 @@ See `.opencode/rules/MASTER.md` for complete Question Tool Protocol.
 
 ### Sprint Location
 
-- `docs/sprint/README.md`
-- `docs/sprint/Sprint-XX/README.md`
+- `docs/sprint/HUB-SPRINTS.md`
+- `docs/sprint/Sprint-XX/HUB-SPRINT-XX.md`
 - `docs/sprint/Sprint-XX/SPRINT_GOAL.md`
 - `docs/sprint/Sprint-XX/BACKLOG.md`
 - `docs/sprint/Sprint-XX/RISK_REGISTER.md`
@@ -107,7 +107,8 @@ See `.opencode/rules/MASTER.md` for complete Question Tool Protocol.
 
 ### Documentation Naming Rule
 
-- Documentation files must follow uppercase snake case (`TUDO_MAIUSCULO.md`).
+- Artifact files must follow uppercase snake case (`TUDO_MAIUSCULO.md`).
+- Hub files must follow `HUB-<RESOURCE>.md` naming.
 - Use canonical names from `.opencode/rules/DOCS_FILE_GLOSSARY.md`.
 
 ---

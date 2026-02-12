@@ -393,3 +393,10 @@ The semantic memory plugin is **production-ready** at the logic level. All core 
 **Estimated Completion**: Sprint 06 (~17 hours remaining work for full polish)
 
 **See**: `docs/sprint/Sprint-05/PHASE2_COMPLETE.md` for detailed technical analysis.
+
+## Related
+
+- [[docs/sprint/Sprint-05/README.md]]
+- [[docs/sprint/Sprint-05/PHASE2_COMPLETE.md]]
+- [[docs/sprint/Sprint-05/BUILD_VERIFICATION.md]]
+- [[docs/sprint/Sprint-05/CLI_COMMANDS.md]]

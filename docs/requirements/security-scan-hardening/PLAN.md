@@ -9,3 +9,10 @@
    - Run `python3 internal/templates/base/skills/vulnerability-scanner/scripts/security_scan.py . --output summary` and confirm exit code.
    - Run `python3 .opencode/skills/vulnerability-scanner/scripts/security_scan.py . --output summary` (if present) and confirm exit code.
    - Run `python3 .opencode/scripts/checklist.py .` and confirm Security Scan FAILs on non-zero exit.
+
+## Related
+
+- [[docs/requirements/security-scan-hardening/README.md]]
+- [[docs/requirements/security-scan-hardening/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/security-scan-hardening/USER_STORIES.md]]
+- [[docs/sprint/Sprint-06/TASKS.md]]

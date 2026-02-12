@@ -50,3 +50,9 @@ Rules precedence (recommended):
 | `skills/<name>/SKILL.md` | `.claude/skills/<name>/SKILL.md` | Skill directory name is the canonical skill name |
 | `agents/<id>.md` | `.claude/agents/<id>.md` | Use for subagent/tooling instructions when available |
 | `settings/claude.settings.json` | `.claude/settings.json` | Syncable; do not touch `.claude/settings.local.json` |
+
+## Related
+
+- [[docs/agent-compat/agents/README.md]]
+- [[docs/agent-compat/README.md]]
+- [[docs/content-protocol/PROTOCOL.md]]

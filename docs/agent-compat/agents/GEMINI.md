@@ -44,3 +44,9 @@ Sync should treat TOML files as authoritative, file-level managed artifacts (no 
 | `settings/gemini.settings.json` | `.gemini/settings.json` | Syncable; treat as managed config |
 | `rules/<id>.md` | `.gemini/rules/<id>.md` | Prefer referencing files from `GEMINI.md` |
 | `skills/<name>/SKILL.md` | `.gemini/skills/<name>/SKILL.md` | Store skills as content for reference |
+
+## Related
+
+- [[docs/agent-compat/agents/README.md]]
+- [[docs/agent-compat/README.md]]
+- [[docs/content-protocol/PROTOCOL.md]]

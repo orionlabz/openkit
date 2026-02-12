@@ -236,7 +236,7 @@ func createDocsStructure(docsDir string) error {
 
 	// Create basic docs files
 	files := map[string]string{
-		"README.md": `# Documentation Index
+		"HUB-DOCS.md": `# Documentation Index
 
 This file is the primary hub for project documentation.
 
@@ -251,10 +251,10 @@ This file is the primary hub for project documentation.
 - [[docs/COMMANDS.md]]
 - [[docs/SKILLS.md]]
 - [[docs/GLOSSARY.md]]
-- [[docs/requirements/README.md]]
-- [[docs/sprint/README.md]]
-- [[docs/adr/README.md]]
-- [[docs/runbooks/README.md]]
+- [[docs/requirements/HUB-REQUIREMENTS.md]]
+- [[docs/sprint/HUB-SPRINTS.md]]
+- [[docs/adr/HUB-ADR.md]]
+- [[docs/runbooks/HUB-RUNBOOKS.md]]
 
 ## Related
 
@@ -271,7 +271,7 @@ Standard terminology used across this project.
 
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/CONTEXT.md]]
 `,
 		"MIGRATION_CHECKLIST.md": `# Migration Checklist
@@ -289,13 +289,13 @@ Use this file to migrate legacy documentation to the Obsidian-compatible standar
 
 ## Hub Notes
 
-- [ ] Ensure [[docs/README.md]] exists and links major sections
-- [ ] Ensure [[docs/requirements/README.md]] exists
-- [ ] Ensure [[docs/sprint/README.md]] exists
+- [ ] Ensure [[docs/HUB-DOCS.md]] exists and links major sections
+- [ ] Ensure [[docs/requirements/HUB-REQUIREMENTS.md]] exists
+- [ ] Ensure [[docs/sprint/HUB-SPRINTS.md]] exists
 
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/GLOSSARY.md]]
 `,
 		"ARCHITECTURE.md": `# Architecture
@@ -358,13 +358,13 @@ See the skills/ folder in your agent configuration for available skills.
 - [[docs/ARCHITECTURE.md]]
 - [[docs/SKILLS.md]]
 `,
-		"requirements/README.md": `# Requirements Index
+		"requirements/HUB-REQUIREMENTS.md": `# Requirements Index
 
 This hub links feature-level requirements packs.
 
 ## Structure
 
-- [[docs/requirements/<feature>/README.md]]
+- [[docs/requirements/<feature>/HUB-<FEATURE>.md]]
 - [[docs/requirements/<feature>/PROBLEM_STATEMENT.md]]
 - [[docs/requirements/<feature>/USER_STORIES.md]]
 - [[docs/requirements/<feature>/ACCEPTANCE_CRITERIA.md]]
@@ -374,16 +374,16 @@ This hub links feature-level requirements packs.
 
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/WORKFLOW.md]]
 `,
-		"sprint/README.md": `# Sprint Index
+		"sprint/HUB-SPRINTS.md": `# Sprint Index
 
 This hub links sprint folders and execution artifacts.
 
 ## Structure
 
-- [[docs/sprint/Sprint-XX/README.md]]
+- [[docs/sprint/Sprint-XX/HUB-SPRINT-XX.md]]
 - [[docs/sprint/Sprint-XX/SPRINT_GOAL.md]]
 - [[docs/sprint/Sprint-XX/BACKLOG.md]]
 - [[docs/sprint/Sprint-XX/TASKS.md]]
@@ -391,25 +391,25 @@ This hub links sprint folders and execution artifacts.
 
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/WORKFLOW.md]]
 `,
-		"adr/README.md": `# ADR Index
+		"adr/HUB-ADR.md": `# ADR Index
 
 Architecture Decision Records index.
 
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/ARCHITECTURE.md]]
 `,
-		"runbooks/README.md": `# Runbooks Index
+		"runbooks/HUB-RUNBOOKS.md": `# Runbooks Index
 
 Operational playbooks and incident procedures.
 
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/SECURITY.md]]
 - [[docs/QUALITY_GATES.md]]
 `,

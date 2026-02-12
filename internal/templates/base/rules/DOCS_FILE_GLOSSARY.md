@@ -10,12 +10,13 @@ Canonical documentation filenames for all OpenKit projects.
 
 ## Naming Convention
 
-- Documentation files MUST use uppercase snake case: `TUDO_MAIUSCULO.md`.
-- Example: `PROBLEM_STATEMENT.md`, `TASKS.md`, `TECH_STACK.md`.
+- Documentation files MUST use canonical uppercase naming.
+- Artifact files use uppercase snake case (for example `PROBLEM_STATEMENT.md`, `TASKS.md`, `TECH_STACK.md`).
+- Hub files use the `HUB-<RESOURCE>.md` convention (for example `HUB-DOCS.md`, `HUB-SPRINT-XX.md`).
 
 ## Core Docs (always available)
 
-- `docs/README.md`
+- `docs/HUB-DOCS.md`
 - `docs/GLOSSARY.md`
 - `docs/CONTEXT.md`
 - `docs/SECURITY.md`
@@ -37,8 +38,8 @@ Canonical documentation filenames for all OpenKit projects.
 
 ## Requirements Docs
 
-- `docs/requirements/README.md`
-- `docs/requirements/<feature>/README.md`
+- `docs/requirements/HUB-REQUIREMENTS.md`
+- `docs/requirements/<feature>/HUB-<FEATURE>.md`
 - `docs/requirements/<feature>/PROBLEM_STATEMENT.md`
 - `docs/requirements/<feature>/USER_STORIES.md`
 - `docs/requirements/<feature>/ACCEPTANCE_CRITERIA.md`
@@ -53,8 +54,8 @@ Canonical documentation filenames for all OpenKit projects.
 
 ## Sprint Docs
 
-- `docs/sprint/README.md`
-- `docs/sprint/Sprint-XX/README.md`
+- `docs/sprint/HUB-SPRINTS.md`
+- `docs/sprint/Sprint-XX/HUB-SPRINT-XX.md`
 - `docs/sprint/Sprint-XX/SPRINT_GOAL.md`
 - `docs/sprint/Sprint-XX/BACKLOG.md`
 - `docs/sprint/Sprint-XX/TASKS.md`
@@ -62,9 +63,9 @@ Canonical documentation filenames for all OpenKit projects.
 
 ## ADR and Runbooks
 
-- `docs/adr/README.md`
+- `docs/adr/HUB-ADR.md`
 - `docs/adr/ADR_0001_<TITLE>.md`
-- `docs/runbooks/README.md`
+- `docs/runbooks/HUB-RUNBOOKS.md`
 - `docs/runbooks/<SERVICE>.md`
 
 ## Rules

@@ -23,3 +23,10 @@ so the content is present in the repo and can be referenced when needed.
 As a repo maintainer,
 I want `openkit gemini sync` to avoid overwriting unmanaged files by default,
 so adopting OpenKit does not clobber local customization.
+
+## Related
+
+- [[docs/requirements/gemini-sync/README.md]]
+- [[docs/requirements/gemini-sync/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/gemini-sync/ACCEPTANCE_CRITERIA.md]]
+- [[docs/requirements/gemini-sync/PLAN.md]]

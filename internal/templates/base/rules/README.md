@@ -85,7 +85,7 @@ This directory contains **system-wide rules** that enforce consistent behavior a
 **Purpose:** Define canonical documentation filenames for all projects.
 
 **Contains:**
-- Global naming convention (`TUDO_MAIUSCULO.md`)
+- Global naming convention (artifact files in `TUDO_MAIUSCULO.md` and hub files in `HUB-<RESOURCE>.md`)
 - Required and optional docs artifacts by context
 - Sprint/requirements/ADR/runbook filename standards
 

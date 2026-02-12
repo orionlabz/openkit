@@ -11,10 +11,10 @@
 - [[docs/COMMANDS.md]]
 - [[docs/SKILLS.md]]
 - [[docs/GLOSSARY.md]]
-- [[docs/requirements/README.md]]
-- [[docs/sprint/README.md]]
-- [[docs/adr/README.md]]
-- [[docs/runbooks/README.md]]
+- [[docs/requirements/HUB-REQUIREMENTS.md]]
+- [[docs/sprint/HUB-SPRINTS.md]]
+- [[docs/adr/HUB-ADR.md]]
+- [[docs/runbooks/HUB-RUNBOOKS.md]]
 
 ## Related
 

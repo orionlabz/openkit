@@ -268,3 +268,10 @@ At sprint end:
 - **Open Risks**: 10
 - **Closed Risks**: 0
 - **Mean Risk Score**: 5.35 (Medium)
+
+## Related
+
+- [[docs/sprint/Sprint-06/README.md]]
+- [[docs/sprint/Sprint-06/SPRINT_GOAL.md]]
+- [[docs/sprint/Sprint-06/BACKLOG.md]]
+- [[docs/requirements/security-scan-hardening/RISKS.md]]

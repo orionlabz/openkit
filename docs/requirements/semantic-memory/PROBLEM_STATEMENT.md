@@ -50,3 +50,10 @@ Como persistir conhecimento tecnico relevante (decisoes, padroes, erros, specs) 
 - [OpenCode Plugin System](https://opencode.ai/docs/plugins/)
 - [OpenCode Hooks Documentation](https://opencode.ai/docs/plugins/#events)
 - [LanceDB Documentation](https://lancedb.com/)
+
+## Related
+
+- [[docs/requirements/semantic-memory/README.md]]
+- [[docs/requirements/semantic-memory/USER_STORIES.md]]
+- [[docs/requirements/semantic-memory/ACCEPTANCE_CRITERIA.md]]
+- [[docs/requirements/semantic-memory/RISKS.md]]

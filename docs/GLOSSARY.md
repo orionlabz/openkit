@@ -315,11 +315,17 @@ A sequence of phases and commands to accomplish a goal.
 
 ## Related Documents
 
-- `rules/MASTER.md` - Master ruleset
-- `rules/TODOLIST_PROTOCOL.md` - TodoList workflow
-- `rules/TOOL_USAGE.md` - Correct tool selection
-- `docs/CONFLICT_ANALYSIS_REPORT.md` - Conflict resolution history
+- [[.opencode/rules/MASTER.md]] - Master ruleset
+- [[.opencode/rules/TODOLIST_PROTOCOL.md]] - TodoList workflow
+- [[.opencode/rules/TOOL_USAGE.md]] - Correct tool selection
+- [[docs/CONFLICT_ANALYSIS_REPORT.md]] - Conflict resolution history
 
 ---
 
 **Note:** This glossary is the authoritative source for terminology. All documentation should use terms consistently as defined here.
+
+## Related
+
+- [[docs/README.md]]
+- [[docs/CONTEXT.md]]
+- [[docs/CONFLICT_ANALYSIS_REPORT.md]]

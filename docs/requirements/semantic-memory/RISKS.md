@@ -96,3 +96,10 @@
 | R2 | Timeout em embedding | Fallback para API, log warning |
 | R4 | Breaking change no OpenCode | Desabilitar plugin, notificar usuario, aguardar fix |
 | R5 | Vazamento de dados | Purge imediato, revisao de filtros, notificacao |
+
+## Related
+
+- [[docs/requirements/semantic-memory/README.md]]
+- [[docs/requirements/semantic-memory/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/semantic-memory/ARCHITECTURE_ANALYSIS.md]]
+- [[docs/sprint/Sprint-05/RISK_REGISTER.md]]

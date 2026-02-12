@@ -67,7 +67,7 @@
 
 ## Terminology
 
-> For standard terminology definitions, see `docs/GLOSSARY.md`
+> For standard terminology definitions, see [[docs/GLOSSARY.md]].
 
 | Term | Definition (project-specific) |
 |------|-------------------------------|
@@ -108,3 +108,10 @@
 - **Skills**: 33+ domain skills embedded in `.opencode/skills/`
 - **Commands**: 18 slash commands embedded in `.opencode/commands/`
 - **Platforms**: 5 (Darwin amd64/arm64, Linux amd64/arm64, Windows amd64)
+
+## Related
+
+- [[docs/README.md]]
+- [[docs/GLOSSARY.md]]
+- [[docs/SECURITY.md]]
+- [[docs/QUALITY_GATES.md]]

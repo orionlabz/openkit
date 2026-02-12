@@ -344,3 +344,10 @@ The CLI reads from these files in `.opencode/memory/`:
 | `memory debug` | `memory_debug` | Similar functionality |
 | `memory export` | N/A | CLI only |
 | `memory prune` | Auto on init | CLI shows preview |
+
+## Related
+
+- [[docs/sprint/Sprint-05/README.md]]
+- [[docs/sprint/Sprint-05/IMPLEMENTATION_STATUS.md]]
+- [[docs/sprint/Sprint-05/TASKS.md]]
+- [[docs/CONTEXT.md]]

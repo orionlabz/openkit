@@ -22,3 +22,10 @@ Port the generic, standard-library Python scripts from the legacy NPX package in
 - Do not add Python dependencies.
 - Do not make the scripts agent-specific beyond their `.opencode/` location.
 - Do not change CLI sync semantics.
+
+## Related
+
+- [[docs/requirements/opencode-scripts/README.md]]
+- [[docs/requirements/opencode-scripts/ACCEPTANCE_CRITERIA.md]]
+- [[docs/requirements/opencode-scripts/PLAN.md]]
+- [[docs/sprint/Sprint-03/README.md]]

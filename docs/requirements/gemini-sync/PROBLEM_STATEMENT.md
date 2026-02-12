@@ -20,3 +20,10 @@ As a result, Gemini users cannot reliably use the OpenKit workflow commands or d
 
 - Do not execute any Gemini commands during sync.
 - Do not rely on Gemini auto-loading skills/rules directories beyond what `GEMINI.md` explicitly references.
+
+## Related
+
+- [[docs/requirements/gemini-sync/README.md]]
+- [[docs/requirements/gemini-sync/USER_STORIES.md]]
+- [[docs/requirements/gemini-sync/ACCEPTANCE_CRITERIA.md]]
+- [[docs/requirements/gemini-sync/PLAN.md]]

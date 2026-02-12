@@ -5,3 +5,10 @@
 - Drift detection is checksum-based using `installed_sha256` from `.openkit/managed.json`.
 - `--dry-run` makes no filesystem changes and prints a deterministic plan.
 - Safe deletes only remove managed-and-unchanged files that are no longer in the target plan.
+
+## Related
+
+- [[docs/requirements/openkit-sync/README.md]]
+- [[docs/requirements/openkit-sync/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/openkit-sync/PLAN.md]]
+- [[docs/content-protocol/SYNC_SEMANTICS.md]]

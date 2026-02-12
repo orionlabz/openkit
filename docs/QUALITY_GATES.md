@@ -202,3 +202,9 @@ OpenKit includes verification scripts in `.opencode/scripts/` for checking proje
 | **Code Signing** | Not configured | Fail |
 
 **Overall Status**: 3/8 gates passing (37.5%)
+
+## Related
+
+- [[docs/README.md]]
+- [[docs/CONTEXT.md]]
+- [[docs/SECURITY.md]]

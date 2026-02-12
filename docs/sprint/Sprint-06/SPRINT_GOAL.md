@@ -150,3 +150,10 @@ Implement **Option C** from brainstorming: A hybrid system combining explicit pr
 - Documentation updated
 - Migration guide created
 - Backward compatibility verified with existing projects
+
+## Related
+
+- [[docs/sprint/Sprint-06/README.md]]
+- [[docs/sprint/Sprint-06/BACKLOG.md]]
+- [[docs/sprint/Sprint-06/TASKS.md]]
+- [[docs/requirements/remove-blueprints-references/README.md]]

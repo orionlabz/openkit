@@ -131,3 +131,10 @@
 - Overhead de manutencao
 
 **Alternativa adotada:** Comandos CLI (`/memory status`, `/memory inspect`). UI opcional para v1.0+.
+
+## Related
+
+- [[docs/requirements/semantic-memory/README.md]]
+- [[docs/requirements/semantic-memory/REFERENCE_ANALYSIS.md]]
+- [[docs/requirements/semantic-memory/RECOMMENDATIONS.md]]
+- [[docs/requirements/semantic-memory/RISKS.md]]

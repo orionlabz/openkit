@@ -44,3 +44,10 @@ The OpenKit CLI currently has minimal implementations for Cursor and Codex targe
 2. Codex sync installs AGENTS.md with proper structure and skill references
 3. Both targets pass existing tests and maintain managed state compatibility
 4. Doctor commands provide useful diagnostics for each target
+
+## Related
+
+- [[docs/requirements/cursor-codex-targets/README.md]]
+- [[docs/requirements/cursor-codex-targets/USER_STORIES.md]]
+- [[docs/requirements/cursor-codex-targets/ACCEPTANCE_CRITERIA.md]]
+- [[docs/requirements/cursor-codex-targets/PLAN.md]]

@@ -18,5 +18,5 @@
 
 ## Related
 
-- [[docs/requirements/README.md]]
-- [[docs/sprint/README.md]]
+- [[docs/requirements/HUB-REQUIREMENTS.md]]
+- [[docs/sprint/HUB-SPRINTS.md]]

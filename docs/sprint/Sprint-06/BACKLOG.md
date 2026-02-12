@@ -97,3 +97,10 @@
 - Completed: `S06-001` to `S06-031`
 - Pending: `S06-032` (performance benchmarks), `S06-033` (detection cache)
 - Quality status: `go test ./...` passing after integration and new skills rollout
+
+## Related
+
+- [[docs/sprint/Sprint-06/README.md]]
+- [[docs/sprint/Sprint-06/SPRINT_GOAL.md]]
+- [[docs/sprint/Sprint-06/TASKS.md]]
+- [[docs/sprint/Sprint-06/RISK_REGISTER.md]]

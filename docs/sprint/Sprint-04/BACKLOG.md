@@ -33,3 +33,10 @@
 ## P2: Docs
 
 - [x] P2-5: Add requirements docs for blueprint reference removal
+
+## Related
+
+- [[docs/sprint/Sprint-04/README.md]]
+- [[docs/sprint/Sprint-04/SPRINT_GOAL.md]]
+- [[docs/sprint/Sprint-04/TASKS.md]]
+- [[docs/sprint/Sprint-04/RISK_REGISTER.md]]

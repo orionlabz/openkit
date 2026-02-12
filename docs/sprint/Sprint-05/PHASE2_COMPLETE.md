@@ -563,3 +563,10 @@ Phase 2 represents a **major milestone**: the semantic memory plugin is now **fu
 Remaining work focuses on **developer experience** (CLI commands), **quality assurance** (tests), and **user documentation**. The foundation is solid and extensible.
 
 **Estimated completion**: Sprint-06 (T008 + T012-T014) → ~20 hours remaining work.
+
+## Related
+
+- [[docs/sprint/Sprint-05/README.md]]
+- [[docs/sprint/Sprint-05/IMPLEMENTATION_STATUS.md]]
+- [[docs/sprint/Sprint-05/TASKS.md]]
+- [[docs/requirements/semantic-memory/README.md]]

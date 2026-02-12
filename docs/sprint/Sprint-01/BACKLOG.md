@@ -6,3 +6,10 @@
 - P0: Write `.openkit/managed.json` on successful apply
 - P1: Implement `openkit opencode doctor`
 - P1: Implement `openkit opencode upgrade` (resolve newer pack version)
+
+## Related
+
+- [[docs/sprint/Sprint-01/README.md]]
+- [[docs/sprint/Sprint-01/SPRINT_GOAL.md]]
+- [[docs/sprint/Sprint-01/TASKS.md]]
+- [[docs/sprint/Sprint-01/RISK_REGISTER.md]]

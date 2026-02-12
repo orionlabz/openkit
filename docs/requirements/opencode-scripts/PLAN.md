@@ -17,3 +17,10 @@
 ## Verification
 
 - `go test ./...` in `cli/`.
+
+## Related
+
+- [[docs/requirements/opencode-scripts/README.md]]
+- [[docs/requirements/opencode-scripts/PROBLEM_STATEMENT.md]]
+- [[docs/content-protocol/PROTOCOL.md]]
+- [[docs/sprint/Sprint-03/TASKS.md]]

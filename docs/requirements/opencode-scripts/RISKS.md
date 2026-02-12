@@ -8,3 +8,10 @@
 
 - Scripts may reference skill paths that are not installed (if the user did not sync OpenCode).
   - Mitigation: keep scripts scoped under `.opencode/scripts/` and document they are for OpenCode target.
+
+## Related
+
+- [[docs/requirements/opencode-scripts/README.md]]
+- [[docs/requirements/opencode-scripts/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/opencode-scripts/PLAN.md]]
+- [[docs/sprint/Sprint-03/RISK_REGISTER.md]]

@@ -16,11 +16,11 @@ Read the current `docs/` structure, detect inconsistencies, and update documenta
 3. Convert internal Markdown-style links to Obsidian wikilinks where appropriate.
 4. Ensure graph connectivity with `## Related` sections in major artifacts.
 5. Ensure hub notes exist and are connected:
-   - `docs/README.md`
-   - `docs/requirements/README.md`
-   - `docs/sprint/README.md`
-   - `docs/requirements/<feature>/README.md`
-   - `docs/sprint/Sprint-XX/README.md`
+   - `docs/HUB-DOCS.md`
+   - `docs/requirements/HUB-REQUIREMENTS.md`
+   - `docs/sprint/HUB-SPRINTS.md`
+   - `docs/requirements/<feature>/HUB-<FEATURE>.md`
+   - `docs/sprint/Sprint-XX/HUB-SPRINT-XX.md`
 6. Preserve external links as regular Markdown links.
 
 ## Workflow

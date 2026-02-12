@@ -17,3 +17,10 @@ VERIFY: unit tests for each conflict class
 INPUT: plan + overwrite flags
 OUTPUT: filesystem changes + backups (when overwriting/removing)
 VERIFY: integration test writes backups and preserves unmanaged files
+
+## Related
+
+- [[docs/sprint/Sprint-01/README.md]]
+- [[docs/sprint/Sprint-01/SPRINT_GOAL.md]]
+- [[docs/sprint/Sprint-01/BACKLOG.md]]
+- [[docs/sprint/Sprint-01/RISK_REGISTER.md]]

@@ -35,3 +35,10 @@ VERIFY: `go test ./...` in `cli/`
 
 STATUS: done
 EVIDENCE: `go test ./...` (package `github.com/openkit-devtools/openkit/internal/targets` is passing)
+
+## Related
+
+- [[docs/sprint/Sprint-02/README.md]]
+- [[docs/sprint/Sprint-02/SPRINT_GOAL.md]]
+- [[docs/sprint/Sprint-02/BACKLOG.md]]
+- [[docs/requirements/gemini-sync/PLAN.md]]

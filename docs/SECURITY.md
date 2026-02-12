@@ -143,3 +143,9 @@
 3. **Secure by Default**: Some agents have `bash: allow` (devops-engineer) without additional controls.
 4. **Supply Chain Security**: No SBOM, no signatures, no provenance tracking.
 5. **Auditability**: No audit logs for security-relevant events.
+
+## Related
+
+- [[docs/README.md]]
+- [[docs/CONTEXT.md]]
+- [[docs/QUALITY_GATES.md]]

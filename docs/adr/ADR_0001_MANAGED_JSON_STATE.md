@@ -24,3 +24,9 @@ The CLI SHOULD provide a one-time migration path from the legacy state file (if 
 - Sync/upgrade can be safe-by-default (skip conflicts, never touch unmanaged files).
 - Agent targets (.opencode/.claude/.gemini/.codex) remain implementation details; state tracking is consistent.
 - The legacy file location is deprecated.
+
+## Related
+
+- [[docs/adr/README.md]]
+- [[docs/content-protocol/MANAGED_STATE_SCHEMA.md]]
+- [[docs/requirements/openkit-sync/PLAN.md]]

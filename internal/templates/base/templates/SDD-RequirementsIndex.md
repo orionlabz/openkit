@@ -2,7 +2,7 @@
 
 ## Structure
 
-- `docs/requirements/<feature>/README.md`
+- `docs/requirements/<feature>/HUB-<FEATURE>.md`
 - `docs/requirements/<feature>/PROBLEM_STATEMENT.md`
 - `docs/requirements/<feature>/USER_STORIES.md`
 - `docs/requirements/<feature>/ACCEPTANCE_CRITERIA.md`
@@ -12,5 +12,5 @@
 
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/WORKFLOW.md]]

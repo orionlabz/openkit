@@ -383,3 +383,10 @@ export const MemoryPlugin: Plugin = async (ctx) => {
 5. [ ] Criar plugin TypeScript basico
 6. [ ] Testar instalacao e inicializacao
 7. [ ] Documentar uso no README
+
+## Related
+
+- [[docs/requirements/semantic-memory/README.md]]
+- [[docs/requirements/semantic-memory/ARCHITECTURE_ANALYSIS.md]]
+- [[docs/requirements/semantic-memory/RECOMMENDATIONS.md]]
+- [[docs/sprint/Sprint-05/TASKS.md]]

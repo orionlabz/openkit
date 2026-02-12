@@ -4,3 +4,10 @@
 - Mistaken ownership of user-local files (e.g. Claude settings) could break agent tooling.
 - Weak checksum handling could miss drift or cause false positives.
 - Renames/migrations could be destructive if applied to drifted files.
+
+## Related
+
+- [[docs/requirements/openkit-sync/README.md]]
+- [[docs/requirements/openkit-sync/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/openkit-sync/PLAN.md]]
+- [[docs/content-protocol/MANAGED_STATE_SCHEMA.md]]

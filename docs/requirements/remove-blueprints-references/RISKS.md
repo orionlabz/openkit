@@ -4,3 +4,10 @@
   - Mitigation: keep skip lists focused on OpenKit-owned directories (e.g. `.opencode/`, internal tooling dirs); document how to exclude custom dirs if needed.
 - Some occurrences of "blueprint" may be generic language (e.g. "mental blueprint") and not related to the product concept.
   - Mitigation: decide a standard alternative term (e.g. "mental model") and update prompts consistently.
+
+## Related
+
+- [[docs/requirements/remove-blueprints-references/README.md]]
+- [[docs/requirements/remove-blueprints-references/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/remove-blueprints-references/PLAN.md]]
+- [[docs/sprint/Sprint-06/RISK_REGISTER.md]]

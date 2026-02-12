@@ -40,11 +40,11 @@ For every new or updated doc in `docs/`:
 
 Use index notes to improve graph navigation and context retrieval:
 
-- `docs/README.md` as global documentation hub.
-- `docs/requirements/README.md` as requirements hub.
-- `docs/sprint/README.md` as sprint hub.
-- `docs/requirements/<feature>/README.md` as feature hub.
-- `docs/sprint/Sprint-XX/README.md` as sprint execution hub.
+- `docs/HUB-DOCS.md` as global documentation hub.
+- `docs/requirements/HUB-REQUIREMENTS.md` as requirements hub.
+- `docs/sprint/HUB-SPRINTS.md` as sprint hub.
+- `docs/requirements/<feature>/HUB-<FEATURE>.md` as feature hub.
+- `docs/sprint/Sprint-XX/HUB-SPRINT-XX.md` as sprint execution hub.
 
 ## Required Related Section
 
@@ -53,7 +53,7 @@ Whenever applicable, include:
 ```markdown
 ## Related
 
-- [[docs/README.md]]
+- [[docs/HUB-DOCS.md]]
 - [[docs/GLOSSARY.md]]
 ```
 

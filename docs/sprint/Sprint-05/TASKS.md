@@ -559,3 +559,10 @@ npm test
 2. Create integration test plan
 3. Research LanceDB best practices
 4. Research ONNX model optimization
+
+## Related
+
+- [[docs/sprint/Sprint-05/README.md]]
+- [[docs/sprint/Sprint-05/SPRINT_GOAL.md]]
+- [[docs/sprint/Sprint-05/BACKLOG.md]]
+- [[docs/requirements/semantic-memory/README.md]]

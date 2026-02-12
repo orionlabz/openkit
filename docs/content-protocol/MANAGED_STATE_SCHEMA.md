@@ -48,3 +48,9 @@ This document defines the JSON structure stored at `.openkit/managed.json` in a 
 
 - The CLI MUST treat this file as the sole authority for safe deletes/moves.
 - Unmanaged files are never deleted.
+
+## Related
+
+- [[docs/content-protocol/README.md]]
+- [[docs/content-protocol/PROTOCOL.md]]
+- [[docs/content-protocol/SYNC_SEMANTICS.md]]

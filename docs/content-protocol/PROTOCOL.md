@@ -76,3 +76,10 @@ Required:
 Optional (recommended for supply-chain integrity):
 - Detached signature (e.g. `manifest.sig`)
 - Provenance metadata (signing key ID, build timestamp)
+
+## Related
+
+- [[docs/content-protocol/README.md]]
+- [[docs/content-protocol/MANIFEST_SCHEMA.md]]
+- [[docs/content-protocol/MANAGED_STATE_SCHEMA.md]]
+- [[docs/content-protocol/SYNC_SEMANTICS.md]]

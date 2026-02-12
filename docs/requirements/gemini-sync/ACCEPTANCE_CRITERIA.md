@@ -17,3 +17,10 @@
 - Sync remains safe-by-default:
   - Unmanaged conflicts are skipped unless `--overwrite`.
   - Managed state is tracked in `.openkit/managed.json`.
+
+## Related
+
+- [[docs/requirements/gemini-sync/README.md]]
+- [[docs/requirements/gemini-sync/PROBLEM_STATEMENT.md]]
+- [[docs/requirements/gemini-sync/USER_STORIES.md]]
+- [[docs/sprint/Sprint-02/TASKS.md]]
