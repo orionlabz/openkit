@@ -7,6 +7,7 @@ Migration of `docs/` to OpenKit Obsidian-compatible standard.
 ## Progress
 
 - [x] Audited current `docs/` structure and naming.
+- [x] Re-audited `docs/` for OpenKit Obsidian compliance (2026-02-11).
 - [x] Renamed non-canonical files to uppercase canonical names where applicable.
 - [x] Created mandatory hubs:
   - [x] `docs/README.md` (already existed, normalized)
@@ -20,6 +21,7 @@ Migration of `docs/` to OpenKit Obsidian-compatible standard.
 - [x] Normalized `## Related` sections across root docs, requirements, sprint artifacts, ADR, and protocol docs.
 - [x] Converted key internal path references to Obsidian wikilinks.
 - [x] Ran Obsidian link lint and fixed broken links.
+- [x] Removed stray nested hub file `docs/docs/README.md` (unused and out of hub structure).
 
 ## Rename Map
 
@@ -34,6 +36,7 @@ Migration of `docs/` to OpenKit Obsidian-compatible standard.
 
 - Legacy text references in code blocks/backticks remain in historical notes when they are not navigational links.
 - Some files include historical paths under `cli/...`; these were preserved as context unless they were clear internal doc references.
+- No content semantics were rewritten; migration remained structural (hubs, links, and file placement).
 
 ## Related
 
