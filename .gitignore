@@ -11,6 +11,7 @@ test-project/
 # IDE
 .idea/
 .vscode/
+.obsidian/
 *.swp
 *.swo
 
