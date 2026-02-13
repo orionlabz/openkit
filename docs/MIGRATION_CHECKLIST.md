@@ -16,8 +16,8 @@ Migration of `docs/` to OpenKit Obsidian-compatible standard.
   - [x] `docs/requirements/<feature>/HUB-<FEATURE>.md` for all features
   - [x] `docs/sprint/Sprint-XX/HUB-SPRINT-XX.md` for all Sprint-01..06
 - [x] Added `docs/adr/HUB-ADR.md` hub.
-- [x] Added `docs/content-protocol/README.md` hub.
-- [x] Added `docs/agent-compat/agents/README.md` hub.
+- [x] Added `docs/content-protocol/HUB-CONTENT-PROTOCOL.md` section hub.
+- [x] Added `docs/agent-compat/HUB-AGENT-COMPAT.md` and `docs/agent-compat/agents/HUB-AGENTS.md` hubs.
 - [x] Normalized `## Related` sections across root docs, requirements, sprint artifacts, ADR, and protocol docs.
 - [x] Converted key internal path references to Obsidian wikilinks.
 - [x] Ran Obsidian link lint and fixed broken links.

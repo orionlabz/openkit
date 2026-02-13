@@ -12,5 +12,5 @@ Compatibility notes per target agent.
 
 ## Related
 
-- [[agent-compat/README.md]]
-- [[content-protocol/PROTOCOL.md]]
+- [[agent-compat/agents/HUB-AGENTS.md]]
+- [[agent-compat/agents/OPENCODE.md]]

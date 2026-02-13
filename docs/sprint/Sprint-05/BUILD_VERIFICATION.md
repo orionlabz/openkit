@@ -245,5 +245,5 @@ cat .opencode/memory/config.json
 
 - [[sprint/Sprint-05/HUB-SPRINT-05.md]]
 - [[sprint/Sprint-05/IMPLEMENTATION_STATUS.md]]
-- [[QUALITY_GATES.md]]
 - [[sprint/Sprint-05/TASKS.md]]
+- [[sprint/Sprint-05/CLI_COMMANDS.md]]

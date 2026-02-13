@@ -3,12 +3,10 @@
 This directory documents how a canonical OpenKit content pack is synced into different agent-specific project layouts. It is intentionally independent of the OpenKit CLI binary and focuses on file-system artifacts.
 
 Canonical protocol definitions:
-- [[content-protocol/PROTOCOL.md]]
-- [[content-protocol/MANIFEST_SCHEMA.md]]
-- [[content-protocol/SYNC_SEMANTICS.md]]
+- [[content-protocol/HUB-CONTENT-PROTOCOL.md]]
 
 Agent-specific profiles:
-- [[agent-compat/agents/README.md]]
+- [[agent-compat/agents/HUB-AGENTS.md]]
 
 ## At A Glance
 
@@ -41,6 +39,6 @@ The sync engine is responsible for:
 
 ## Related
 
-- [[HUB-DOCS.md]]
-- [[agent-compat/agents/README.md]]
-- [[content-protocol/README.md]]
+- [[agent-compat/HUB-AGENT-COMPAT.md]]
+- [[agent-compat/agents/HUB-AGENTS.md]]
+- [[content-protocol/HUB-CONTENT-PROTOCOL.md]]

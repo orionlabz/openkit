@@ -46,6 +46,5 @@ All files are tracked in `.openkit/managed.json`.
 
 ## Related
 
+- [[agent-compat/agents/HUB-AGENTS.md]]
 - [[agent-compat/agents/README.md]]
-- [[agent-compat/README.md]]
-- [[content-protocol/PROTOCOL.md]]

@@ -47,6 +47,5 @@ Sync should treat TOML files as authoritative, file-level managed artifacts (no 
 
 ## Related
 
+- [[agent-compat/agents/HUB-AGENTS.md]]
 - [[agent-compat/agents/README.md]]
-- [[agent-compat/README.md]]
-- [[content-protocol/PROTOCOL.md]]

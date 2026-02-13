@@ -247,6 +247,6 @@ Target fields:
 
 ## Related
 
-- [[content-protocol/README.md]]
+- [[content-protocol/HUB-CONTENT-PROTOCOL.md]]
 - [[content-protocol/PROTOCOL.md]]
 - [[content-protocol/SYNC_SEMANTICS.md]]

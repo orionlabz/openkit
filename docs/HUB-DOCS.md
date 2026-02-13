@@ -8,14 +8,14 @@ Global navigation hub for OpenKit documentation, connecting core references, fea
 
 ## Status Overview
 
-- Documentation graph: Connected across 17 hub notes (`docs`, `requirements`, `sprint`, `adr`)
+- Documentation graph: Connected across 20 hub notes (`docs`, `requirements`, `sprint`, `adr`, `content-protocol`, `agent-compat`)
 - Canonical hub naming: Enforced for hub files (`HUB-*.md`)
 - Last review date: 2026-02-11
 
 ## Sections
 
-- [[content-protocol/README.md|content-protocol]]: canonical pack format, schemas, and sync semantics
-- [[agent-compat/README.md|agent-compat]]: per-agent layout notes and constraints
+- [[content-protocol/HUB-CONTENT-PROTOCOL.md|content-protocol]]: canonical pack format, schemas, and sync semantics
+- [[agent-compat/HUB-AGENT-COMPAT.md|agent-compat]]: per-agent layout notes and constraints
 - [[requirements/HUB-REQUIREMENTS.md|requirements]]: feature specs and implementation plans (SDD gate)
 - [[sprint/HUB-SPRINTS.md|sprint]]: sprint goals, backlog, tasks, and risk register
 - [[adr/HUB-ADR.md|adr]]: architecture decision records for the CLI product
@@ -24,7 +24,7 @@ Global navigation hub for OpenKit documentation, connecting core references, fea
 
 - [[requirements/HUB-REQUIREMENTS.md]]
 - [[sprint/HUB-SPRINTS.md]]
-- [[content-protocol/README.md]]
-- [[agent-compat/README.md]]
+- [[content-protocol/HUB-CONTENT-PROTOCOL.md]]
+- [[agent-compat/HUB-AGENT-COMPAT.md]]
 - [[adr/HUB-ADR.md]]
 - [[GLOSSARY.md]]

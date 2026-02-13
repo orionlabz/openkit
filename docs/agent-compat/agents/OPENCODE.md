@@ -50,6 +50,5 @@ No semantic merges are assumed for Markdown. Sync is file-level (copy/render) wi
 
 ## Related
 
+- [[agent-compat/agents/HUB-AGENTS.md]]
 - [[agent-compat/agents/README.md]]
-- [[agent-compat/README.md]]
-- [[content-protocol/PROTOCOL.md]]

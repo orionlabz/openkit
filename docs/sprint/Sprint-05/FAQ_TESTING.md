@@ -359,4 +359,4 @@ Use memory_save with type='decision', title='Use PostgreSQL', content='...'
 - [[sprint/Sprint-05/HUB-SPRINT-05.md]]
 - [[sprint/Sprint-05/TASKS.md]]
 - [[sprint/Sprint-05/BUILD_VERIFICATION.md]]
-- [[QUALITY_GATES.md]]
+- [[sprint/Sprint-05/IMPLEMENTATION_STATUS.md]]

@@ -1,4 +1,4 @@
-# Content Protocol Hub
+# Content Protocol Overview
 
 Canonical protocol and schemas for managed synchronization.
 
@@ -11,5 +11,5 @@ Canonical protocol and schemas for managed synchronization.
 
 ## Related
 
-- [[HUB-DOCS.md]]
-- [[agent-compat/README.md]]
+- [[content-protocol/HUB-CONTENT-PROTOCOL.md]]
+- [[content-protocol/PROTOCOL.md]]
