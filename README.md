@@ -10,7 +10,7 @@ OpenKit is a **CLI toolkit** that configures **Spec-Driven Development** environ
 
 - **Multi-Agent Support**: OpenCode, Claude Code, Cursor, Gemini CLI, Codex, Windsurf
 - **33+ Domain Skills**: Frontend, backend, security, testing, architecture
-- **18 Commands**: Slash commands for orchestrated workflows
+- **7 Commands**: Slash commands for the complete development workflow
 - **Obsidian-Native Docs Graph**: Canonical `HUB-*.md` structure with wikilinks and connected planning artifacts
 - **Safe-by-Default Sync**: Managed state tracking with conflict detection
 - **Cross-Platform**: Single binary, runs on macOS, Linux, Windows
@@ -422,7 +422,7 @@ Analyzes project structure and generates context documentation.
 ### /specify
 Complete specification + planning + task breakdown.
 - Creates: Requirements, Plan, Sprint goals, Task breakdown
-- Unifies: `/specify`, `/clarify`, `/plan`, `/tasks`
+- Unifies: old commands (/specify, /clarify, /plan, /tasks)
 
 ### /create
 Executes implementation from specification.
@@ -432,7 +432,7 @@ Executes implementation from specification.
 ### /verify
 Quality verification suite.
 - Runs: Lint, Security scan, Tests, UX audit, Performance
-- Unifies: `/test`, `/checklist`, `/analyze`
+- Unifies: old commands (/test, /checklist, /analyze)
 
 ### /orchestrate
 Universal orchestrator for complex multi-domain tasks.
