@@ -42,3 +42,6 @@ vendor/
 # We keep AGENTS.md and opencode.json as they are part of the project documentation/config
 /AGENTS.md 
 /opencode.json
+
+# Local signing keys
+/minisign.key

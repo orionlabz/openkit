@@ -5,6 +5,14 @@ All notable changes to OpenKit CLI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.6] - 2026-02-18
+
+### Added
+- Release workflow optional checksums signing with `minisign` when `MINISIGN_SECRET_KEY` is configured.
+
+### Changed
+- `openkit upgrade` now supports optional signature enforcement for `checksums.txt.minisig` when `OPENKIT_MINISIGN_PUBKEY` is set.
+
 ## [0.5.5] - 2026-02-18
 
 ### Added

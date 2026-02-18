@@ -54,6 +54,8 @@ openkit memory review --json
   - Windows: executes official PowerShell installer flow.
 - `openkit upgrade --dry-run`: prints planned update source/asset without modifying local binaries.
 - `openkit uninstall --dry-run`: prints candidate install paths that would be removed.
+- Optional signature validation: set `OPENKIT_MINISIGN_PUBKEY` to enforce verification of `checksums.txt.minisig` during `openkit upgrade`.
+- Repository public key reference: `minisign.pub`.
 
 ## From Source
 
