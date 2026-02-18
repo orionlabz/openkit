@@ -137,7 +137,7 @@ openkit <agent> doctor    # Check configuration health
 
 ### Memory Kernel Commands
 
-Manage docs-first project memory using the new runtime bridge:
+Manage docs-first project memory directly from the Rust OpenKit runtime:
 
 ```bash
 openkit memory init                 # Initialize memory contracts and directories
@@ -147,10 +147,8 @@ openkit memory review --json
 ```
 
 Notes:
-- `openkit memory` delegates to the Rust runtime (`openkit-rs`).
-- Runtime resolution order: explicit `OPENKIT_MEMORY_RUNTIME_PATH`, sidecar binary next to `openkit`, `openkit-rs` on PATH, then cargo fallback in `rust-cli/`.
-- You can force runtime mode with `OPENKIT_MEMORY_RUNTIME=binary|cargo`.
-- Release installers attempt to install `openkit-rs` sidecar when an official asset exists for your platform.
+- `openkit memory` is implemented in the Rust runtime.
+- Release installers now install a single `openkit` binary.
 
 ## Supported Agents
 

@@ -53,13 +53,13 @@ fn memory_init_creates_contract_files_and_is_idempotent() {
     let temp = tempdir().expect("failed to create temp dir");
     let root = temp.path();
 
-    let mut cmd = Command::new(assert_cmd::cargo::cargo_bin!("openkit-rs"));
+    let mut cmd = Command::new(assert_cmd::cargo::cargo_bin!("openkit"));
     cmd.args(["memory", "init", "--project"])
         .arg(root)
         .assert()
         .success();
 
-    let mut cmd_second = Command::new(assert_cmd::cargo::cargo_bin!("openkit-rs"));
+    let mut cmd_second = Command::new(assert_cmd::cargo::cargo_bin!("openkit"));
     cmd_second
         .args(["memory", "init", "--project"])
         .arg(root)
@@ -98,7 +98,7 @@ fn memory_doctor_matches_golden_for_healthy_docs() {
     let root = temp.path();
     setup_docs(root);
 
-    let output = Command::new(assert_cmd::cargo::cargo_bin!("openkit-rs"))
+    let output = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
         .args(["memory", "doctor", "--json", "--project"])
         .arg(root)
         .output()
@@ -123,7 +123,7 @@ fn memory_doctor_reports_broken_links_with_actionable_error() {
         "# BROKEN\nBad link [[MISSING.md]]\n## Related\n- [[HUB-DOCS.md]]\n",
     );
 
-    let output = Command::new(assert_cmd::cargo::cargo_bin!("openkit-rs"))
+    let output = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
         .args(["memory", "doctor", "--json", "--project"])
         .arg(root)
         .output()
@@ -141,7 +141,7 @@ fn memory_capture_and_review_follow_contract() {
     let root = temp.path();
     setup_docs(root);
 
-    let capture = Command::new(assert_cmd::cargo::cargo_bin!("openkit-rs"))
+    let capture = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
         .args([
             "memory",
             "capture",
@@ -195,7 +195,7 @@ fn memory_capture_and_review_follow_contract() {
         );
     }
 
-    let review = Command::new(assert_cmd::cargo::cargo_bin!("openkit-rs"))
+    let review = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
         .args(["memory", "review", "--json", "--project"])
         .arg(root)
         .output()

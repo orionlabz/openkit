@@ -22,6 +22,7 @@ This feature consolidates two strategic tracks discussed in the roadmap: the Mem
 - [[requirements/memory-kernel-rust-cli/PLAN.md]]
 - [[requirements/memory-kernel-rust-cli/MEMORY_KERNEL_V1.md]]
 - [[requirements/memory-kernel-rust-cli/DOCS_GRAPH_POLICY.md]]
+- [[requirements/memory-kernel-rust-cli/RUST_SINGLE_RUNTIME_DECISION.md]]
 
 ## Related
 

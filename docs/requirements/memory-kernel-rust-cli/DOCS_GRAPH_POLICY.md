@@ -4,7 +4,7 @@
 
 This policy standardizes how OpenKit documentation contributes to the Obsidian graph and long-term memory retrieval.
 
-It operationalizes the linking rules referenced in [[requirements/memory-kernel-rust-cli/MEMORY_KERNEL_V1.md]] and enforced by runtime checks in `openkit-rs memory doctor`.
+It operationalizes the linking rules referenced in [[requirements/memory-kernel-rust-cli/MEMORY_KERNEL_V1.md]] and enforced by runtime checks in `openkit memory doctor`.
 
 ## Rules
 
@@ -22,7 +22,7 @@ It operationalizes the linking rules referenced in [[requirements/memory-kernel-
 
 ## Verification
 
-- Runtime: `openkit-rs memory doctor --json --write`
+- Runtime: `openkit memory doctor --json --write`
 - Graph lint: `obsidian-link-lint` over `docs/`
 
 ## Related

@@ -23,7 +23,7 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Validate release sidecar matrix
+      - name: Validate release matrix
         run: |
           set -euo pipefail
 
@@ -39,22 +39,22 @@ jobs:
 
           for target in "${required_targets[@]}"; do
             if ! grep -q "$target" "$release_file"; then
-              echo "Missing Rust runtime release target: $target"
+              echo "Missing release target: $target"
               exit 1
             fi
           done
 
-          if ! grep -q 'openkit-rs_${OS}_${ARCH}.tar.gz' scripts/install.sh; then
-            echo "install.sh missing sidecar runtime naming pattern"
+          if ! grep -q 'FILENAME="openkit_${OS}_${ARCH}.tar.gz"' scripts/install.sh; then
+            echo "install.sh missing canonical openkit artifact naming pattern"
             exit 1
           fi
 
-          if ! grep -q 'openkit-rs_Windows_${ARCH}.zip' scripts/install.ps1; then
-            echo "install.ps1 missing sidecar runtime naming pattern"
+          if ! grep -q '\$FILENAME = "openkit_Windows_\${ARCH}.zip"' scripts/install.ps1; then
+            echo "install.ps1 missing canonical openkit artifact naming pattern"
             exit 1
           fi
 
-          echo "Release sidecar matrix validation passed"
+          echo "Release matrix validation passed"
 
       - name: Lint
         uses: golangci/golangci-lint-action@v6

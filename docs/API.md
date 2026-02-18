@@ -12,8 +12,7 @@
 | CLI | `openkit uninstall` | `internal/cli/uninstall.go` | Removes CLI from system. |
 | CLI | `openkit context` | `internal/cli/context.go` | Generates context documentation (drift vs `/discover` naming). |
 | CLI | `openkit <agent> sync|upgrade|doctor` | `internal/cli/agent_targets.go` | Agent content lifecycle commands. |
-| CLI | `openkit memory init|doctor|capture|review` | `internal/cli/memory_runtime.go` | Go bridge to docs-first memory runtime. |
-| CLI | `openkit-rs memory init|doctor|capture|review` | `rust-cli/src/main.rs` | Docs-first Memory Kernel command bootstrap. |
+| CLI | `openkit memory init|doctor|capture|review` | `rust-cli/src/main.rs` | Docs-first Memory Kernel runtime commands. |
 
 ## Contracts
 

@@ -8,7 +8,7 @@ Deliver a foundation release that defines OpenKit Memory Kernel v1 and starts Ru
 
 1. Memory source-of-truth stays in `docs/` with explicit governance.
 2. Operational state moves to `.openkit/ops/` (sessions, queue, observations, tensions).
-3. Rust migration uses strangler strategy, preserving compatibility until parity gates pass.
+3. Rust migration uses full cutover strategy to a single Rust runtime after parity gates pass.
 4. Documentation graph policy enforces inline wikilinks plus `## Related` index.
 5. Legacy semantic memory plugin flows are deprecated in release N and removed in release N+1.
 
@@ -38,12 +38,19 @@ Deliver a foundation release that defines OpenKit Memory Kernel v1 and starts Ru
 - Provide migration guide from legacy plugin paths to docs-first memory paths.
 - Remove legacy plugin install/sync/command paths in release N+1 once criteria pass.
 
+### Phase E: Single Runtime Cutover (Sprint-08)
+
+- Replace bridge/sidecar model with Rust binary-only runtime.
+- Publish `openkit` artifacts directly from Rust pipeline.
+- Decommission Go runtime command entrypoints once parity checks pass.
+
 ## Deliverables
 
 - Full requirement artifact pack in `docs/requirements/memory-kernel-rust-cli/`.
 - Sprint-07 planning pack in `docs/sprint/Sprint-07/`.
 - Execution-ready tasks with INPUT -> OUTPUT -> VERIFY.
 - Legacy sunset checklist with rollback and support notes.
+- Single runtime cutover checklist and release validation evidence.
 
 ## Verification Strategy
 
@@ -51,6 +58,7 @@ Deliver a foundation release that defines OpenKit Memory Kernel v1 and starts Ru
 - Scope integrity: ensure tasks map one-to-one with acceptance criteria.
 - Migration integrity: pass contract tests for each migrated command before cutover.
 - Sunset integrity: verify no orphan references to legacy memory plugin flows after removal phase.
+- Cutover integrity: verify production installs execute Rust `openkit` directly with no bridge/sidecar fallback.
 
 ## Related
 
@@ -58,4 +66,5 @@ Deliver a foundation release that defines OpenKit Memory Kernel v1 and starts Ru
 - [[requirements/memory-kernel-rust-cli/DATA_CONTRACTS.md]]
 - [[requirements/memory-kernel-rust-cli/RISKS.md]]
 - [[requirements/memory-kernel-rust-cli/ACCEPTANCE_CRITERIA.md]]
+- [[requirements/memory-kernel-rust-cli/RUST_SINGLE_RUNTIME_DECISION.md]]
 - [[sprint/Sprint-07/TASKS.md]]

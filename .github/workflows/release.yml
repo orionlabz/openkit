@@ -9,8 +9,8 @@ permissions:
   contents: write
 
 jobs:
-  rust-runtime:
-    name: Build Rust Runtime (${{ matrix.os_name }}-${{ matrix.arch }})
+  rust-build:
+    name: Build OpenKit (${{ matrix.os_name }}-${{ matrix.arch }})
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
@@ -56,70 +56,57 @@ jobs:
         with:
           targets: ${{ matrix.target }}
 
-      - name: Build runtime
+      - name: Build OpenKit runtime
         run: cargo build --release --manifest-path rust-cli/Cargo.toml --target ${{ matrix.target }}
 
-      - name: Package runtime (unix)
+      - name: Package binary (unix)
         if: matrix.archive == 'tar.gz'
         run: |
           mkdir -p dist
-          cp "rust-cli/target/${{ matrix.target }}/release/openkit-rs${{ matrix.ext }}" "dist/openkit-rs${{ matrix.ext }}"
-          tar -czf "dist/openkit-rs_${{ matrix.os_name }}_${{ matrix.arch }}.tar.gz" -C dist "openkit-rs${{ matrix.ext }}"
+          cp "rust-cli/target/${{ matrix.target }}/release/openkit${{ matrix.ext }}" "dist/openkit${{ matrix.ext }}"
+          tar -czf "dist/openkit_${{ matrix.os_name }}_${{ matrix.arch }}.tar.gz" -C dist "openkit${{ matrix.ext }}"
 
-      - name: Package runtime (windows)
+      - name: Package binary (windows)
         if: matrix.archive == 'zip'
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path dist -Force | Out-Null
-          Copy-Item "rust-cli/target/${{ matrix.target }}/release/openkit-rs${{ matrix.ext }}" "dist/openkit-rs${{ matrix.ext }}" -Force
-          Compress-Archive -Path "dist/openkit-rs${{ matrix.ext }}" -DestinationPath "dist/openkit-rs_${{ matrix.os_name }}_${{ matrix.arch }}.zip" -Force
+          Copy-Item "rust-cli/target/${{ matrix.target }}/release/openkit${{ matrix.ext }}" "dist/openkit${{ matrix.ext }}" -Force
+          Compress-Archive -Path "dist/openkit${{ matrix.ext }}" -DestinationPath "dist/openkit_${{ matrix.os_name }}_${{ matrix.arch }}.zip" -Force
 
-      - name: Upload runtime asset
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: rust-sidecar-${{ matrix.os_name }}-${{ matrix.arch }}
-          path: dist/openkit-rs_${{ matrix.os_name }}_${{ matrix.arch }}.${{ matrix.archive }}
+          name: openkit-${{ matrix.os_name }}-${{ matrix.arch }}
+          path: dist/openkit_${{ matrix.os_name }}_${{ matrix.arch }}.${{ matrix.archive }}
 
-  goreleaser:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.25.x'
-          cache: true
-
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v6
-        with:
-          distribution: goreleaser
-          version: '~> v2'
-          args: release --clean
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  publish-sidecars:
-    name: Publish Rust Runtime Sidecars
-    needs: [rust-runtime, goreleaser]
+  publish:
+    name: Publish Release Assets
+    needs: rust-build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download runtime artifacts
+      - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: rust-sidecar-*
+          pattern: openkit-*
           path: dist
           merge-multiple: true
 
-      - name: Upload sidecars to release
+      - name: Generate checksums
+        run: |
+          cd dist
+          sha256sum * > checksums.txt
+
+      - name: Create release if needed
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload "${GITHUB_REF_NAME}" dist/* --clobber
+          gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1 || gh release create "${GITHUB_REF_NAME}" --title "${GITHUB_REF_NAME}" --notes ""
+
+      - name: Upload release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${GITHUB_REF_NAME}" dist/* --clobber

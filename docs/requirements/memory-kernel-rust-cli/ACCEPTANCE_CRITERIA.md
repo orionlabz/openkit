@@ -18,6 +18,13 @@
 - [x] Compatibility (golden) tests exist for migrated commands.
 - [x] Migration strategy is staged (no big-bang), with parity gates per phase.
 
+## Rust Single Runtime Cutover (Sprint-08)
+
+- [x] Rust binary is published as `openkit` (primary runtime artifact).
+- [x] Bridge/sidecar runtime paths are removed from CLI and release flows.
+- [x] Installers fetch only `openkit` Rust artifacts.
+- [ ] Go runtime command entrypoints are decommissioned after parity tests.
+
 ## Legacy Memory Sunset
 
 - [x] Release N prints deprecation warnings for legacy `--memory` and legacy `openkit memory` workflows.
