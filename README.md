@@ -28,18 +28,18 @@ OpenKit is a **CLI toolkit** that configures **Spec-Driven Development** environ
 ### macOS / Linux / WSL
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/openkit-devtools/openkit/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/orionlabz/openkit/main/scripts/install.sh | bash
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-irm https://raw.githubusercontent.com/openkit-devtools/openkit/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/orionlabz/openkit/main/scripts/install.ps1 | iex
 ```
 
 ### Manual Download
 
-Download the binary for your platform from the [latest release](https://github.com/openkit-devtools/openkit/releases/latest):
+Download the binary for your platform from the [latest release](https://github.com/orionlabz/openkit/releases/latest):
 
 - **macOS (Intel):** `openkit_Darwin_x86_64.tar.gz`
 - **macOS (Apple Silicon):** `openkit_Darwin_arm64.tar.gz`
@@ -574,10 +574,10 @@ openkit opencode uninstall --dry-run
 
 ```bash
 # Interactive (asks for confirmation)
-curl -fsSL https://raw.githubusercontent.com/openkit-devtools/openkit/main/scripts/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/orionlabz/openkit/main/scripts/uninstall.sh | bash
 
 # Non-interactive
-curl -fsSL https://raw.githubusercontent.com/openkit-devtools/openkit/main/scripts/uninstall.sh | bash -s -- -y
+curl -fsSL https://raw.githubusercontent.com/orionlabz/openkit/main/scripts/uninstall.sh | bash -s -- -y
 ```
 
 ### Migration Between Agents
@@ -596,7 +596,7 @@ OpenKit CLI is open source:
 
 ```bash
 # Clone the repository
-git clone https://github.com/openkit-devtools/openkit.git
+git clone https://github.com/orionlabz/openkit.git
 cd openkit/cli
 
 # Build

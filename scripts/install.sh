@@ -4,7 +4,7 @@ set -e
 # OpenKit CLI Installer for macOS/Linux/WSL
 # Usage: curl -fsSL https://openkit.dev/install | bash
 
-REPO="openkit-devtools/openkit"
+REPO="orionlabz/openkit"
 BINARY_NAME="openkit"
 
 OPENKIT_HOME_DEFAULT="$HOME/.openkit"

@@ -3,7 +3,7 @@
 
 $ErrorActionPreference = 'Stop'
 
-$REPO = "openkit-devtools/openkit"
+$REPO = "orionlabz/openkit"
 $BINARY_NAME = "openkit"
 
 $OPENKIT_HOME = if ($env:OPENKIT_HOME) { $env:OPENKIT_HOME } else { Join-Path $HOME ".openkit" }
