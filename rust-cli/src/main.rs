@@ -1,11 +1,15 @@
 use clap::{Args, Parser, Subcommand};
+use flate2::read::GzDecoder;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, HashSet};
 use std::fs;
+use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
+use tar::Archive;
 use walkdir::WalkDir;
 
 #[derive(Parser, Debug)]
@@ -22,6 +26,7 @@ enum Commands {
     Check(CheckArgs),
     Init(ProjectInitArgs),
     Upgrade(UpgradeArgs),
+    Uninstall(UninstallArgs),
     Memory(MemoryCommand),
     Opencode(AgentCommand),
     Claude(AgentCommand),
@@ -43,6 +48,14 @@ struct UpgradeArgs {
     check: bool,
     #[arg(long)]
     dry_run: bool,
+}
+
+#[derive(Args, Debug)]
+struct UninstallArgs {
+    #[arg(long)]
+    dry_run: bool,
+    #[arg(long)]
+    yes: bool,
 }
 
 #[derive(Args, Debug)]
@@ -250,6 +263,7 @@ fn main() -> Result<(), String> {
         Commands::Check(args) => run_check(args),
         Commands::Init(args) => run_init(args),
         Commands::Upgrade(args) => run_upgrade(args),
+        Commands::Uninstall(args) => run_uninstall(args),
         Commands::Opencode(cmd) => run_agent_command("opencode", cmd),
         Commands::Claude(cmd) => run_agent_command("claude", cmd),
         Commands::Cursor(cmd) => run_agent_command("cursor", cmd),
@@ -263,6 +277,101 @@ fn main() -> Result<(), String> {
             MemorySubcommand::Review(args) => memory_review(args),
         },
     }
+}
+
+fn run_uninstall(args: UninstallArgs) -> Result<(), String> {
+    let binary_name = if std::env::consts::OS == "windows" {
+        "openkit.exe"
+    } else {
+        "openkit"
+    };
+
+    let mut targets = HashSet::new();
+
+    if let Ok(current) = std::env::current_exe() {
+        targets.insert(current);
+    }
+
+    if let Some(home) = home_dir() {
+        let openkit_home = std::env::var_os("OPENKIT_HOME")
+            .map(PathBuf::from)
+            .unwrap_or_else(|| home.join(".openkit"));
+        let openkit_bin = std::env::var_os("OPENKIT_INSTALL_DIR")
+            .map(PathBuf::from)
+            .unwrap_or_else(|| openkit_home.join("bin"));
+        targets.insert(openkit_bin.join(binary_name));
+
+        if let Some(xdg_bin) = std::env::var_os("XDG_BIN_HOME") {
+            targets.insert(PathBuf::from(xdg_bin).join(binary_name));
+        }
+        targets.insert(home.join(".local/bin").join(binary_name));
+        targets.insert(home.join("bin").join(binary_name));
+    }
+
+    if std::env::consts::OS != "windows" {
+        targets.insert(PathBuf::from("/usr/local/bin").join(binary_name));
+    }
+
+    let mut existing: Vec<PathBuf> = targets.into_iter().filter(|path| path.exists()).collect();
+    existing.sort();
+
+    if existing.is_empty() {
+        println!("OpenKit binary not found in known install paths.");
+        return Ok(());
+    }
+
+    if args.dry_run {
+        println!("Dry run: would remove the following paths:");
+        for path in existing {
+            println!("- {}", path.display());
+        }
+        return Ok(());
+    }
+
+    if !args.yes {
+        println!("OpenKit uninstall will remove:");
+        for path in &existing {
+            println!("- {}", path.display());
+        }
+        print!("Continue? [y/N] ");
+        io::stdout()
+            .flush()
+            .map_err(|e| format!("failed to flush stdout: {}", e))?;
+
+        let mut input = String::new();
+        io::stdin()
+            .read_line(&mut input)
+            .map_err(|e| format!("failed to read confirmation: {}", e))?;
+        let confirmed = matches!(input.trim().to_ascii_lowercase().as_str(), "y" | "yes");
+        if !confirmed {
+            println!("Uninstall cancelled.");
+            return Ok(());
+        }
+    }
+
+    let mut removed = 0usize;
+    for path in existing {
+        match fs::remove_file(&path) {
+            Ok(_) => {
+                removed += 1;
+                println!("Removed {}", path.display());
+            }
+            Err(e) if e.kind() == std::io::ErrorKind::NotFound => {}
+            Err(e) if e.kind() == std::io::ErrorKind::PermissionDenied => {
+                return Err(format!(
+                    "permission denied removing {}. Re-run with elevated permissions",
+                    path.display()
+                ));
+            }
+            Err(e) => {
+                return Err(format!("failed to remove {}: {}", path.display(), e));
+            }
+        }
+    }
+
+    println!("OpenKit uninstall complete. Removed {} file(s).", removed);
+    println!("Project-level files (.openkit/, .opencode/, docs/) were not modified.");
+    Ok(())
 }
 
 fn run_upgrade(args: UpgradeArgs) -> Result<(), String> {
@@ -281,12 +390,17 @@ fn run_upgrade(args: UpgradeArgs) -> Result<(), String> {
         return Ok(());
     }
 
+    if args.dry_run {
+        let asset = release_asset_name(std::env::consts::OS, std::env::consts::ARCH)?;
+        println!(
+            "Dry run: would self-update from latest release at {}/{}",
+            repo, asset
+        );
+        return Ok(());
+    }
+
     if std::env::consts::OS == "windows" {
         let cmd = "irm https://raw.githubusercontent.com/orionlabz/openkit/main/scripts/install.ps1 | iex";
-        if args.dry_run {
-            println!("Dry run: powershell -NoProfile -Command \"{}\"", cmd);
-            return Ok(());
-        }
         let status = Command::new("powershell")
             .args(["-NoProfile", "-Command", cmd])
             .status()
@@ -294,26 +408,194 @@ fn run_upgrade(args: UpgradeArgs) -> Result<(), String> {
         if !status.success() {
             return Err("upgrade installer failed".to_string());
         }
-    } else {
-        let cmd = "curl -fsSL https://raw.githubusercontent.com/orionlabz/openkit/main/scripts/install.sh | bash";
-        if args.dry_run {
-            println!("Dry run: {}", cmd);
-            return Ok(());
-        }
-        let status = Command::new("sh")
-            .args(["-c", cmd])
-            .status()
-            .map_err(|e| format!("failed to execute upgrade installer: {}", e))?;
-        if !status.success() {
-            return Err("upgrade installer failed".to_string());
-        }
+        println!("Upgrade completed. Run `openkit --version` to verify.");
+        return Ok(());
     }
 
-    println!("Upgrade completed. Run `openkit --version` to verify.");
+    run_self_update_unix(&repo, current)
+}
+
+fn run_self_update_unix(repo: &str, current: &str) -> Result<(), String> {
+    let release = fetch_latest_release(repo)?;
+    let latest = release.tag_name.trim_start_matches('v').to_string();
+    if latest == current {
+        println!("OpenKit is already up to date.");
+        return Ok(());
+    }
+
+    let asset_name = release_asset_name(std::env::consts::OS, std::env::consts::ARCH)?;
+    let asset = release
+        .assets
+        .iter()
+        .find(|a| a.name == asset_name)
+        .ok_or_else(|| format!("release asset not found: {}", asset_name))?;
+
+    let checksums = release.assets.iter().find(|a| a.name == "checksums.txt");
+    let tmp_dir = std::env::temp_dir().join(format!("openkit-upgrade-{}", timestamp_secs()));
+    fs::create_dir_all(&tmp_dir)
+        .map_err(|e| format!("failed to create temp dir {}: {}", tmp_dir.display(), e))?;
+
+    let archive_path = tmp_dir.join(&asset_name);
+    download_file(&asset.browser_download_url, &archive_path)?;
+
+    if let Some(checksum_asset) = checksums {
+        let checksums_path = tmp_dir.join("checksums.txt");
+        download_file(&checksum_asset.browser_download_url, &checksums_path)?;
+        verify_checksum(&archive_path, &checksums_path, &asset_name)?;
+    }
+
+    let extracted = extract_tar_gz_binary(&archive_path, "openkit", &tmp_dir)?;
+    replace_current_binary(&extracted)?;
+
+    let _ = fs::remove_dir_all(&tmp_dir);
+    println!("Updated OpenKit from {} to {}.", current, latest);
+    println!("Run `openkit --version` to verify.");
     Ok(())
 }
 
-fn fetch_latest_tag(repo: &str) -> Result<String, String> {
+fn download_file(url: &str, destination: &Path) -> Result<(), String> {
+    let status = Command::new("curl")
+        .args(["-fsSL", url, "-o"])
+        .arg(destination)
+        .status()
+        .map_err(|e| format!("failed to execute curl: {}", e))?;
+    if !status.success() {
+        return Err(format!("download failed: {}", url));
+    }
+    Ok(())
+}
+
+fn verify_checksum(archive: &Path, checksums: &Path, asset_name: &str) -> Result<(), String> {
+    let expected = checksum_for_asset(checksums, asset_name)?;
+    let data = fs::read(archive)
+        .map_err(|e| format!("failed to read archive {}: {}", archive.display(), e))?;
+    let digest = Sha256::digest(&data);
+    let actual = format!("{:x}", digest);
+    if actual != expected {
+        return Err(format!(
+            "checksum mismatch for {}: expected {}, got {}",
+            asset_name, expected, actual
+        ));
+    }
+    Ok(())
+}
+
+fn checksum_for_asset(checksums_path: &Path, asset_name: &str) -> Result<String, String> {
+    let content = fs::read_to_string(checksums_path)
+        .map_err(|e| format!("failed to read {}: {}", checksums_path.display(), e))?;
+    for line in content.lines() {
+        let trimmed = line.trim();
+        if trimmed.is_empty() {
+            continue;
+        }
+        let mut parts = trimmed.split_whitespace();
+        let hash = parts.next().unwrap_or_default();
+        let file = parts.next().unwrap_or_default().trim_start_matches('*');
+        if file == asset_name {
+            return Ok(hash.to_lowercase());
+        }
+    }
+    Err(format!("checksum entry not found for {}", asset_name))
+}
+
+fn extract_tar_gz_binary(
+    archive_path: &Path,
+    binary_name: &str,
+    out_dir: &Path,
+) -> Result<PathBuf, String> {
+    let file = fs::File::open(archive_path)
+        .map_err(|e| format!("failed to open archive {}: {}", archive_path.display(), e))?;
+    let reader = GzDecoder::new(file);
+    let mut archive = Archive::new(reader);
+    let target = out_dir.join(format!("{}-new", binary_name));
+    let mut extracted = false;
+
+    let entries = archive
+        .entries()
+        .map_err(|e| format!("failed to read archive entries: {}", e))?;
+    for entry in entries {
+        let mut e = entry.map_err(|err| format!("failed reading archive entry: {}", err))?;
+        let path = e
+            .path()
+            .map_err(|err| format!("failed to read archive entry path: {}", err))?;
+        if path.file_name().and_then(|s| s.to_str()) == Some(binary_name) {
+            e.unpack(&target)
+                .map_err(|err| format!("failed to unpack {}: {}", binary_name, err))?;
+            extracted = true;
+            break;
+        }
+    }
+
+    if !extracted {
+        return Err(format!("binary {} not found in archive", binary_name));
+    }
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        let mut perms = fs::metadata(&target)
+            .map_err(|e| format!("failed to read {} metadata: {}", target.display(), e))?
+            .permissions();
+        perms.set_mode(0o755);
+        fs::set_permissions(&target, perms)
+            .map_err(|e| format!("failed to set permissions on {}: {}", target.display(), e))?;
+    }
+
+    Ok(target)
+}
+
+fn replace_current_binary(new_binary: &Path) -> Result<(), String> {
+    let current = std::env::current_exe()
+        .map_err(|e| format!("failed to resolve current executable: {}", e))?;
+    let target = fs::canonicalize(&current).unwrap_or(current);
+    let parent = target
+        .parent()
+        .ok_or_else(|| format!("failed to resolve parent for {}", target.display()))?;
+
+    let staged = parent.join("openkit.staged");
+    let backup = parent.join("openkit.backup");
+
+    fs::copy(new_binary, &staged)
+        .map_err(|e| format!("failed to stage binary {}: {}", staged.display(), e))?;
+
+    if backup.exists() {
+        let _ = fs::remove_file(&backup);
+    }
+
+    fs::rename(&target, &backup).map_err(|e| {
+        format!(
+            "failed to move current binary {} to backup: {}",
+            target.display(),
+            e
+        )
+    })?;
+
+    if let Err(e) = fs::rename(&staged, &target) {
+        let _ = fs::rename(&backup, &target);
+        return Err(format!(
+            "failed to replace binary {}: {}",
+            target.display(),
+            e
+        ));
+    }
+
+    let _ = fs::remove_file(&backup);
+    Ok(())
+}
+
+#[derive(Deserialize)]
+struct ReleaseAsset {
+    name: String,
+    browser_download_url: String,
+}
+
+#[derive(Deserialize)]
+struct LatestRelease {
+    tag_name: String,
+    assets: Vec<ReleaseAsset>,
+}
+
+fn fetch_latest_release(repo: &str) -> Result<LatestRelease, String> {
     let url = format!("https://api.github.com/repos/{}/releases/latest", repo);
     let output = Command::new("curl")
         .args([
@@ -331,13 +613,34 @@ fn fetch_latest_tag(repo: &str) -> Result<String, String> {
     }
 
     let body = String::from_utf8_lossy(&output.stdout);
-    let parsed: serde_json::Value =
-        serde_json::from_str(&body).map_err(|e| format!("failed to parse release JSON: {}", e))?;
-    let tag = parsed
-        .get("tag_name")
-        .and_then(|v| v.as_str())
-        .ok_or_else(|| "tag_name not found in release response".to_string())?;
-    Ok(tag.to_string())
+    serde_json::from_str(&body).map_err(|e| format!("failed to parse release JSON: {}", e))
+}
+
+fn release_asset_name(os: &str, arch: &str) -> Result<String, String> {
+    let os_name = match os {
+        "macos" => "Darwin",
+        "linux" => "Linux",
+        "windows" => "Windows",
+        other => return Err(format!("unsupported OS for upgrade: {}", other)),
+    };
+
+    let arch_name = match arch {
+        "x86_64" => "x86_64",
+        "aarch64" | "arm64" => "arm64",
+        other => return Err(format!("unsupported architecture for upgrade: {}", other)),
+    };
+
+    let ext = if os_name == "Windows" {
+        "zip"
+    } else {
+        "tar.gz"
+    };
+    Ok(format!("openkit_{}_{}.{}", os_name, arch_name, ext))
+}
+
+fn fetch_latest_tag(repo: &str) -> Result<String, String> {
+    let release = fetch_latest_release(repo)?;
+    Ok(release.tag_name)
 }
 
 fn run_agent_command(agent: &str, cmd: AgentCommand) -> Result<(), String> {
@@ -528,7 +831,7 @@ fn run_init(args: ProjectInitArgs) -> Result<(), String> {
         ),
         (
             docs_dir.join("API.md"),
-            "# API\n\n## Surface\n\n- `openkit --version`\n- `openkit check`\n- `openkit init`\n- `openkit <agent> sync|doctor|upgrade`\n- `openkit memory init|doctor|capture|review`\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[CONTEXT.md]]\n".to_string(),
+            "# API\n\n## Surface\n\n- `openkit --version`\n- `openkit check`\n- `openkit init`\n- `openkit upgrade`\n- `openkit uninstall`\n- `openkit <agent> sync|doctor|upgrade`\n- `openkit memory init|doctor|capture|review`\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[CONTEXT.md]]\n".to_string(),
         ),
         (
             docs_dir.join("GLOSSARY.md"),
@@ -1176,4 +1479,41 @@ fn timestamp_secs() -> u64 {
         .duration_since(UNIX_EPOCH)
         .map(|d| d.as_secs())
         .unwrap_or(0)
+}
+
+fn home_dir() -> Option<PathBuf> {
+    std::env::var_os("HOME").map(PathBuf::from)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn release_asset_name_matches_platform_matrix() {
+        assert_eq!(
+            release_asset_name("macos", "aarch64").expect("asset name"),
+            "openkit_Darwin_arm64.tar.gz"
+        );
+        assert_eq!(
+            release_asset_name("linux", "x86_64").expect("asset name"),
+            "openkit_Linux_x86_64.tar.gz"
+        );
+        assert_eq!(
+            release_asset_name("windows", "x86_64").expect("asset name"),
+            "openkit_Windows_x86_64.zip"
+        );
+    }
+
+    #[test]
+    fn checksum_for_asset_reads_sha256sum_format() {
+        let file = std::env::temp_dir().join(format!("openkit-checksums-{}.txt", timestamp_secs()));
+        let payload = "abc123  openkit_Darwin_arm64.tar.gz\ndef456 *openkit_Linux_x86_64.tar.gz\n";
+        fs::write(&file, payload).expect("write checksums fixture");
+
+        let hash = checksum_for_asset(&file, "openkit_Linux_x86_64.tar.gz").expect("parse hash");
+        assert_eq!(hash, "def456");
+
+        let _ = fs::remove_file(&file);
+    }
 }

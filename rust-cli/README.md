@@ -5,6 +5,8 @@ This directory contains the Rust OpenKit CLI runtime and command contracts.
 ## Commands
 
 - `openkit check`
+- `openkit upgrade`
+- `openkit uninstall`
 - `openkit memory init`
 - `openkit memory doctor`
 - `openkit memory capture`

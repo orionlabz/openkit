@@ -33,6 +33,7 @@ openkit --help
 openkit --version
 openkit upgrade --check
 openkit upgrade --dry-run
+openkit uninstall --dry-run
 openkit check
 openkit check --json
 openkit init my-app --ai opencode --no-git
@@ -44,6 +45,15 @@ openkit memory doctor --json --write
 openkit memory capture --session-id s01 --summary "Sprint work" --action check
 openkit memory review --json
 ```
+
+## Upgrade Behavior
+
+- `openkit upgrade --check`: queries latest release tag from GitHub.
+- `openkit upgrade`:
+  - Linux/macOS: performs Rust-native self-update (download artifact, verify `checksums.txt` SHA-256, atomic binary swap with rollback).
+  - Windows: executes official PowerShell installer flow.
+- `openkit upgrade --dry-run`: prints planned update source/asset without modifying local binaries.
+- `openkit uninstall --dry-run`: prints candidate install paths that would be removed.
 
 ## From Source
 

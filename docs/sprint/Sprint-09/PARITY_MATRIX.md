@@ -15,8 +15,8 @@ This matrix tracks command-level migration progress from legacy Go runtime to Ru
 | `openkit <agent> sync` | Baseline Complete | Creates agent config marker and supports dry-run/overwrite |
 | `openkit <agent> doctor` | Baseline Complete | Reports config health with optional JSON output |
 | `openkit <agent> upgrade` | Baseline Complete | Baseline sync with overwrite semantics |
-| `openkit uninstall` | Not Implemented | To be implemented in Rust roadmap |
-| `openkit upgrade` (self-update) | Not Implemented | To be implemented in Rust roadmap |
+| `openkit uninstall` | Complete | Rust-native uninstall with dry-run and confirmation flags |
+| `openkit upgrade` (self-update) | Complete | Rust-native Linux/macOS self-update with checksum validation and atomic swap |
 
 ## Decommission Gate
 

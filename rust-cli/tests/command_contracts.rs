@@ -324,3 +324,15 @@ fn upgrade_dry_run_succeeds() {
         .expect("failed to run upgrade --dry-run");
     assert!(output.status.success());
 }
+
+#[test]
+fn uninstall_dry_run_lists_targets_and_succeeds() {
+    let output = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
+        .args(["uninstall", "--dry-run"])
+        .output()
+        .expect("failed to run uninstall --dry-run");
+
+    assert!(output.status.success());
+    let stdout = String::from_utf8(output.stdout).expect("uninstall stdout not utf8");
+    assert!(stdout.contains("Dry run:") || stdout.contains("not found in known install paths"));
+}

@@ -5,6 +5,20 @@ All notable changes to OpenKit CLI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.5] - 2026-02-18
+
+### Added
+- Rust-native `openkit uninstall` command with interactive confirmation, `--yes`, and `--dry-run` modes.
+- Checksum parsing coverage for release artifact verification paths.
+
+### Changed
+- `openkit upgrade` now performs Rust-native self-update on Linux/macOS with SHA-256 validation from `checksums.txt` and atomic binary replacement with rollback.
+- Windows `openkit upgrade` keeps the official PowerShell installer flow.
+- CLI/API documentation and Sprint-09 parity matrix updated to reflect completed upgrade/uninstall parity.
+
+### Fixed
+- Improved `upgrade --dry-run` output to show selected release asset per platform.
+
 ## [0.3.2] - 2026-02-11
 
 ### Added
