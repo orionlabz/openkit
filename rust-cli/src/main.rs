@@ -331,23 +331,13 @@ fn fetch_latest_tag(repo: &str) -> Result<String, String> {
     }
 
     let body = String::from_utf8_lossy(&output.stdout);
-    for line in body.lines() {
-        if line.contains("\"tag_name\"") {
-            let value = line
-                .split(':')
-                .nth(1)
-                .unwrap_or("")
-                .trim()
-                .trim_matches(',')
-                .trim_matches('"')
-                .to_string();
-            if !value.is_empty() {
-                return Ok(value);
-            }
-        }
-    }
-
-    Err("tag_name not found in release response".to_string())
+    let parsed: serde_json::Value =
+        serde_json::from_str(&body).map_err(|e| format!("failed to parse release JSON: {}", e))?;
+    let tag = parsed
+        .get("tag_name")
+        .and_then(|v| v.as_str())
+        .ok_or_else(|| "tag_name not found in release response".to_string())?;
+    Ok(tag.to_string())
 }
 
 fn run_agent_command(agent: &str, cmd: AgentCommand) -> Result<(), String> {
