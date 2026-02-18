@@ -8,7 +8,7 @@ Central hub for OpenKit project documentation and discovery artifacts.
 
 - Documentation graph: Active
 - Canonical hub naming: Enforced (`HUB-*.md`)
-- Last discovery refresh: 2026-02-17
+- Last discovery refresh: 2026-02-18
 
 ## Navigation
 

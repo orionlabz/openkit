@@ -8,8 +8,8 @@ Portfolio-level sprint hub linking each sprint execution pack.
 
 ## Status Overview
 
-- Total sprints indexed: 8 (`Sprint-01` to `Sprint-08`)
-- Discovery refresh: 2026-02-17
+- Total sprints indexed: 9 (`Sprint-01` to `Sprint-09`)
+- Discovery refresh: 2026-02-18
 
 ## Sprints
 
@@ -21,6 +21,7 @@ Portfolio-level sprint hub linking each sprint execution pack.
 - [[sprint/Sprint-06/HUB-SPRINT-06.md]]
 - [[sprint/Sprint-07/HUB-SPRINT-07.md]]
 - [[sprint/Sprint-08/HUB-SPRINT-08.md]]
+- [[sprint/Sprint-09/HUB-SPRINT-09.md]]
 
 ## Related
 

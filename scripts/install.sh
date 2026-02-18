@@ -184,8 +184,8 @@ if command -v "$BINARY_NAME" &> /dev/null; then
   echo ""
   echo "Examples:"
   echo "  openkit check              # Check system requirements"
-  echo "  openkit init my-app        # Create new project"
-  echo "  openkit init --ai claude   # Create project for Claude Code"
+  echo "  openkit memory doctor --json"
+  echo "  openkit memory init"
   echo ""
 else
   # Try to make it available without requiring PATH edits.

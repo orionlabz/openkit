@@ -79,8 +79,8 @@ fn memory_init_creates_contract_files_and_is_idempotent() {
             .expect("missing derivation.yaml"),
     )
     .expect("invalid derivation.yaml");
-    let derivation_expected: YamlValue = serde_yaml::from_str(&fixture("derivation.yaml"))
-        .expect("invalid fixture derivation.yaml");
+    let derivation_expected: YamlValue =
+        serde_yaml::from_str(&fixture("derivation.yaml")).expect("invalid fixture derivation.yaml");
     assert_eq!(derivation_actual, derivation_expected);
 
     let queue_actual: YamlValue = serde_yaml::from_str(
@@ -162,10 +162,7 @@ fn memory_capture_and_review_follow_contract() {
 
     let sessions_dir = root.join(".openkit/ops/sessions");
     let entries = fs::read_dir(&sessions_dir).expect("missing sessions dir");
-    let files: Vec<PathBuf> = entries
-        .filter_map(Result::ok)
-        .map(|e| e.path())
-        .collect();
+    let files: Vec<PathBuf> = entries.filter_map(Result::ok).map(|e| e.path()).collect();
     assert_eq!(files.len(), 1);
 
     let snapshot: JsonValue = serde_json::from_str(
@@ -183,10 +180,7 @@ fn memory_capture_and_review_follow_contract() {
         );
     }
     for i in 0..5 {
-        write_file(
-            &root.join(format!(".openkit/ops/tensions/{}.md", i)),
-            "ten",
-        );
+        write_file(&root.join(format!(".openkit/ops/tensions/{}.md", i)), "ten");
     }
     for i in 0..4 {
         write_file(
@@ -202,12 +196,88 @@ fn memory_capture_and_review_follow_contract() {
         .expect("failed to run review");
     assert!(review.status.success());
 
-    let review_json: JsonValue = serde_json::from_str(
-        &String::from_utf8(review.stdout).expect("review stdout not utf8"),
-    )
-    .expect("invalid review json");
+    let review_json: JsonValue =
+        serde_json::from_str(&String::from_utf8(review.stdout).expect("review stdout not utf8"))
+            .expect("invalid review json");
     let expected: JsonValue =
         serde_json::from_str(&fixture("review_thresholds.json")).expect("invalid review fixture");
 
     assert_eq!(review_json, expected);
+}
+
+#[test]
+fn check_command_returns_json_schema() {
+    let output = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
+        .args(["check", "--json"])
+        .output()
+        .expect("failed to run check --json");
+
+    assert!(output.status.success());
+    let payload = String::from_utf8(output.stdout).expect("check stdout not utf8");
+    let data: JsonValue = serde_json::from_str(&payload).expect("invalid check json");
+
+    assert!(data.get("platform").and_then(|v| v.as_str()).is_some());
+    assert!(data.get("ready").and_then(|v| v.as_bool()).is_some());
+
+    let agents = data
+        .get("agents")
+        .and_then(|v| v.as_array())
+        .expect("agents must be array");
+    let tools = data
+        .get("tools")
+        .and_then(|v| v.as_array())
+        .expect("tools must be array");
+
+    assert_eq!(agents.len(), 5);
+    assert_eq!(tools.len(), 4);
+}
+
+#[test]
+fn init_command_creates_baseline_project_artifacts() {
+    let temp = tempdir().expect("failed to create temp dir");
+    let root = temp.path();
+    let project_name = "demo-app";
+
+    let output = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
+        .current_dir(root)
+        .args(["init", project_name, "--ai", "opencode", "--no-git"])
+        .output()
+        .expect("failed to run init command");
+
+    assert!(output.status.success());
+
+    let project_root = root.join(project_name);
+    assert!(project_root.join("AGENTS.md").exists());
+    assert!(project_root.join("docs/HUB-DOCS.md").exists());
+    assert!(project_root.join("docs/CONTEXT.md").exists());
+    assert!(project_root
+        .join("docs/requirements/HUB-REQUIREMENTS.md")
+        .exists());
+    assert!(project_root.join("docs/sprint/HUB-SPRINTS.md").exists());
+}
+
+#[test]
+fn opencode_sync_and_doctor_json_work() {
+    let temp = tempdir().expect("failed to create temp dir");
+    let root = temp.path();
+
+    let sync = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
+        .current_dir(root)
+        .args(["opencode", "sync", "--overwrite"])
+        .output()
+        .expect("failed to run opencode sync");
+    assert!(sync.status.success());
+    assert!(root.join(".opencode/OPENKIT.md").exists());
+
+    let doctor = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
+        .current_dir(root)
+        .args(["opencode", "doctor", "--json"])
+        .output()
+        .expect("failed to run opencode doctor");
+    assert!(doctor.status.success());
+
+    let payload = String::from_utf8(doctor.stdout).expect("doctor stdout not utf8");
+    let data: JsonValue = serde_json::from_str(&payload).expect("invalid doctor json");
+    assert_eq!(data["agent"], "opencode");
+    assert_eq!(data["status"], "healthy");
 }

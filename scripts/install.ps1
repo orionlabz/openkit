@@ -105,8 +105,8 @@ try {
     Write-Host ""
     Write-Host "Examples:"
     Write-Host "  openkit check              # Check system requirements"
-    Write-Host "  openkit init my-app        # Create new project"
-    Write-Host "  openkit init --ai claude   # Create project for Claude Code"
+    Write-Host "  openkit memory doctor --json"
+    Write-Host "  openkit memory init"
     Write-Host ""
     Write-Host "Note: Restart your terminal to use OpenKit CLI" -ForegroundColor Yellow
     Write-Host ""

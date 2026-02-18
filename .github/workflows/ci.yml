@@ -14,14 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.25.x'
-          cache: true
-
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
 
       - name: Validate release matrix
         run: |
@@ -56,20 +52,14 @@ jobs:
 
           echo "Release matrix validation passed"
 
-      - name: Lint
-        uses: golangci/golangci-lint-action@v6
-        with:
-          # Use goinstall so golangci-lint is built with the job Go toolchain.
-          # This avoids failures like:
-          # "the Go language version (go1.24) used to build golangci-lint is lower than the targeted Go version (1.25.7)"
-          install-mode: goinstall
-          version: v1.64.8
+      - name: Rust Format Check
+        run: cargo fmt --manifest-path rust-cli/Cargo.toml --all --check
 
-      - name: Test
-        run: make test
+      - name: Rust Lint
+        run: cargo clippy --manifest-path rust-cli/Cargo.toml --all-targets -- -D warnings
 
-      - name: Build
-        run: make build
+      - name: Rust Build
+        run: cargo build --release --manifest-path rust-cli/Cargo.toml
 
       - name: Rust Contract Tests
         run: cargo test --manifest-path rust-cli/Cargo.toml

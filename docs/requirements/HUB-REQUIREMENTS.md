@@ -9,7 +9,7 @@ Portfolio hub for feature requirement packs.
 ## Status Overview
 
 - Feature hubs indexed: 8
-- Discovery refresh: 2026-02-17
+- Discovery refresh: 2026-02-18
 
 ## Features
 
