@@ -2,7 +2,7 @@
 
 **Sprint**: Sprint-09
 **Title**: Rust Core Command Parity
-**Status**: In Progress
+**Status**: Completed
 
 ## Stories
 
@@ -24,14 +24,14 @@
 
 - Description: Port `openkit <agent> sync|doctor|upgrade` to Rust in phases.
 - Priority: P1
-- Status: In Progress
+- Status: Completed
 - Links: [[sprint/Sprint-09/TASKS.md]]
 
 ### S09-004: Go Runtime Decommission Readiness
 
 - Description: Keep parity gates green and define hard decommission criteria.
 - Priority: P1
-- Status: In Progress
+- Status: Completed
 - Links: [[requirements/memory-kernel-rust-cli/PLAN.md]], [[sprint/Sprint-09/RISK_REGISTER.md]]
 
 ## Related

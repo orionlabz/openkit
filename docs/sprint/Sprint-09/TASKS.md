@@ -2,7 +2,7 @@
 
 **Sprint**: Sprint-09
 **Title**: Rust Core Command Parity
-**Status**: In Progress
+**Status**: Completed
 **Total Tasks**: 8
 
 ## Task Breakdown
@@ -79,12 +79,13 @@
 **Priority**: P1
 
 **VERIFY**:
-- [ ] Acceptance mapping completed
-- [ ] Carry-over risks documented
+- [x] Acceptance mapping completed
+- [x] Carry-over risks documented
 
 ## Related
 
 - [[sprint/Sprint-09/HUB-SPRINT-09.md]]
 - [[sprint/Sprint-09/BACKLOG.md]]
 - [[sprint/Sprint-09/PARITY_MATRIX.md]]
+- [[sprint/Sprint-09/EXIT_REPORT.md]]
 - [[requirements/memory-kernel-rust-cli/PLAN.md]]

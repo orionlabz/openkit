@@ -23,7 +23,7 @@
 - [x] Rust binary is published as `openkit` (primary runtime artifact).
 - [x] Bridge/sidecar runtime paths are removed from CLI and release flows.
 - [x] Installers fetch only `openkit` Rust artifacts.
-- [ ] Go runtime command entrypoints are decommissioned after parity tests.
+- [x] Go runtime command entrypoints are decommissioned after parity tests.
 
 ## Legacy Memory Sunset
 
@@ -49,4 +49,5 @@
 - [[requirements/memory-kernel-rust-cli/RISKS.md]]
 - [[sprint/Sprint-07/TASKS.md]]
 - [[sprint/Sprint-07/RISK_REGISTER.md]]
+- [[sprint/Sprint-09/EXIT_REPORT.md]]
 - [[requirements/memory-kernel-rust-cli/HUB-MEMORY-KERNEL-RUST-CLI.md]]

@@ -6,8 +6,8 @@ Sprint-09 focuses on Rust functional parity for core CLI commands, starting with
 
 ## Status Overview
 
-- Sprint phase: In Progress
-- Completion: 7/8 tasks completed
+- Sprint phase: Completed
+- Completion: 8/8 tasks completed
 - Blockers: None
 
 ## Artifacts
@@ -17,6 +17,7 @@ Sprint-09 focuses on Rust functional parity for core CLI commands, starting with
 - [[sprint/Sprint-09/TASKS.md]]
 - [[sprint/Sprint-09/RISK_REGISTER.md]]
 - [[sprint/Sprint-09/PARITY_MATRIX.md]]
+- [[sprint/Sprint-09/EXIT_REPORT.md]]
 
 ## Related
 
