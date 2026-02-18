@@ -270,6 +270,10 @@ fn run_agent_command(agent: &str, cmd: AgentCommand) -> Result<(), String> {
 fn run_agent_sync(agent: &str, args: AgentSyncArgs) -> Result<(), String> {
     let project = std::env::current_dir()
         .map_err(|e| format!("failed to detect current directory: {}", e))?;
+    run_agent_sync_at(&project, agent, args)
+}
+
+fn run_agent_sync_at(project: &Path, agent: &str, args: AgentSyncArgs) -> Result<(), String> {
     let target = project.join(agent_dir(agent));
     let marker = target.join("OPENKIT.md");
 
@@ -380,6 +384,21 @@ fn run_init(args: ProjectInitArgs) -> Result<(), String> {
     })?;
 
     let agent = args.ai.unwrap_or_else(|| "opencode".to_string());
+    let supported_agents = [
+        "opencode",
+        "claude",
+        "cursor",
+        "gemini",
+        "codex",
+        "antigravity",
+    ];
+    if !supported_agents.contains(&agent.as_str()) {
+        return Err(format!(
+            "unknown agent '{}'. Supported: {}",
+            agent,
+            supported_agents.join(", ")
+        ));
+    }
 
     let docs_dir = project_dir.join("docs");
     let req_dir = docs_dir.join("requirements");
@@ -390,31 +409,122 @@ fn run_init(args: ProjectInitArgs) -> Result<(), String> {
     fs::create_dir_all(&sprint_dir)
         .map_err(|e| format!("failed to create {}: {}", sprint_dir.display(), e))?;
 
-    write_text(
-        &project_dir.join("AGENTS.md"),
-        "# Agents\n\nSee `docs/HUB-DOCS.md` for project context and workflow references.\n",
-        args.force,
+    let sprint01 = sprint_dir.join("Sprint-01");
+    let req_bootstrap = req_dir.join("bootstrap");
+    fs::create_dir_all(&sprint01)
+        .map_err(|e| format!("failed to create {}: {}", sprint01.display(), e))?;
+    fs::create_dir_all(&req_bootstrap)
+        .map_err(|e| format!("failed to create {}: {}", req_bootstrap.display(), e))?;
+
+    let files = vec![
+        (
+            project_dir.join("AGENTS.md"),
+            "# Agents\n\nSee `docs/HUB-DOCS.md` for project context and workflow references.\n".to_string(),
+        ),
+        (
+            docs_dir.join("HUB-DOCS.md"),
+            "# Documentation Index\n\n## Context\n\nCentral hub for project documentation and discovery artifacts.\n\n## Navigation\n\n- [[CONTEXT.md]]\n- [[SECURITY.md]]\n- [[QUALITY_GATES.md]]\n- [[ACTION_ITEMS.md]]\n- [[API.md]]\n- [[GLOSSARY.md]]\n- [[requirements/HUB-REQUIREMENTS.md]]\n- [[sprint/HUB-SPRINTS.md]]\n\n## Related\n\n- [[CONTEXT.md]]\n- [[requirements/HUB-REQUIREMENTS.md]]\n- [[sprint/HUB-SPRINTS.md]]\n".to_string(),
+        ),
+        (
+            docs_dir.join("CONTEXT.md"),
+            format!("# CONTEXT\n\nProject initialized by OpenKit Rust runtime for agent `{}`.\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[SECURITY.md]]\n- [[QUALITY_GATES.md]]\n", agent),
+        ),
+        (
+            docs_dir.join("SECURITY.md"),
+            "# SECURITY\n\n## Baseline\n\n- Keep secrets out of VCS.\n- Enforce dependency and release checks.\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[QUALITY_GATES.md]]\n".to_string(),
+        ),
+        (
+            docs_dir.join("QUALITY_GATES.md"),
+            "# QUALITY_GATES\n\n- `cargo fmt --check`\n- `cargo clippy -- -D warnings`\n- `cargo test`\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[SECURITY.md]]\n".to_string(),
+        ),
+        (
+            docs_dir.join("ACTION_ITEMS.md"),
+            "# ACTION_ITEMS\n\nTrack cross-scope follow-ups and carry-over tasks.\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[sprint/HUB-SPRINTS.md]]\n".to_string(),
+        ),
+        (
+            docs_dir.join("API.md"),
+            "# API\n\n## Surface\n\n- `openkit --version`\n- `openkit check`\n- `openkit init`\n- `openkit <agent> sync|doctor|upgrade`\n- `openkit memory init|doctor|capture|review`\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[CONTEXT.md]]\n".to_string(),
+        ),
+        (
+            docs_dir.join("GLOSSARY.md"),
+            "# GLOSSARY\n\n- **Memory Kernel**: Docs-first persistent project memory model.\n- **Parity Matrix**: Command migration tracking from legacy runtime.\n\n## Related\n\n- [[HUB-DOCS.md]]\n".to_string(),
+        ),
+        (
+            req_dir.join("HUB-REQUIREMENTS.md"),
+            "# Requirements Hub\n\n## Features\n\n- [[requirements/bootstrap/HUB-BOOTSTRAP.md]]\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[sprint/HUB-SPRINTS.md]]\n".to_string(),
+        ),
+        (
+            req_bootstrap.join("HUB-BOOTSTRAP.md"),
+            "# Feature Hub: bootstrap\n\n- [[requirements/bootstrap/PROBLEM_STATEMENT.md]]\n- [[requirements/bootstrap/USER_STORIES.md]]\n- [[requirements/bootstrap/ACCEPTANCE_CRITERIA.md]]\n- [[requirements/bootstrap/DATA_CONTRACTS.md]]\n- [[requirements/bootstrap/RISKS.md]]\n- [[requirements/bootstrap/PLAN.md]]\n\n## Related\n\n- [[requirements/HUB-REQUIREMENTS.md]]\n- [[sprint/Sprint-01/HUB-SPRINT-01.md]]\n".to_string(),
+        ),
+        (
+            req_bootstrap.join("PROBLEM_STATEMENT.md"),
+            "# PROBLEM_STATEMENT\n\nDefine the baseline OpenKit project workflow and memory model.\n\n## Related\n\n- [[requirements/bootstrap/HUB-BOOTSTRAP.md]]\n".to_string(),
+        ),
+        (
+            req_bootstrap.join("USER_STORIES.md"),
+            "# USER_STORIES\n\n- As a developer, I want reliable command tooling and docs-driven context.\n\n## Related\n\n- [[requirements/bootstrap/HUB-BOOTSTRAP.md]]\n".to_string(),
+        ),
+        (
+            req_bootstrap.join("ACCEPTANCE_CRITERIA.md"),
+            "# ACCEPTANCE_CRITERIA\n\n- [ ] Core commands validated\n- [ ] Docs graph healthy\n\n## Related\n\n- [[requirements/bootstrap/HUB-BOOTSTRAP.md]]\n".to_string(),
+        ),
+        (
+            req_bootstrap.join("DATA_CONTRACTS.md"),
+            "# DATA_CONTRACTS\n\n- `.openkit/memory/config.yaml`\n- `.openkit/ops/queue.yaml`\n\n## Related\n\n- [[requirements/bootstrap/HUB-BOOTSTRAP.md]]\n".to_string(),
+        ),
+        (
+            req_bootstrap.join("RISKS.md"),
+            "# RISKS\n\n- Runtime parity gaps\n- Documentation drift\n\n## Related\n\n- [[requirements/bootstrap/HUB-BOOTSTRAP.md]]\n".to_string(),
+        ),
+        (
+            req_bootstrap.join("PLAN.md"),
+            "# PLAN\n\n1. Build core command parity\n2. Validate docs and release gates\n\n## Related\n\n- [[requirements/bootstrap/HUB-BOOTSTRAP.md]]\n- [[sprint/Sprint-01/TASKS.md]]\n".to_string(),
+        ),
+        (
+            sprint_dir.join("HUB-SPRINTS.md"),
+            "# Sprint Hub\n\n- [[sprint/Sprint-01/HUB-SPRINT-01.md]]\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[requirements/HUB-REQUIREMENTS.md]]\n".to_string(),
+        ),
+        (
+            sprint01.join("HUB-SPRINT-01.md"),
+            "# Sprint-01 Hub\n\n- [[sprint/Sprint-01/SPRINT_GOAL.md]]\n- [[sprint/Sprint-01/BACKLOG.md]]\n- [[sprint/Sprint-01/TASKS.md]]\n- [[sprint/Sprint-01/RISK_REGISTER.md]]\n\n## Related\n\n- [[sprint/HUB-SPRINTS.md]]\n- [[requirements/bootstrap/HUB-BOOTSTRAP.md]]\n".to_string(),
+        ),
+        (
+            sprint01.join("SPRINT_GOAL.md"),
+            "# SPRINT_GOAL\n\nDeliver baseline command and docs workflow.\n\n## Related\n\n- [[sprint/Sprint-01/TASKS.md]]\n".to_string(),
+        ),
+        (
+            sprint01.join("BACKLOG.md"),
+            "# BACKLOG\n\n- Bootstrap docs and command baseline\n\n## Related\n\n- [[sprint/Sprint-01/TASKS.md]]\n".to_string(),
+        ),
+        (
+            sprint01.join("TASKS.md"),
+            "# TASKS\n\n- [ ] Validate `openkit check`\n- [ ] Validate `openkit memory doctor`\n\n## Related\n\n- [[sprint/Sprint-01/HUB-SPRINT-01.md]]\n".to_string(),
+        ),
+        (
+            sprint01.join("RISK_REGISTER.md"),
+            "# RISK_REGISTER\n\n- Command parity drift\n\n## Related\n\n- [[sprint/Sprint-01/HUB-SPRINT-01.md]]\n".to_string(),
+        ),
+    ];
+
+    for (path, content) in files {
+        write_text(&path, &content, args.force)?;
+    }
+
+    run_agent_sync_at(
+        &project_dir,
+        &agent,
+        AgentSyncArgs {
+            dry_run: false,
+            overwrite: true,
+            prune: false,
+        },
     )?;
-    write_text(
-        &docs_dir.join("HUB-DOCS.md"),
-        "# Docs Hub\n\n- [[CONTEXT.md]]\n- [[requirements/HUB-REQUIREMENTS.md]]\n- [[sprint/HUB-SPRINTS.md]]\n\n## Related\n\n- [[CONTEXT.md]]\n",
-        args.force,
-    )?;
-    write_text(
-        &docs_dir.join("CONTEXT.md"),
-        "# CONTEXT\n\nProject initialized by OpenKit Rust runtime.\n\n## Related\n\n- [[HUB-DOCS.md]]\n",
-        args.force,
-    )?;
-    write_text(
-        &req_dir.join("HUB-REQUIREMENTS.md"),
-        "# Requirements Hub\n\n## Related\n\n- [[HUB-DOCS.md]]\n",
-        args.force,
-    )?;
-    write_text(
-        &sprint_dir.join("HUB-SPRINTS.md"),
-        "# Sprint Hub\n\n## Related\n\n- [[HUB-DOCS.md]]\n",
-        args.force,
-    )?;
+
+    memory_init(MemoryInitArgs {
+        project: Some(project_dir.clone()),
+        force: true,
+    })?;
 
     if !args.no_git {
         let git_dir = project_dir.join(".git");
@@ -439,7 +549,7 @@ fn run_init(args: ProjectInitArgs) -> Result<(), String> {
         println!("\nNext steps:");
     }
     println!("  openkit check");
-    println!("  openkit memory init");
+    println!("  openkit memory doctor --json");
     Ok(())
 }
 

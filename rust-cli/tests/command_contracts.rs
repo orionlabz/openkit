@@ -250,10 +250,20 @@ fn init_command_creates_baseline_project_artifacts() {
     assert!(project_root.join("AGENTS.md").exists());
     assert!(project_root.join("docs/HUB-DOCS.md").exists());
     assert!(project_root.join("docs/CONTEXT.md").exists());
+    assert!(project_root.join("docs/SECURITY.md").exists());
+    assert!(project_root.join("docs/QUALITY_GATES.md").exists());
     assert!(project_root
         .join("docs/requirements/HUB-REQUIREMENTS.md")
         .exists());
+    assert!(project_root
+        .join("docs/requirements/bootstrap/HUB-BOOTSTRAP.md")
+        .exists());
     assert!(project_root.join("docs/sprint/HUB-SPRINTS.md").exists());
+    assert!(project_root
+        .join("docs/sprint/Sprint-01/HUB-SPRINT-01.md")
+        .exists());
+    assert!(project_root.join(".openkit/memory/config.yaml").exists());
+    assert!(project_root.join(".opencode/OPENKIT.md").exists());
 }
 
 #[test]
@@ -279,5 +289,29 @@ fn opencode_sync_and_doctor_json_work() {
     let payload = String::from_utf8(doctor.stdout).expect("doctor stdout not utf8");
     let data: JsonValue = serde_json::from_str(&payload).expect("invalid doctor json");
     assert_eq!(data["agent"], "opencode");
+    assert_eq!(data["status"], "healthy");
+}
+
+#[test]
+fn init_then_memory_doctor_is_healthy() {
+    let temp = tempdir().expect("failed to create temp dir");
+    let root = temp.path();
+
+    let init = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
+        .current_dir(root)
+        .args(["init", "doctor-app", "--ai", "opencode", "--no-git"])
+        .output()
+        .expect("failed to run init");
+    assert!(init.status.success());
+
+    let doctor = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
+        .current_dir(root.join("doctor-app"))
+        .args(["memory", "doctor", "--json"])
+        .output()
+        .expect("failed to run memory doctor");
+    assert!(doctor.status.success());
+
+    let payload = String::from_utf8(doctor.stdout).expect("doctor stdout not utf8");
+    let data: JsonValue = serde_json::from_str(&payload).expect("invalid doctor json");
     assert_eq!(data["status"], "healthy");
 }
