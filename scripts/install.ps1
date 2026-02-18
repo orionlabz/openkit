@@ -35,15 +35,31 @@ Write-Host ""
 
 # Get latest release
 Write-Host "Fetching latest release..." -ForegroundColor Cyan
+$LATEST_RELEASE = $null
 try {
     $response = Invoke-RestMethod -Uri "https://api.github.com/repos/$REPO/releases/latest"
     $LATEST_RELEASE = $response.tag_name
-    Write-Host "  Latest version: $LATEST_RELEASE"
-    Write-Host ""
 } catch {
+    $LATEST_RELEASE = $null
+}
+
+if (-not $LATEST_RELEASE) {
+    try {
+        $latestResponse = Invoke-WebRequest -Uri "https://github.com/$REPO/releases/latest" -MaximumRedirection 10 -UseBasicParsing
+        $LATEST_RELEASE = Split-Path -Leaf $latestResponse.BaseResponse.ResponseUri.AbsoluteUri
+    } catch {
+        $LATEST_RELEASE = $null
+    }
+}
+
+if (-not $LATEST_RELEASE -or $LATEST_RELEASE -eq "latest") {
     Write-Host "Failed to fetch latest release" -ForegroundColor Red
+    Write-Host "Hint: if API rate-limited, set GH_TOKEN and retry." -ForegroundColor Yellow
     exit 1
 }
+
+Write-Host "  Latest version: $LATEST_RELEASE"
+Write-Host ""
 
 $FILENAME = "openkit_Windows_${ARCH}.zip"
 $DOWNLOAD_URL = "https://github.com/$REPO/releases/download/$LATEST_RELEASE/$FILENAME"

@@ -107,10 +107,26 @@ echo ""
 
 # Get latest release
 echo -e "${CYAN}Fetching latest release...${NC}"
-LATEST_RELEASE=$(curl -s "https://api.github.com/repos/$REPO/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 
+LATEST_RELEASE=""
+
+# Try GitHub API first
+LATEST_RELEASE=$(curl -fsSL \
+  -H "Accept: application/vnd.github+json" \
+  -H "User-Agent: openkit-install-script" \
+  "https://api.github.com/repos/$REPO/releases/latest" \
+  | sed -n 's/.*"tag_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' \
+  | head -n 1 || true)
+
+# Fallback to releases redirect (less likely to hit API limits)
 if [ -z "$LATEST_RELEASE" ]; then
+  LATEST_URL=$(curl -fsSIL -o /dev/null -w '%{url_effective}' "https://github.com/$REPO/releases/latest" || true)
+  LATEST_RELEASE=$(basename "$LATEST_URL")
+fi
+
+if [ -z "$LATEST_RELEASE" ] || [ "$LATEST_RELEASE" = "latest" ]; then
   echo -e "${RED}Failed to fetch latest release${NC}"
+  echo "Hint: if API rate-limited, set GH_TOKEN and retry."
   exit 1
 fi
 
