@@ -75,12 +75,12 @@ jobs:
           Compress-Archive -Path "dist/openkit-rs${{ matrix.ext }}" -DestinationPath "dist/openkit-rs_${{ matrix.os_name }}_${{ matrix.arch }}.zip" -Force
 
       - name: Upload runtime asset
-        uses: softprops/action-gh-release@v2
+        uses: actions/upload-artifact@v4
         with:
-          files: dist/openkit-rs_${{ matrix.os_name }}_${{ matrix.arch }}.${{ matrix.archive }}
+          name: rust-sidecar-${{ matrix.os_name }}-${{ matrix.arch }}
+          path: dist/openkit-rs_${{ matrix.os_name }}_${{ matrix.arch }}.${{ matrix.archive }}
 
   goreleaser:
-    needs: rust-runtime
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -102,3 +102,21 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-sidecars:
+    name: Publish Rust Runtime Sidecars
+    needs: [rust-runtime, goreleaser]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download runtime artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: rust-sidecar-*
+          path: dist
+          merge-multiple: true
+
+      - name: Upload sidecars to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${GITHUB_REF_NAME}" dist/* --clobber
