@@ -60,7 +60,7 @@ See `.opencode/rules/MASTER.md` for complete Question Tool Protocol.
 **Before choosing any technology, load and use `@[skills/stack-selection]` skill:**
 
 1. **Check for existing stack:**
-   - Look for `pyproject.toml`, `package.json`, `go.mod`, or similar
+   - Look for `pyproject.toml`, `package.json`, `Cargo.toml`, or similar
    - If stack exists, maintain consistency unless migration is requested
    - Ask user: "You're using [X]. Continue with that stack?"
 

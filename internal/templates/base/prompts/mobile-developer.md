@@ -60,15 +60,15 @@ See `.opencode/rules/MASTER.md` for complete Question Tool Protocol.
 
 | File | Content | Status |
 |------|---------|--------|
-| **[mobile-design-thinking.md](../skills/.internal/mobile-design/mobile-design-thinking.md)** | ** ANTI-MEMORIZATION: Think, don't copy** | **⬜ CRITICAL FIRST** |
-| **[SKILL.md](../skills/.internal/.internal/mobile-design/SKILL.md)** | **Anti-patterns, checkpoint, overview** | **⬜ CRITICAL** |
-| **[touch-psychology.md](../skills/.internal/mobile-design/touch-psychology.md)** | **Fitts' Law, gestures, haptics** | **⬜ CRITICAL** |
-| **[mobile-performance.md](../skills/.internal/mobile-design/mobile-performance.md)** | **RN/Flutter optimization, 60fps** | **⬜ CRITICAL** |
-| **[mobile-backend.md](../skills/.internal/mobile-design/mobile-backend.md)** | **Push notifications, offline sync, mobile API** | **⬜ CRITICAL** |
-| **[mobile-testing.md](../skills/.internal/mobile-design/mobile-testing.md)** | **Testing pyramid, E2E, platform tests** | **⬜ CRITICAL** |
-| **[mobile-debugging.md](../skills/.internal/mobile-design/mobile-debugging.md)** | **Native vs JS debugging, Flipper, Logcat** | **⬜ CRITICAL** |
-| [mobile-navigation.md](../skills/.internal/mobile-design/mobile-navigation.md) | Tab/Stack/Drawer, deep linking | ⬜ Read |
-| [decision-trees.md](../skills/.internal/mobile-design/decision-trees.md) | Framework, state, storage selection | ⬜ Read |
+| **[mobile-design-thinking.md](../skills/mobile-design/mobile-design-thinking.md)** | ** ANTI-MEMORIZATION: Think, don't copy** | **⬜ CRITICAL FIRST** |
+| **[SKILL.md](../skills/mobile-design/SKILL.md)** | **Anti-patterns, checkpoint, overview** | **⬜ CRITICAL** |
+| **[touch-psychology.md](../skills/mobile-design/touch-psychology.md)** | **Fitts' Law, gestures, haptics** | **⬜ CRITICAL** |
+| **[mobile-performance.md](../skills/mobile-design/mobile-performance.md)** | **RN/Flutter optimization, 60fps** | **⬜ CRITICAL** |
+| **[mobile-backend.md](../skills/mobile-design/mobile-backend.md)** | **Push notifications, offline sync, mobile API** | **⬜ CRITICAL** |
+| **[mobile-testing.md](../skills/mobile-design/mobile-testing.md)** | **Testing pyramid, E2E, platform tests** | **⬜ CRITICAL** |
+| **[mobile-debugging.md](../skills/mobile-design/mobile-debugging.md)** | **Native vs JS debugging, Flipper, Logcat** | **⬜ CRITICAL** |
+| [mobile-navigation.md](../skills/mobile-design/mobile-navigation.md) | Tab/Stack/Drawer, deep linking | ⬜ Read |
+| [decision-trees.md](../skills/mobile-design/decision-trees.md) | Framework, state, storage selection | ⬜ Read |
 
 >  **mobile-design-thinking.md is PRIORITY!** Prevents memorized patterns, forces thinking.
 
@@ -76,8 +76,8 @@ See `.opencode/rules/MASTER.md` for complete Question Tool Protocol.
 
 | Platform | File | When to Read |
 |----------|------|--------------|
-| **iOS** | [platform-ios.md](../skills/.internal/mobile-design/platform-ios.md) | Building for iPhone/iPad |
-| **Android** | [platform-android.md](../skills/.internal/mobile-design/platform-android.md) | Building for Android |
+| **iOS** | [platform-ios.md](../skills/mobile-design/platform-ios.md) | Building for iPhone/iPad |
+| **Android** | [platform-android.md](../skills/mobile-design/platform-android.md) | Building for Android |
 | **Both** | Both above | Cross-platform (React Native/Flutter) |
 
 >  **iOS project? Read platform-ios.md FIRST!**
@@ -208,7 +208,7 @@ Before any coding, answer:
 
 ### Phase 2: Architecture
 
-Apply decision frameworks from [decision-trees.md](../skills/.internal/mobile-design/decision-trees.md):
+Apply decision frameworks from [decision-trees.md](../skills/mobile-design/decision-trees.md):
 - Framework selection
 - State management
 - Navigation pattern

@@ -402,76 +402,28 @@ Key skills available in `.opencode/skills/`:
 
 ---
 
-## Semantic Memory Integration (If Enabled)
+## Memory Kernel Integration
 
-> **Note:** This section applies only when the semantic memory plugin is installed.
-> Check if `.opencode/plugins/semantic-memory/` exists before using memory tools.
+Use docs-first memory operations during orchestration to keep project context durable.
 
-### Memory Tools
+### Memory Workflow
 
-If semantic memory is enabled, use these tools to optimize context:
+1. Before major planning cycles, ensure memory artifacts exist:
+   - `openkit memory init`
+2. During implementation, validate health periodically:
+   - `openkit memory doctor --json`
+3. After important decisions, capture concise records:
+   - `openkit memory capture --summary "<decision>" --action "<follow-up>"`
+4. Before closing a sprint/release, review accumulated memory activity:
+   - `openkit memory review --json`
 
-| Tool | When to Use |
-|------|-------------|
-| `memory_context` | Before starting complex tasks - retrieves relevant past decisions |
-| `memory_save` | After making important decisions - persists knowledge for future sessions |
-| `memory_query` | When you need specific past context |
-| `memory_stats` | To check memory system health |
+### Capture Rules
 
-### Orchestrator Memory Protocol
+- Save architecture decisions, security choices, and root-cause learnings.
+- Skip trivial edits and temporary workarounds.
+- Never capture secrets, credentials, or tokens.
 
-1. **Before Planning Phase:**
-   ```
-   [Use memory_context with task="<mission description>"]
-   ```
-   Retrieve relevant past decisions before creating new plans.
-
-2. **After Implementation Phase:**
-   ```
-   [Use memory_save with type="decision" for each major architectural choice]
-   ```
-   Capture decisions made during the mission.
-
-3. **When Delegating to Sub-Agents:**
-   Include relevant memories in the Task prompt:
-   ```
-   Task(
-     subagent_type: "backend-specialist",
-     prompt: """
-     Implement user authentication API.
-     
-     Relevant context from project memory:
-     - We use JWT tokens (not sessions)
-     - PostgreSQL for user storage
-     - bcrypt for password hashing
-     
-     [Full task description...]
-     """
-   )
-   ```
-
-### What to Save
-
-**SAVE with `memory_save`:**
-- Architecture decisions (database, framework, patterns)
-- Error fixes with root cause analysis
-- Design patterns adopted for the project
-- Security decisions and rationale
-- Configuration choices and why
-
-**DO NOT SAVE:**
-- Trivial changes (typo fixes, formatting)
-- Temporary workarounds
-- Sensitive data (credentials, tokens)
-
-### Memory Check (Optional)
-
-Periodically verify memory health:
-```
-[Use memory_stats]
-```
-
-See `.opencode/rules/SEMANTIC_MEMORY.md` for complete protocol.
+See `.opencode/rules/MASTER.md` and `docs/DEPRECATIONS.md` for current policy boundaries.
 
 ---
 

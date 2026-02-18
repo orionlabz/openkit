@@ -8,26 +8,25 @@
 
 ## Jobs / Async
 
-- Update check executes during CLI pre-run via HTTP call to GitHub release API.
-- Agent sync applies file operations synchronously with backup support when overwriting.
+- `openkit upgrade --check` and `openkit upgrade` call GitHub release API synchronously.
+- All command execution is process-local; there is no background worker subsystem.
 
 ## Backend Components
 
 | Component | Location | Responsibility |
 |---|---|---|
-| Command dispatch | `internal/cli/root.go` | Cobra root setup, update notification, command registration. |
-| Agent operations | `internal/cli/agent_targets.go` | `sync`, `upgrade`, `doctor` per agent. |
-| State model | `internal/managedstate/managedstate.go` | Persist/validate managed file metadata and hashes. |
-| Sync planner/apply | `internal/syncer/syncer.go` | Build plan, detect conflict/drift, apply create/update/delete safely. |
-| Self-update | `internal/selfupdate/upgrade.go` | Download release artifact, verify checksum, replace binary. |
+| Command dispatch | `rust-cli/src/main.rs` | Clap root command, subcommand routing, runtime entrypoint. |
+| Agent operations | `rust-cli/src/main.rs` | `openkit <agent> sync|doctor|upgrade` baseline behaviors. |
+| Memory kernel ops | `rust-cli/src/main.rs` | `memory init|doctor|capture|review` docs-first operations. |
+| Self-update | `rust-cli/src/main.rs` | Fetch release metadata, download artifact, checksum verify, atomic replace. |
+| Release pipeline | `.github/workflows/release.yml` | Multi-platform Rust build and asset publication. |
 
 ## Evidence
 
-- `internal/cli/root.go`: `rootCmd` with `PersistentPreRunE` invoking update check.
-- `internal/cli/agent_targets.go`: command definitions `sync`, `upgrade`, `doctor` and `runAgentSync`.
-- `internal/syncer/syncer.go`: `ActionConflict`/`ActionOverwrite` decision paths.
-- `internal/managedstate/managedstate.go`: `State`, `AgentState`, `FileEntry` persisted in JSON.
-- `internal/selfupdate/upgrade.go`: checksum verification before atomic replacement.
+- `rust-cli/src/main.rs`: command definitions and runtime dispatch.
+- `rust-cli/tests/command_contracts.rs`: command behavior contract tests.
+- `.github/workflows/ci.yml`: Rust fmt/clippy/build/test checks.
+- `.github/workflows/release.yml`: Rust release packaging and upload.
 
 ## Related
 

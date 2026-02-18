@@ -109,7 +109,7 @@ Before suggesting anything, gather context:
 | **What's your team size/expertise?** | Solo, small team, large team? |
 | **Any constraints?** | Edge deployment, legacy systems, compliance? |
 
-> **Reference:** In the OpenKit repo, see `internal/templates/base/` for an example of a well-configured fullstack setup. Use it as reference, not requirement.
+> **Reference:** In the OpenKit repo, use current project-level templates (`templates/`, `.opencode/templates/`) as examples. Avoid coupling guidance to removed runtime internals.
 
 ### Phase 2: Check Existing Stack
 
@@ -126,8 +126,8 @@ Before suggesting anything, gather context:
 **Before suggesting, check if stack exists:**
 
 ```bash
-# Check for existing backend
-ls backend/pyproject.toml backend/package.json backend/go.mod 2>/dev/null
+# Check for existing backend/runtime
+ls backend/pyproject.toml backend/package.json backend/Cargo.toml rust-cli/Cargo.toml 2>/dev/null
 
 # Check for existing frontend
 ls frontend/package.json package.json 2>/dev/null

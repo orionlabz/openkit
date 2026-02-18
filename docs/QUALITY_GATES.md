@@ -11,12 +11,12 @@
 
 | Gate | Command/Source | Status | Evidence |
 |---|---|---|---|
-| Lint | `make lint` | Configured | `Makefile` target `lint`; CI uses `golangci-lint-action@v6`. |
-| Type check | `golangci-lint` (`typecheck`) | Configured | `.golangci.yml` enables `typecheck`. |
-| Tests | `make test` | Passing | Discovery run on 2026-02-17 passed all Go tests. |
-| Build | `make build` | Passing | Discovery run on 2026-02-17 produced `openkit` binary. |
+| Lint | `cargo clippy --manifest-path rust-cli/Cargo.toml --all-targets -- -D warnings` | Configured | `.github/workflows/ci.yml` step `Rust Lint`. |
+| Format | `cargo fmt --manifest-path rust-cli/Cargo.toml --all --check` | Configured | `.github/workflows/ci.yml` step `Rust Format Check`. |
+| Tests | `cargo test --manifest-path rust-cli/Cargo.toml` | Configured | `.github/workflows/ci.yml` step `Rust Contract Tests`. |
+| Build | `cargo build --release --manifest-path rust-cli/Cargo.toml` | Configured | `.github/workflows/ci.yml` step `Rust Build`. |
 | Security scan | CI | Missing | `.github/workflows/ci.yml` has no security scan step. |
-| Dependency scan | CI | Missing | No `govulncheck` or equivalent in CI workflow. |
+| Dependency scan | CI | Missing | No Rust dependency audit step in CI workflow. |
 | Coverage gate | CI | Missing | `test-coverage` exists in `Makefile` but not in CI. |
 
 ## Commands
@@ -26,15 +26,14 @@
 make lint
 make test
 make build
-make test-coverage
 python .opencode/scripts/checklist.py .
 ```
 
 ## CI Notes
 
 - `.github/workflows/ci.yml` triggers on push and pull request to `main`.
-- CI steps are checkout, setup-go, lint, test, build.
-- `.github/workflows/release.yml` publishes on `v*` tags through GoReleaser.
+- CI steps are checkout, setup-rust, release matrix validation, fmt, lint, test, build.
+- `.github/workflows/release.yml` publishes `openkit_<OS>_<ARCH>` assets and `checksums.txt` on `v*` tags.
 
 ## Gaps
 
@@ -44,9 +43,8 @@ python .opencode/scripts/checklist.py .
 
 ## Evidence
 
-- `.github/workflows/ci.yml`: `Lint`, `Test`, `Build` steps only.
-- `.golangci.yml`: enabled linters include `typecheck`, `gocyclo`, `staticcheck`.
-- `Makefile`: targets `lint`, `test`, `build`, `test-coverage`.
+- `.github/workflows/ci.yml`: Rust fmt/clippy/build/test pipeline.
+- `Makefile`: Rust targets `lint`, `test`, `build`.
 - `.opencode/scripts/checklist.py`: local checklist script available.
 
 ## Related

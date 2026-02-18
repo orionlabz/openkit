@@ -2,14 +2,13 @@
 
 | Term | Definition |
 |---|---|
-| OpenKit | Go CLI toolkit for syncing SDD assets for multiple coding agents. |
+| OpenKit | Rust CLI toolkit for docs-first memory operations and multi-agent workflow support. |
 | SDD | Spec-Driven Development workflow: `/discover -> /specify -> /create -> /verify -> /deploy`. |
-| Managed State | `.openkit/managed.json` registry tracking installed artifacts and checksums. |
-| Drift | A managed file whose current checksum differs from recorded `installed_sha256`. |
-| Conflict | Existing unmanaged file where sync wants to write managed content. |
-| Pack | Agent content bundle id/version recorded in managed state. |
-| Doctor | Health command (`openkit <agent> doctor`) for install and drift diagnostics. |
-| Overlay | Optional context-doc extension selected during discovery generation logic. |
+| Memory Kernel | Docs-first permanent memory model based on `docs/`, `.openkit/memory/`, and `.openkit/ops/`. |
+| Doctor | Health command (`openkit memory doctor`) to validate docs graph and memory health checks. |
+| Agent Doctor | Health command (`openkit <agent> doctor`) for agent config presence/consistency. |
+| Drift | Deviation between expected docs/process contracts and current repository state. |
+| Audit Sweep | Periodic sanitization process across docs, rules, commands, prompts, and skills. |
 
 ## Related
 

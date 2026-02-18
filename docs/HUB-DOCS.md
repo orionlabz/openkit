@@ -22,6 +22,7 @@ Central hub for OpenKit project documentation and discovery artifacts.
 - [[API.md]]
 - [[GLOSSARY.md]]
 - [[MEMORY_LEGACY_MIGRATION.md]]
+- [[audit/HUB-AUDIT.md]]
 - [[requirements/HUB-REQUIREMENTS.md]]
 - [[sprint/HUB-SPRINTS.md]]
 
@@ -31,5 +32,6 @@ Central hub for OpenKit project documentation and discovery artifacts.
 - [[DEPRECATIONS.md]]
 - [[SUPPORT_MATRIX.md]]
 - [[MEMORY_LEGACY_MIGRATION.md]]
+- [[audit/HUB-AUDIT.md]]
 - [[requirements/HUB-REQUIREMENTS.md]]
 - [[sprint/HUB-SPRINTS.md]]
