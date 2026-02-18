@@ -172,6 +172,9 @@ fi
 
 install -m 755 "$BINARY_NAME" "$INSTALL_DIR/$BINARY_NAME"
 
+# Best-effort: keep a user-path shim/symlink aligned with this install.
+try_symlink_into_path "$INSTALL_DIR/$BINARY_NAME" || true
+
 # Verify installation
 if command -v "$BINARY_NAME" &> /dev/null; then
   echo ""
