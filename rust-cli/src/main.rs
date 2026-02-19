@@ -17,7 +17,7 @@ static TEMPLATE_ROOT: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../internal/te
 
 const OPENKIT_BANNER: &str = concat!(
     "\n",
-    "    ____                   __ __ _ __ \n",
+    "   ____                   __ __ _ __ \n",
     "  / __ \\____  ___  ____  / //_/(_) /_\n",
     " / / / / __ \\/ _ \\/ __ \\/ ,<  / / __/\n",
     "/ /_/ / /_/ /  __/ / / / /| |/ / /_  \n",
