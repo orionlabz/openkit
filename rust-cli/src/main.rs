@@ -15,10 +15,50 @@ use walkdir::WalkDir;
 
 static TEMPLATE_ROOT: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../internal/templates");
 
+const OPENKIT_BANNER: &str = concat!(
+    "\n",
+    "    ____                   __ __ _ __ \n",
+    "  / __ \\____  ___  ____  / //_/(_) /_\n",
+    " / / / / __ \\/ _ \\/ __ \\/ ,<  / / __/\n",
+    "/ /_/ / /_/ /  __/ / / / /| |/ / /_  \n",
+    "\\____/ .___/\\___/_/ /_/_/ |_/_/\\__/  \n",
+    "    /_/ \n",
+    "\n",
+    "OpenKit CLI - Agent bootstrap, sync, verification, and Memory Kernel operations\n",
+    "Version: ",
+    env!("CARGO_PKG_VERSION"),
+    "\n"
+);
+
+const OPENKIT_HELP_EXAMPLES: &str =
+    "Examples:\n  openkit check --json\n  openkit init my-app --agent opencode\n  openkit sync --agent opencode --prune\n  openkit memory doctor --json --write\n  openkit upgrade --check\n";
+
+const CHECK_HELP: &str =
+    "Examples:\n  openkit check\n  openkit check --json\n";
+
+const INIT_HELP: &str = "Examples:\n  openkit init my-app --agent opencode\n  openkit init --agent codex --overwrite --no-git\n";
+
+const SYNC_HELP: &str =
+    "Examples:\n  openkit sync --agent opencode\n  openkit sync --agent opencode --prune\n  openkit sync --agent codex --overwrite\n";
+
+const DOCTOR_HELP: &str =
+    "Examples:\n  openkit doctor --agent opencode\n  openkit doctor --agent opencode --json\n";
+
+const UPGRADE_HELP: &str =
+    "Examples:\n  openkit upgrade --check\n  openkit upgrade --dry-run\n  openkit upgrade\n";
+
+const UNINSTALL_HELP: &str =
+    "Examples:\n  openkit uninstall --dry-run\n  openkit uninstall --yes\n";
+
+const MEMORY_HELP: &str = "Examples:\n  openkit memory init\n  openkit memory doctor --json --write\n  openkit memory capture --summary \"Sprint update\" --action review\n  openkit memory review --json\n";
+
 #[derive(Parser, Debug)]
 #[command(name = "openkit")]
-#[command(about = "OpenKit Rust CLI")]
+#[command(about = "OpenKit CLI for project bootstrap, agent sync, and memory operations")]
+#[command(long_about = "OpenKit is a Rust CLI that initializes agent-ready repositories, synchronizes managed agent packs, runs health diagnostics, performs self-upgrade/uninstall, and maintains a docs-first Memory Kernel under .openkit.")]
 #[command(version)]
+#[command(before_help = OPENKIT_BANNER)]
+#[command(after_help = OPENKIT_HELP_EXAMPLES)]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -26,35 +66,52 @@ struct Cli {
 
 #[derive(Subcommand, Debug)]
 enum Commands {
+    #[command(about = "Check environment and dependency readiness")]
     Check(CheckArgs),
+    #[command(about = "Initialize or refresh project structure and agent pack")]
     Init(ProjectInitArgs),
+    #[command(about = "Synchronize managed agent files into the current project")]
     Sync(AgentSyncArgs),
+    #[command(about = "Inspect health of installed agent pack")]
     Doctor(AgentDoctorArgs),
+    #[command(about = "Upgrade OpenKit binary to latest release")]
     Upgrade(UpgradeArgs),
+    #[command(about = "Uninstall OpenKit binary from known install locations")]
     Uninstall(UninstallArgs),
     #[command(about = "Memory Kernel maintenance and repair commands")]
     Memory(MemoryCommand),
 }
 
 #[derive(Args, Debug)]
+#[command(about = "Run environment checks for agents and development tools")]
+#[command(after_help = CHECK_HELP)]
 struct CheckArgs {
     #[arg(long)]
+    #[arg(help = "Emit check report as JSON")]
     json: bool,
 }
 
 #[derive(Args, Debug)]
+#[command(about = "Upgrade OpenKit to latest published version")]
+#[command(after_help = UPGRADE_HELP)]
 struct UpgradeArgs {
     #[arg(long)]
+    #[arg(help = "Show current and latest versions without changing binary")]
     check: bool,
     #[arg(long)]
+    #[arg(help = "Print selected release asset and exit")]
     dry_run: bool,
 }
 
 #[derive(Args, Debug)]
+#[command(about = "Remove OpenKit binary from known installation paths")]
+#[command(after_help = UNINSTALL_HELP)]
 struct UninstallArgs {
     #[arg(long)]
+    #[arg(help = "Show removable binary paths without deleting")]
     dry_run: bool,
     #[arg(long)]
+    #[arg(help = "Skip confirmation prompt")]
     yes: bool,
 }
 
@@ -82,26 +139,38 @@ impl AgentName {
 }
 
 #[derive(Args, Debug, Clone)]
+#[command(about = "Sync managed files for one agent")]
+#[command(after_help = SYNC_HELP)]
 struct AgentSyncArgs {
     #[arg(long, value_enum, default_value_t = AgentName::Opencode)]
+    #[arg(help = "Agent target to synchronize")]
     agent: AgentName,
     #[arg(long)]
+    #[arg(help = "Preview sync actions without writing files")]
     dry_run: bool,
     #[arg(long)]
+    #[arg(help = "Replace existing managed files and reset agent directory")]
     overwrite: bool,
     #[arg(long)]
+    #[arg(help = "Remove files not managed by OpenKit from agent directory")]
     prune: bool,
 }
 
 #[derive(Args, Debug)]
+#[command(about = "Inspect a synchronized agent pack and report status")]
+#[command(after_help = DOCTOR_HELP)]
 struct AgentDoctorArgs {
     #[arg(long, value_enum, default_value_t = AgentName::Opencode)]
+    #[arg(help = "Agent target to inspect")]
     agent: AgentName,
     #[arg(long)]
+    #[arg(help = "Emit report as JSON")]
     json: bool,
 }
 
 #[derive(Args, Debug)]
+#[command(about = "Memory Kernel maintenance commands")]
+#[command(after_help = MEMORY_HELP)]
 struct MemoryCommand {
     #[command(subcommand)]
     command: MemorySubcommand,
@@ -109,60 +178,85 @@ struct MemoryCommand {
 
 #[derive(Subcommand, Debug)]
 enum MemorySubcommand {
+    #[command(about = "Initialize or repair Memory Kernel files in .openkit")]
     Init(MemoryInitArgs),
+    #[command(about = "Audit docs graph health and link integrity")]
     Doctor(DoctorArgs),
+    #[command(about = "Capture a memory session snapshot")]
     Capture(CaptureArgs),
+    #[command(about = "Summarize memory activity and recommendations")]
     Review(ReviewArgs),
 }
 
 #[derive(Args, Debug)]
+#[command(about = "Initialize required Memory Kernel contracts")]
 struct MemoryInitArgs {
     #[arg(long)]
+    #[arg(help = "Project path (defaults to current directory)")]
     project: Option<PathBuf>,
     #[arg(long)]
+    #[arg(help = "Overwrite existing contract files")]
     force: bool,
 }
 
 #[derive(Args, Debug)]
+#[command(about = "Initialize OpenKit project docs, agent pack, and memory kernel")]
+#[command(after_help = INIT_HELP)]
 struct ProjectInitArgs {
     project_name: Option<String>,
     #[arg(long, value_enum, default_value_t = AgentName::Opencode)]
+    #[arg(help = "Primary agent pack to install")]
     agent: AgentName,
     #[arg(long)]
+    #[arg(help = "Reset managed agent files and refresh project-level defaults")]
     overwrite: bool,
     #[arg(long)]
+    #[arg(help = "Allow creation when target directory already exists")]
     force: bool,
     #[arg(long = "no-git")]
+    #[arg(help = "Skip git repository initialization")]
     no_git: bool,
 }
 
 #[derive(Args, Debug)]
+#[command(about = "Run Memory Kernel health diagnostics")]
 struct DoctorArgs {
     #[arg(long)]
+    #[arg(help = "Project path (defaults to current directory)")]
     project: Option<PathBuf>,
     #[arg(long)]
+    #[arg(help = "Emit report as JSON")]
     json: bool,
     #[arg(long)]
+    #[arg(help = "Write report to .openkit/ops/health/memory-health.json")]
     write: bool,
 }
 
 #[derive(Args, Debug)]
+#[command(about = "Capture Memory Kernel session data")]
 struct CaptureArgs {
     #[arg(long)]
+    #[arg(help = "Project path (defaults to current directory)")]
     project: Option<PathBuf>,
     #[arg(long)]
+    #[arg(help = "Explicit session identifier")]
     session_id: Option<String>,
     #[arg(long)]
+    #[arg(help = "Short summary of what changed")]
     summary: Option<String>,
     #[arg(long = "action")]
+    #[arg(help = "Action label (repeatable)")]
     actions: Vec<String>,
 }
 
 #[derive(Args, Debug)]
+#[command(about = "Review memory operations and recommendations")]
 struct ReviewArgs {
     #[arg(long)]
+    #[arg(help = "Project path (defaults to current directory)")]
     project: Option<PathBuf>,
     #[arg(long)]
+    #[arg(help = "Emit report as JSON")]
     json: bool,
 }
 
@@ -641,6 +735,19 @@ fn run_agent_sync_at(project: &Path, agent: AgentName, args: AgentSyncArgs) -> R
     let base = TEMPLATE_ROOT
         .get_dir("base")
         .ok_or_else(|| "missing embedded templates: internal/templates/base".to_string())?;
+
+    let mut managed_files = HashSet::new();
+    collect_embedded_file_paths(base, base.path(), Path::new(""), &mut managed_files);
+    managed_files.insert(PathBuf::from("rules/MEMORY_KERNEL.md"));
+    managed_files.insert(PathBuf::from("OPENKIT.md"));
+
+    if args.prune && !args.overwrite {
+        let removed = prune_unmanaged_files(&target, &managed_files)?;
+        if removed > 0 {
+            println!("Pruned {} unmanaged file(s)", removed);
+        }
+    }
+
     copy_embedded_dir(base, &target, args.overwrite)?;
 
     let memory_rule = TEMPLATE_ROOT
@@ -673,9 +780,6 @@ fn run_agent_sync_at(project: &Path, agent: AgentName, args: AgentSyncArgs) -> R
 
     println!("Synced agent configuration for {}", agent_name);
     println!("Config: {}", target.display());
-    if args.prune {
-        println!("Note: --prune acknowledged (no-op in baseline Rust parity implementation)");
-    }
     Ok(())
 }
 
@@ -1463,6 +1567,71 @@ fn copy_embedded_dir_with_prefix(
         copy_embedded_dir_with_prefix(child, destination, force, root_prefix)?;
     }
     Ok(())
+}
+
+fn collect_embedded_file_paths(
+    dir: &Dir<'_>,
+    root_prefix: &Path,
+    rel_prefix: &Path,
+    out: &mut HashSet<PathBuf>,
+) {
+    for file in dir.files() {
+        let rel = file.path().strip_prefix(root_prefix).unwrap_or(file.path());
+        out.insert(rel_prefix.join(rel));
+    }
+    for child in dir.dirs() {
+        collect_embedded_file_paths(child, root_prefix, rel_prefix, out);
+    }
+}
+
+fn prune_unmanaged_files(target: &Path, managed: &HashSet<PathBuf>) -> Result<usize, String> {
+    if !target.exists() {
+        return Ok(0);
+    }
+
+    let mut all_files: Vec<PathBuf> = WalkDir::new(target)
+        .into_iter()
+        .filter_map(Result::ok)
+        .filter(|e| e.file_type().is_file())
+        .map(|e| e.path().to_path_buf())
+        .collect();
+    all_files.sort();
+
+    let mut removed = 0usize;
+    for file in all_files {
+        let rel = file
+            .strip_prefix(target)
+            .map_err(|e| format!("failed to compute relative path for {}: {}", file.display(), e))?;
+        if !managed.contains(rel) {
+            fs::remove_file(&file)
+                .map_err(|e| format!("failed to remove unmanaged file {}: {}", file.display(), e))?;
+            removed += 1;
+        }
+    }
+
+    let mut dirs: Vec<PathBuf> = WalkDir::new(target)
+        .into_iter()
+        .filter_map(Result::ok)
+        .filter(|e| e.file_type().is_dir())
+        .map(|e| e.path().to_path_buf())
+        .collect();
+    dirs.sort_by_key(|p| std::cmp::Reverse(p.components().count()));
+
+    for dir in dirs {
+        if dir == target {
+            continue;
+        }
+        if fs::read_dir(&dir)
+            .map_err(|e| format!("failed to read directory {}: {}", dir.display(), e))?
+            .next()
+            .is_none()
+        {
+            fs::remove_dir(&dir)
+                .map_err(|e| format!("failed to remove empty directory {}: {}", dir.display(), e))?;
+        }
+    }
+
+    Ok(removed)
 }
 
 fn resolve_init_agent(args: &ProjectInitArgs) -> AgentName {

@@ -393,6 +393,38 @@ fn sync_and_doctor_json_work() {
 }
 
 #[test]
+fn sync_prune_removes_unmanaged_files() {
+    let temp = tempdir().expect("failed to create temp dir");
+    let root = temp.path();
+
+    let first_sync = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
+        .current_dir(root)
+        .args(["sync", "--agent", "opencode", "--overwrite"])
+        .output()
+        .expect("failed to run initial sync");
+    assert!(first_sync.status.success());
+
+    write_file(&root.join(".opencode/custom.txt"), "custom\n");
+    assert!(root.join(".opencode/custom.txt").exists());
+
+    let no_prune = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
+        .current_dir(root)
+        .args(["sync", "--agent", "opencode"])
+        .output()
+        .expect("failed to run sync without prune");
+    assert!(no_prune.status.success());
+    assert!(root.join(".opencode/custom.txt").exists());
+
+    let with_prune = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
+        .current_dir(root)
+        .args(["sync", "--agent", "opencode", "--prune"])
+        .output()
+        .expect("failed to run sync with prune");
+    assert!(with_prune.status.success());
+    assert!(!root.join(".opencode/custom.txt").exists());
+}
+
+#[test]
 fn init_then_memory_doctor_is_healthy() {
     let temp = tempdir().expect("failed to create temp dir");
     let root = temp.path();
