@@ -335,6 +335,26 @@ fn init_overwrite_replaces_existing_agent_pack() {
 }
 
 #[test]
+fn init_overwrite_preserves_existing_memory_docs() {
+    let temp = tempdir().expect("failed to create temp dir");
+    let root = temp.path();
+
+    write_file(&root.join("memory/CONTEXT.md"), "custom-context\n");
+
+    let output = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
+        .current_dir(root)
+        .args(["init", "--agent", "opencode", "--overwrite", "--no-git"])
+        .output()
+        .expect("failed to run init overwrite with existing memory");
+
+    assert!(output.status.success());
+    let context = fs::read_to_string(root.join("memory/CONTEXT.md"))
+        .expect("missing memory/CONTEXT.md after init overwrite");
+    assert_eq!(context, "custom-context\n");
+    assert!(root.join("memory/HUB-DOCS.md").exists());
+}
+
+#[test]
 fn sync_and_doctor_json_work() {
     let temp = tempdir().expect("failed to create temp dir");
     let root = temp.path();
@@ -346,6 +366,18 @@ fn sync_and_doctor_json_work() {
         .expect("failed to run sync");
     assert!(sync.status.success());
     assert!(root.join(".opencode/OPENKIT.md").exists());
+    assert!(root.join(".openkit/state/agent-sync-state.json").exists());
+
+    let sync_state: JsonValue = serde_json::from_str(
+        &fs::read_to_string(root.join(".openkit/state/agent-sync-state.json"))
+            .expect("missing sync state file"),
+    )
+    .expect("invalid sync state json");
+    assert_eq!(sync_state["version"], 1);
+    assert!(sync_state["agents"]["opencode"]["managed_files"]
+        .as_u64()
+        .expect("managed_files must be numeric")
+        > 0);
 
     let doctor = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
         .current_dir(root)

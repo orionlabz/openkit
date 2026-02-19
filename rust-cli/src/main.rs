@@ -217,6 +217,20 @@ struct AgentDoctorReport {
     notes: Vec<String>,
 }
 
+#[derive(Serialize, Deserialize)]
+struct AgentSyncState {
+    version: u8,
+    cli_version: String,
+    agents: BTreeMap<String, AgentSyncEntry>,
+}
+
+#[derive(Serialize, Deserialize)]
+struct AgentSyncEntry {
+    last_synced_at: u64,
+    overwrite: bool,
+    managed_files: usize,
+}
+
 fn main() -> Result<(), String> {
     let cli = Cli::parse();
     match cli.command {
@@ -655,6 +669,7 @@ fn run_agent_sync_at(project: &Path, agent: AgentName, args: AgentSyncArgs) -> R
         agent_name
     );
     write_text(&marker, &content, args.overwrite)?;
+    write_agent_sync_state(project, agent, args.overwrite, &target)?;
 
     println!("Synced agent configuration for {}", agent_name);
     println!("Config: {}", target.display());
@@ -857,7 +872,8 @@ fn run_init(args: ProjectInitArgs) -> Result<(), String> {
     ];
 
     for (path, content) in files {
-        write_text(&path, &content, args.overwrite)?;
+        let allow_overwrite = !path.starts_with(&docs_dir) && args.overwrite;
+        write_text(&path, &content, allow_overwrite)?;
     }
 
     if args.overwrite {
@@ -1462,6 +1478,53 @@ fn count_files(path: &Path) -> usize {
         .filter_map(Result::ok)
         .filter(|e| e.file_type().is_file())
         .count()
+}
+
+fn sync_state_path(project: &Path) -> PathBuf {
+    project.join(".openkit/state/agent-sync-state.json")
+}
+
+fn load_agent_sync_state(project: &Path) -> Result<AgentSyncState, String> {
+    let path = sync_state_path(project);
+    if !path.exists() {
+        return Ok(AgentSyncState {
+            version: 1,
+            cli_version: env!("CARGO_PKG_VERSION").to_string(),
+            agents: BTreeMap::new(),
+        });
+    }
+
+    let raw = fs::read_to_string(&path)
+        .map_err(|e| format!("failed reading {}: {}", path.display(), e))?;
+    serde_json::from_str(&raw)
+        .map_err(|e| format!("failed parsing {}: {}", path.display(), e))
+}
+
+fn write_agent_sync_state(
+    project: &Path,
+    agent: AgentName,
+    overwrite: bool,
+    managed_dir: &Path,
+) -> Result<(), String> {
+    let mut state = load_agent_sync_state(project)?;
+    state.cli_version = env!("CARGO_PKG_VERSION").to_string();
+    state.agents.insert(
+        agent.as_str().to_string(),
+        AgentSyncEntry {
+            last_synced_at: timestamp_secs(),
+            overwrite,
+            managed_files: count_files(managed_dir),
+        },
+    );
+
+    let path = sync_state_path(project);
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)
+            .map_err(|e| format!("failed to create {}: {}", parent.display(), e))?;
+    }
+    let payload = serde_json::to_string_pretty(&state)
+        .map_err(|e| format!("failed serializing sync state: {}", e))?;
+    fs::write(&path, payload).map_err(|e| format!("failed writing {}: {}", path.display(), e))
 }
 
 fn timestamp_secs() -> u64 {
