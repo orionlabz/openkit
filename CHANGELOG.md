@@ -5,6 +5,20 @@ All notable changes to OpenKit CLI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.12] - 2026-02-18
+
+### Changed
+- CLI top-level command surface simplified to task-oriented commands: `init`, `sync`, `doctor`, `check`, `upgrade`, `uninstall`, and `memory`.
+- Agent selection is now explicit via `--agent` for `init`, `sync`, and `doctor` (default `opencode`).
+- `openkit init` without `PROJECT_NAME` now initializes in the current directory by default.
+
+### Removed
+- Removed legacy top-level provider aliases (`openkit opencode|claude|cursor|gemini|codex|antigravity ...`).
+- Removed legacy init selectors (`--ai`, `--claude`, `--codex`, `--cursor`, `--gemini`, `--antigravity`) and `--here`.
+
+### Fixed
+- Added `openkit init --overwrite` semantics to explicitly replace existing agent pack files (e.g. `.opencode/**`) with current templates.
+
 ## [0.5.11] - 2026-02-18
 
 ### Added

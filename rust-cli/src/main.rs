@@ -1,4 +1,4 @@
-use clap::{Args, Parser, Subcommand};
+use clap::{Args, Parser, Subcommand, ValueEnum};
 use flate2::read::GzDecoder;
 use include_dir::{include_dir, Dir};
 use regex::Regex;
@@ -28,16 +28,12 @@ struct Cli {
 enum Commands {
     Check(CheckArgs),
     Init(ProjectInitArgs),
+    Sync(AgentSyncArgs),
+    Doctor(AgentDoctorArgs),
     Upgrade(UpgradeArgs),
     Uninstall(UninstallArgs),
     #[command(about = "Memory Kernel maintenance and repair commands")]
     Memory(MemoryCommand),
-    Opencode(AgentCommand),
-    Claude(AgentCommand),
-    Cursor(AgentCommand),
-    Gemini(AgentCommand),
-    Codex(AgentCommand),
-    Antigravity(AgentCommand),
 }
 
 #[derive(Args, Debug)]
@@ -62,21 +58,33 @@ struct UninstallArgs {
     yes: bool,
 }
 
-#[derive(Args, Debug)]
-struct AgentCommand {
-    #[command(subcommand)]
-    command: AgentSubcommand,
+#[derive(Clone, Copy, Debug, ValueEnum)]
+enum AgentName {
+    Opencode,
+    Claude,
+    Cursor,
+    Gemini,
+    Codex,
+    Antigravity,
 }
 
-#[derive(Subcommand, Debug)]
-enum AgentSubcommand {
-    Sync(AgentSyncArgs),
-    Doctor(AgentDoctorArgs),
-    Upgrade(AgentSyncArgs),
+impl AgentName {
+    fn as_str(self) -> &'static str {
+        match self {
+            AgentName::Opencode => "opencode",
+            AgentName::Claude => "claude",
+            AgentName::Cursor => "cursor",
+            AgentName::Gemini => "gemini",
+            AgentName::Codex => "codex",
+            AgentName::Antigravity => "antigravity",
+        }
+    }
 }
 
 #[derive(Args, Debug, Clone)]
 struct AgentSyncArgs {
+    #[arg(long, value_enum, default_value_t = AgentName::Opencode)]
+    agent: AgentName,
     #[arg(long)]
     dry_run: bool,
     #[arg(long)]
@@ -87,6 +95,8 @@ struct AgentSyncArgs {
 
 #[derive(Args, Debug)]
 struct AgentDoctorArgs {
+    #[arg(long, value_enum, default_value_t = AgentName::Opencode)]
+    agent: AgentName,
     #[arg(long)]
     json: bool,
 }
@@ -116,21 +126,10 @@ struct MemoryInitArgs {
 #[derive(Args, Debug)]
 struct ProjectInitArgs {
     project_name: Option<String>,
+    #[arg(long, value_enum, default_value_t = AgentName::Opencode)]
+    agent: AgentName,
     #[arg(long)]
-    #[arg(hide = true)]
-    ai: Option<String>,
-    #[arg(long)]
-    claude: bool,
-    #[arg(long)]
-    codex: bool,
-    #[arg(long)]
-    cursor: bool,
-    #[arg(long)]
-    gemini: bool,
-    #[arg(long)]
-    antigravity: bool,
-    #[arg(long)]
-    here: bool,
+    overwrite: bool,
     #[arg(long)]
     force: bool,
     #[arg(long = "no-git")]
@@ -223,14 +222,10 @@ fn main() -> Result<(), String> {
     match cli.command {
         Commands::Check(args) => run_check(args),
         Commands::Init(args) => run_init(args),
+        Commands::Sync(args) => run_agent_sync(args),
+        Commands::Doctor(args) => run_agent_doctor(args),
         Commands::Upgrade(args) => run_upgrade(args),
         Commands::Uninstall(args) => run_uninstall(args),
-        Commands::Opencode(cmd) => run_agent_command("opencode", cmd),
-        Commands::Claude(cmd) => run_agent_command("claude", cmd),
-        Commands::Cursor(cmd) => run_agent_command("cursor", cmd),
-        Commands::Gemini(cmd) => run_agent_command("gemini", cmd),
-        Commands::Codex(cmd) => run_agent_command("codex", cmd),
-        Commands::Antigravity(cmd) => run_agent_command("antigravity", cmd),
         Commands::Memory(memory) => match memory.command {
             MemorySubcommand::Init(args) => memory_init(args),
             MemorySubcommand::Doctor(args) => memory_doctor(args),
@@ -604,25 +599,15 @@ fn fetch_latest_tag(repo: &str) -> Result<String, String> {
     Ok(release.tag_name)
 }
 
-fn run_agent_command(agent: &str, cmd: AgentCommand) -> Result<(), String> {
-    match cmd.command {
-        AgentSubcommand::Sync(args) => run_agent_sync(agent, args),
-        AgentSubcommand::Upgrade(args) => {
-            let mut upgrade_args = args;
-            upgrade_args.overwrite = true;
-            run_agent_sync(agent, upgrade_args)
-        }
-        AgentSubcommand::Doctor(args) => run_agent_doctor(agent, args),
-    }
-}
-
-fn run_agent_sync(agent: &str, args: AgentSyncArgs) -> Result<(), String> {
+fn run_agent_sync(args: AgentSyncArgs) -> Result<(), String> {
+    let agent = args.agent;
     let project = std::env::current_dir()
         .map_err(|e| format!("failed to detect current directory: {}", e))?;
     run_agent_sync_at(&project, agent, args)
 }
 
-fn run_agent_sync_at(project: &Path, agent: &str, args: AgentSyncArgs) -> Result<(), String> {
+fn run_agent_sync_at(project: &Path, agent: AgentName, args: AgentSyncArgs) -> Result<(), String> {
+    let agent_name = agent.as_str();
     let target = project.join(agent_dir(agent));
     let marker = target.join("OPENKIT.md");
 
@@ -651,7 +636,7 @@ fn run_agent_sync_at(project: &Path, agent: &str, args: AgentSyncArgs) -> Result
         args.overwrite,
     )?;
 
-    if agent == "opencode" {
+    if matches!(agent, AgentName::Opencode) {
         let root_config = TEMPLATE_ROOT
             .get_file("root/opencode.json")
             .ok_or_else(|| {
@@ -662,11 +647,11 @@ fn run_agent_sync_at(project: &Path, agent: &str, args: AgentSyncArgs) -> Result
 
     let content = format!(
         "# OpenKit Agent Config\n\nAgent: {}\n\nGenerated by Rust OpenKit runtime.\n",
-        agent
+        agent_name
     );
     write_text(&marker, &content, args.overwrite)?;
 
-    println!("Synced agent configuration for {}", agent);
+    println!("Synced agent configuration for {}", agent_name);
     println!("Config: {}", target.display());
     if args.prune {
         println!("Note: --prune acknowledged (no-op in baseline Rust parity implementation)");
@@ -674,7 +659,9 @@ fn run_agent_sync_at(project: &Path, agent: &str, args: AgentSyncArgs) -> Result
     Ok(())
 }
 
-fn run_agent_doctor(agent: &str, args: AgentDoctorArgs) -> Result<(), String> {
+fn run_agent_doctor(args: AgentDoctorArgs) -> Result<(), String> {
+    let agent = args.agent;
+    let agent_name = agent.as_str();
     let project = std::env::current_dir()
         .map_err(|e| format!("failed to detect current directory: {}", e))?;
     let config_dir = project.join(agent_dir(agent));
@@ -691,7 +678,7 @@ fn run_agent_doctor(agent: &str, args: AgentDoctorArgs) -> Result<(), String> {
     .to_string();
 
     let report = AgentDoctorReport {
-        agent: agent.to_string(),
+        agent: agent_name.to_string(),
         config_dir: config_dir.display().to_string(),
         status,
         notes,
@@ -713,15 +700,14 @@ fn run_agent_doctor(agent: &str, args: AgentDoctorArgs) -> Result<(), String> {
     Ok(())
 }
 
-fn agent_dir(agent: &str) -> &'static str {
+fn agent_dir(agent: AgentName) -> &'static str {
     match agent {
-        "opencode" => ".opencode",
-        "claude" => ".claude",
-        "cursor" => ".cursor",
-        "gemini" => ".gemini",
-        "codex" => ".codex",
-        "antigravity" => ".antigravity",
-        _ => ".agents",
+        AgentName::Opencode => ".opencode",
+        AgentName::Claude => ".claude",
+        AgentName::Cursor => ".cursor",
+        AgentName::Gemini => ".gemini",
+        AgentName::Codex => ".codex",
+        AgentName::Antigravity => ".antigravity",
     }
 }
 
@@ -729,21 +715,19 @@ fn run_init(args: ProjectInitArgs) -> Result<(), String> {
     let cwd =
         std::env::current_dir().map_err(|e| format!("failed to get current directory: {}", e))?;
 
-    let (project_dir, project_name) = if args.here {
+    let in_place = args.project_name.is_none();
+    let (project_dir, project_name) = if let Some(name) = args.project_name.clone() {
+        (cwd.join(&name), name)
+    } else {
         let name = cwd
             .file_name()
             .and_then(|n| n.to_str())
             .unwrap_or("project")
             .to_string();
         (cwd.clone(), name)
-    } else {
-        let name = args.project_name.clone().ok_or_else(|| {
-            "project name required. Use: openkit init <name> or openkit init --here".to_string()
-        })?;
-        (cwd.join(&name), name)
     };
 
-    if project_dir.exists() && !args.here && !args.force {
+    if project_dir.exists() && !in_place && !args.force {
         return Err(format!(
             "directory '{}' already exists. Use --force to overwrite",
             project_name
@@ -758,7 +742,7 @@ fn run_init(args: ProjectInitArgs) -> Result<(), String> {
         )
     })?;
 
-    let agent = resolve_init_agent(&args)?;
+    let agent = resolve_init_agent(&args);
 
     let docs_dir = project_dir.join("openkit-memory");
     let req_dir = docs_dir.join("requirements");
@@ -787,7 +771,7 @@ fn run_init(args: ProjectInitArgs) -> Result<(), String> {
         ),
         (
             docs_dir.join("CONTEXT.md"),
-            format!("# CONTEXT\n\nProject initialized by OpenKit Rust runtime for agent `{}`.\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[SECURITY.md]]\n- [[QUALITY_GATES.md]]\n", agent),
+            format!("# CONTEXT\n\nProject initialized by OpenKit Rust runtime for agent `{}`.\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[SECURITY.md]]\n- [[QUALITY_GATES.md]]\n", agent.as_str()),
         ),
         (
             docs_dir.join("SECURITY.md"),
@@ -803,7 +787,7 @@ fn run_init(args: ProjectInitArgs) -> Result<(), String> {
         ),
         (
             docs_dir.join("API.md"),
-            "# API\n\n## Surface\n\n- `openkit --version`\n- `openkit check`\n- `openkit init`\n- `openkit upgrade`\n- `openkit uninstall`\n- `openkit <agent> sync|doctor|upgrade`\n- `openkit memory doctor|capture|review` (maintenance)\n- `openkit memory init` (repair only)\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[CONTEXT.md]]\n".to_string(),
+            "# API\n\n## Surface\n\n- `openkit --version`\n- `openkit check`\n- `openkit init`\n- `openkit sync --agent <agent>`\n- `openkit doctor --agent <agent>`\n- `openkit upgrade`\n- `openkit uninstall`\n- `openkit memory doctor|capture|review` (maintenance)\n- `openkit memory init` (repair only)\n\n## Related\n\n- [[HUB-DOCS.md]]\n- [[CONTEXT.md]]\n".to_string(),
         ),
         (
             docs_dir.join("GLOSSARY.md"),
@@ -868,22 +852,23 @@ fn run_init(args: ProjectInitArgs) -> Result<(), String> {
     ];
 
     for (path, content) in files {
-        write_text(&path, &content, args.force)?;
+        write_text(&path, &content, args.overwrite)?;
     }
 
     run_agent_sync_at(
         &project_dir,
-        &agent,
+        agent,
         AgentSyncArgs {
+            agent,
             dry_run: false,
-            overwrite: true,
+            overwrite: args.overwrite,
             prune: false,
         },
     )?;
 
     memory_init(MemoryInitArgs {
         project: Some(project_dir.clone()),
-        force: true,
+        force: args.overwrite,
     })?;
 
     if !args.no_git {
@@ -901,9 +886,9 @@ fn run_init(args: ProjectInitArgs) -> Result<(), String> {
 
     println!("\nProject initialized successfully!");
     println!("  Project: {}", project_name);
-    println!("  Agent: {}", agent);
+    println!("  Agent: {}", agent.as_str());
     println!("  Memory Kernel: active (initialized by default)");
-    if !args.here {
+    if !in_place {
         println!("\nNext steps:");
         println!("  cd {}", project_name);
     } else {
@@ -1443,54 +1428,8 @@ fn copy_embedded_dir_with_prefix(
     Ok(())
 }
 
-fn resolve_init_agent(args: &ProjectInitArgs) -> Result<String, String> {
-    let mut selected = Vec::new();
-    if args.claude {
-        selected.push("claude");
-    }
-    if args.codex {
-        selected.push("codex");
-    }
-    if args.cursor {
-        selected.push("cursor");
-    }
-    if args.gemini {
-        selected.push("gemini");
-    }
-    if args.antigravity {
-        selected.push("antigravity");
-    }
-
-    if let Some(ai) = &args.ai {
-        if !selected.is_empty() {
-            return Err("use either --ai or one agent flag (--claude/--codex/...)".to_string());
-        }
-        let supported = [
-            "opencode",
-            "claude",
-            "cursor",
-            "gemini",
-            "codex",
-            "antigravity",
-        ];
-        if !supported.contains(&ai.as_str()) {
-            return Err(format!(
-                "unknown agent '{}'. Supported: {}",
-                ai,
-                supported.join(", ")
-            ));
-        }
-        return Ok(ai.clone());
-    }
-
-    if selected.len() > 1 {
-        return Err(
-            "use only one agent flag at a time (--claude, --codex, --cursor, --gemini, --antigravity)"
-                .to_string(),
-        );
-    }
-
-    Ok(selected.first().copied().unwrap_or("opencode").to_string())
+fn resolve_init_agent(args: &ProjectInitArgs) -> AgentName {
+    args.agent
 }
 
 fn count_files(path: &Path) -> usize {

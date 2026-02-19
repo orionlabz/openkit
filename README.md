@@ -37,10 +37,11 @@ openkit uninstall --dry-run
 openkit check
 openkit check --json
 openkit init my-app --no-git
-openkit init my-app --claude --no-git
-openkit init my-app --codex --no-git
-openkit opencode sync --overwrite
-openkit opencode doctor --json
+openkit init --overwrite --no-git
+openkit init my-app --agent claude --no-git
+openkit init my-app --agent codex --no-git
+openkit sync --agent opencode --overwrite
+openkit doctor --agent opencode --json
 
 # Memory Kernel maintenance / repair
 openkit memory init # repair missing kernel files
