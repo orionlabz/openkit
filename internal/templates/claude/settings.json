@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(python:*)",
+      "Bash(pytest:*)",
+      "Bash(cargo:*)",
+      "Bash(make:*)"
+    ],
+    "deny": []
+  }
+}

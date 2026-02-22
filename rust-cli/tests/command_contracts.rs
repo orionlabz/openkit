@@ -468,6 +468,27 @@ fn init_with_codex_flag_materializes_codex_pack() {
 }
 
 #[test]
+fn init_with_claude_flag_materializes_claude_pack() {
+    let temp = tempdir().expect("failed to create temp dir");
+    let root = temp.path();
+
+    let output = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
+        .current_dir(root)
+        .args(["init", "claude-app", "--agent", "claude", "--no-git"])
+        .output()
+        .expect("failed to run init with --agent claude");
+
+    assert!(output.status.success());
+
+    let project_root = root.join("claude-app");
+    assert!(project_root.join(".claude/commands/discover.md").exists());
+    assert!(project_root.join(".claude/rules/MEMORY_KERNEL.md").exists());
+    assert!(project_root.join(".claude/settings.json").exists());
+    assert!(project_root.join("CLAUDE.md").exists());
+    assert!(project_root.join(".openkit/memory/config.yaml").exists());
+}
+
+#[test]
 fn upgrade_dry_run_succeeds() {
     let output = Command::new(assert_cmd::cargo::cargo_bin!("openkit"))
         .args(["upgrade", "--dry-run"])
