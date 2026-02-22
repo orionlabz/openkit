@@ -223,12 +223,11 @@ fn check_command_returns_json_schema() {
         .get("agents")
         .and_then(|v| v.as_array())
         .expect("agents must be array");
+    assert_eq!(agents.len(), 6);
     let tools = data
         .get("tools")
         .and_then(|v| v.as_array())
         .expect("tools must be array");
-
-    assert_eq!(agents.len(), 5);
     assert_eq!(tools.len(), 4);
 }
 
